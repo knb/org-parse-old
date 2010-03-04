@@ -1,0 +1,109 @@
+class OrgParse::StructParser
+
+  preclow
+    nonassoc PLOW
+    nonassoc TEXTLINE WHITELINE TABLE_ROW TABLE_SEP QUOTE BLOCK_END EXAMPLE
+  prechigh
+
+  token  DOCUMENT_START HEADLINE TEXTLINE WHITELINE VARIABLELINE
+         PLOW SEC_END TABLE_ROW TABLE_SEP QUOTE EXAMPLE
+         BLOCK_START BLOCK_END UL_START UL_END
+         OL_START OL_END DL_START DL_END
+         LI_START LI_END P_END
+
+  rule
+  document : dummy_section 
+           | dummy_section sections { result.add val[1] }
+
+  dummy_section : doc_start items { result.add val[1] }
+                | doc_start
+
+  doc_start : DOCUMENT_START { result = RootNode.new(val[0]) }
+
+  sections : sections section { result << val[1] }
+           | section { result = val }
+
+  section : section_body SEC_END { 
+              headline = val[0][0]
+              val[0].shift
+              result = SectionNode.new(headline, val[0]) 
+            }
+
+  section_body : headline { result = val }
+               | headline sitems { result = [val[0]] + val[1] }
+
+  headline : HEADLINE { result = HeadlineNode.new(line_parse(val[0][1]), val[0][0]) }
+
+  sitems : sitems sitem = PLOW { result << val[1] }
+        | sitem { result = val }
+
+  sitem : section
+       | textlines = PLOW
+       | block
+       | table = PLOW
+       | lists
+       | whitelines = PLOW
+       | variable
+
+  items : items item = PLOW { result << val[1] }
+        | item { result = val }
+
+  item  : textlines = PLOW
+       | block
+       | table = PLOW
+       | lists
+       | whitelines = PLOW
+       | variable
+
+  variable : VARIABLELINE { result = VarNode.new(val[0][0], val[0][1]) }
+
+  whitelines : whitelines WHITELINE { result.increment }
+             | WHITELINE { result = WhitelineNode.new }
+
+  textlines : textlines textline = TEXTLINE { result.children << val[1] }
+            | textline { result = Node.new(:TEXTBLOCK, val, val[0]) }
+
+  textline : TEXTLINE { result = TextlineNode.new(line_parse(val[0][0]), val[0]) }
+           | html_quote
+
+  html_quote : QUOTE    { result = Node.new(:QUOTE, [], val[0]) }
+
+  lists : unordered_list
+        | ordered_list
+        | description_list
+
+  block : BLOCK_START items BLOCK_END { result = BlockNode.new(val[0], val[1])}
+        | examples = PLOW { 
+              params = ["EXAMPLE", val[0][0].value, val[0][0].indent]
+	      result = BlockNode.new(params, val[0]) 
+          }
+
+  examples : examples example { result << val[1] }
+           | example { result = val }
+
+  example : EXAMPLE { result = TextlineNode.new(line_parse(val[0][0]), val[0]) }
+
+
+  unordered_list : UL_START list_items UL_END { result = Node.new(:ITEMLIST, val[1], 'dummy') }
+
+  ordered_list : OL_START list_items OL_END
+
+  description_list : DL_START list_items DL_END
+
+  list_items : list_items list_item { result << val[1] }
+             | list_item { result = val }
+
+  list_item : LI_START items LI_END { result = Node.new(:LIST_ITEM, val[1], line_parse(val[0])) }
+  	    | LI_START LI_END { result = Node.new(:LIST_ITEM, [], line_parse(val[0])) }
+
+  table : table_rows table_sep table_rows = PLOW
+            { result = TableNode.new(val[0], val[2]) }
+        | table_rows = PLOW
+            { result = TableNode.new([], val[0]) }
+
+  table_rows : table_rows table_row { result << val[1] }
+             | table_row { result = val }
+
+  table_sep : TABLE_SEP { result = Node.new(:TABLE_SEP) }
+
+  table_row : TABLE_ROW { result = TableRowNode.new(val[0]) }

@@ -1,0 +1,13 @@
+Paragraph
+
+* paragraph
+  this is first paragraph.
+
+  this is second paragraph.
+#+BEGIN_HTML
+    <b>bat</b> this is in second paragraph?
+#+END_HTML
+  why?
+
+  this is third paragraph?
+

@@ -1,0 +1,7 @@
+Emphasis
+
+   *bold and /italic/* _underlined and *bold*_ ~verbatim without *bold*~
+   =code without *bold*=
+   *bold [[link][link]]* =code is [[link][link]] allowed= *bold =code* code=
+   *bold in *bold* is* not bold *1234* 
+   *bold [[link]]*, [[link][ *bold* ]]

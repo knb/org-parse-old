@@ -1,0 +1,242 @@
+
+OrgParse Sample files
+
+[[index.html]]
+
+* ブロックレベルの構造
+  #+BEGIN_VERSE
+    セクション 1
+      セクション 1.1
+    セクション 2
+  #+END_VERSE
+  の様に、下位レベルのセクションは、上位レベルのセクションに含まれる
+
+  セクションのタイトルは、'*' -> <h2> から始まり、'****' 以降は、UL 
+  として出力される。
+  <h> と <ul> の閾値は、#+OPTIONS: H:n で指定出来る。
+  （デフォルトは、n=3)
+* タイトル
+  最初のテキストラインが、待った無しでタイトルになる。
+  最初のヘッドラインまでの部分も、出力される。
+  : title
+  :
+  : xxxx
+  : * 1st headline
+  の場合、
+  : <h1>title</h1>
+  : 
+  : xxxx
+  : <h2>1st headline</h2>
+  の様に変換。[fn::実際はセクションヘッダには<div>やら何やらくっつく]
+
+  ヘッドラインから始まる場合は、最初のヘッドラインの内容がタイトルとなる。
+** #+TITLE: xxxx
+   : #+TITLE: xxxx
+   が指定されている場合は、xxxx がタイトルになる。
+
+** Options: skip:t
+   : #+OPTIONS: skip:t
+   が指定されていると、最初のセクション以前のテキストは捨てられる。
+   タイトルには、1st headline が使われる。
+
+   この場合も、
+   : #+TITLE: xxxx
+   で、タイトルを指定出来る。
+* Section node
+  Section node は、Headline から始まり、次のHeadline（又は文末）の直前までを、
+  子要素に含むノードである。
+
+  #+BEGIN_EXAMPLE
+    Section node
+        Headline
+        some other nodes
+  #+END_EXAMPLE
+
+  COMMENT から始まるヘッドラインを持つ Section は、全体をコメントとして扱う。
+
+* Brock nodes
+  行単位の範囲を持つ要素。
+
+** Headline node
+   /^\*+ / から始まる行。'*' の数がセクションのレベルを表す。
+   
+   セクションの開始を示す。
+*** Tags
+    ヘッドラインには、TAGを付けることが出来る。
+** Paragraph node
+   ヘッドラインの次の行から始まり、セクションの最後か、１行以上の空行で終わる部分は、
+   段落として扱う。段落中で、改行させたい場合には、行末に"\\"を置く。
+
+   : #+BEGIN_VERSE 〜 #+END_VERSE
+   で囲われた部分は、改行が保存される。
+   [[file:./verse.org][verse example]] [[./verse.html][html]]
+
+   #+BEGIN_EXAMPLE
+     <p class="verse">
+     ...<br/>
+     &nbsp;&nbsp;...<br/>
+     </p>
+   #+END_EXAMPLE
+
+   の様に、展開される様だ。
+
+** Whiteline node
+   空行のノード。
+   パラグラフや、その他のブロックの終端を示す。
+   
+   インデントのチェックが必要か?
+
+** Block nodes
+   #+begin 〜 #+end ブロック。
+*** EXAMPLE
+   #+BEGIN_EXAMPLE
+     : #+BEGIN_EXMPLE
+     :  ...
+     : #+END_EXAMPLE
+   #+END_EXAMPLE
+
+   you can also start the example lines with a colon followed by a space. 
+   There may also be additional whitespace before the colon: 
+
+   :   : example
+
+   EXAMPL ブロックは、<pre> タグに変換される
+*** SRC
+   #+BEGIN_SRC emacs-lisp
+     (+ 1 2)
+   #+END_SRC
+   
+   #+BEGIN_COMMENT
+     ここは、コメントブロックだよ
+   #+END_COMMENT
+*** VERSE
+   #+begin_verse
+     このブロック内では、改行が
+     保存される。
+
+     行頭のインデントは、html の場合、&nbsp; に変換される
+   #+end_verse
+
+   行頭のインデントは、~#+BEGIN_VERSE~　のインデント + 1 をベースとして、
+   (各行のインデント - ベース) * 2 = &nbsp; の数となる。
+
+*** HTML
+  [[Quote HTML]]
+
+  #+HTML: <literal html code>
+
+  #+BEGIN_HTML
+    <h2> ここには、自由に</h2>
+    <p>HTML tag が書ける。</p>
+  #+END_HTML
+
+** Plain Lists
+   [[./lists.org][lists.org]] [[./lists.html][html]]
+
+*** Unordered list
+   先頭が[-+*]で始まる行は、順序無リストアイテムの開始を示し、
+   これに続く、インデントが開始マークより大きい行、又は、空行は
+   このアイテムに含まれる。
+
+   リストは、ネスト出来る。
+
+   空行のインデントは、チェックされない。
+*** Ordered list
+   先頭が、"数字." 又は "数字)" で始まる行は、番号付きリストを表す。
+*** Description list
+   : - XXXX :: mmmmm
+   の形式の行は、説明付きリストを表す。
+
+** Comment line
+   #+ これは、コメント行
+# これもコメント行
+   だけど、
+   # これは、コメント行では無い。 でも、 #+ ここからは？　やっぱり地の文。
+** COMMENT comment block
+   このセクションは、全体がコメントとして扱われる。
+
+** Option node
+   : #+TITLE
+   等の、オプション設定を行う行
+*** #+ATTR_HTML
+    If you want to specify attributes for links, 
+    you can do so using a special #+ATTR_HTML line 
+    to define attributes 
+    that will be added to the <a> or <img> tags. 
+
+    Here is an example that sets title and style attributes for a link: 
+       :   #+ATTR_HTML: title="The Org-mode homepage" style="color:red;"
+       :   [[http://orgmode.org]]
+
+
+** Horizontal line
+------
+  '-'が5個以上のみの行は、<hr/> に変換される
+* Inline nodes
+  行内で完結している諸要素
+** Footnotes
+** Emphasis and monospace
+    - *bold*
+    - /italic/
+    - _underlined_
+    - =code=
+    - ~verbatim~
+    - +strike through+
+   *bold and /italic/* _underlined and *bold*_ ~verbatim without *bold*~
+   =code without *bold*=
+   *bold [[link][link]]* =code is [[link][link]] allowed= *bold =code* code=
+   *bold in *bold* is* not bold *1234* 
+   *bold [[link]]*, [[link][ *bold* ]]
+
+** Quoting HTML tags
+  [[Quote HTML]]
+  @<br/> @<b>bold@</b> の様にすることが出来る
+** Linkとイメージ
+   リンクの、拡張子が画像ファイルの場合、<img>タグに展開される
+
+   - [ [image file] ] の場合、<img src="image file"> に展開される
+   - [ [link][image file] ] の場合、<a href="link"><img src="image file"></a> に展開される
+   - img を表示する際に、#+CAPTION: xxxx が指定されている場合、\\
+     #+BEGIN_VERSE
+       <div class="figure">
+       <p><img src="lily20100228t.jpg" alt="lily20100228t.jpg"></p>
+       <p>寝起きのリリー君</p>
+       </div>
+     #+END_VERSE
+     に展開される
+   - [ [xxx][yyy] ] の場合、<a href="xxx">yyy</a> に展開される
+
+*** Link format
+    : [[link][description]]  or  [[link]]
+
+    [[index.html][desc *bold* ]] <- description part は修飾出来る。
+
+*** Internal links
+*** External links
+    外部へのリンク
+     * http://www.astro.uva.nl/~dominik          on the web
+     * file:/home/dominik/images/jupiter.jpg     file, absolute path
+     * /home/dominik/images/jupiter.jpg          same as above
+     * file:papers/last.pdf                      file, relative path
+     * ./papers/last.pdf                         same as above
+ 
+*** Images
+    [[file:images.org]] [[file:images.html]]
+**** そのままの大きさで表示
+    : [[lily20100228t.jpg]]
+    [[lily20100228t.jpg]]
+**** サムネールとリンク
+    : [[lily20100228.jpg][lily20100228t.jpg]]    
+    [[file:lily20100228.jpg][lily20100228t.jpg]]
+
+
+* Table of contents
+ サポートは後回しにするかね。
+
+
+:#+OPTIONS: skip:t
+#+OPTIONS: H:4
+#+TEXT: head block
+#+TEXT: this area is <b> *literal* </b>
+#+TITLE: sample dayo
+ 

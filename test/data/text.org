@@ -1,0 +1,6 @@
+texts before 1st headline are deleted.
+* 1st headline
+
+#+OPTIONS: skip:t
+#+TEXT: text *before* /1st headline/
+#+TEXT: toc is after this line

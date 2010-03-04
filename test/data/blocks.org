@@ -1,0 +1,67 @@
+Blocks
+
+* paragraphs 
+  セクションは、パラグラフから始まる？
+
+  paragraph 1
+
+  paragraph 2
+    indent deeper
+indent shallower
+
+  paragraph 3
+** list only section
+    - list1
+- list2
+* blocks
+** Verse
+   verse ブロック内では、改行が保存される。//
+   <p class="verse"> 〜 </p> でくくる。//
+
+   インデントは、ブロック指定行のインデントを基準に、
+   各行のインデント * 2 の &nbsp; に置き換わる。
+   #+begin_Verse
+    verse line1
+      verse line2
+    verse line3
+   verse line4
+   #+end_verse
+** Example
+   example ブロックは、<pre class="example"></pre>でくくる
+
+   インデントは、 *ブロック* 先頭行のインデント位置からの
+   インデントに変換される。[[blocks.html]]
+   #+begin_example
+   # *非破壊的*
+     def expand_tab( str )
+       str.gsub(/([^\t]{8})|([^\t]*)\t/n) { [$+].pack("A8") }
+     end
+
+* example の内部は、解釈されないわけね
+
+     # 破壊的 [[link]]
+     def expand_tab!( str )
+       1 while str.sub!(/(^[^\t]*)\t(\t*)/) { $1 + ' ' * (8-$1.size%8+8*$2.size) }
+     end
+
+     # 破壊的 (2)
+     def expand_tab!( str )
+       1 while str.sub!(/\t(\t*)/) {' ' * (8-$~.begin(0)%8+8*$1.size) }
+     end
+   #+end_example
+
+   #+BEGIN_EXAMPLE -t -w 40
+     (defun org-xor (a b)
+        "Exclusive or."
+        (if a (not b) b))
+   #+END_EXAMPLE
+
+
+** Quote
+   #+BEGIN_QUOTE
+     blockquote も書ける
+   #+END_QUOTE
+* section 3
+  - list1
+    - list1-1
+- list2

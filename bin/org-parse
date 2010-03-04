@@ -1,0 +1,42 @@
+#!/usr/bin/env ruby
+
+require File.expand_path(
+    File.join(File.dirname(__FILE__), %w[.. lib org-parse]))
+require 'optparse'
+
+# Put your code here
+
+options = {}
+options_parser = OptionParser.new do |opts|
+  options[:help] = false
+  options[:format] = :html
+  
+  opts.banner = "Usage: org-parse <file> [options]"
+
+  opts.on("-h", "--help", "Show this message") do |v|
+    options[:help] = true
+  end
+
+  opts.on("-t", "--translate FORMAT", [:html, :textile],
+          "Translate the ORG file to the specified format.") do |v|
+    options[:format] = v
+  end
+end
+
+begin
+  options_parser.parse!
+  if (ARGV.length == 0) then
+    puts options_parser
+  else
+    data = IO.read(ARGV[0])
+    parser = OrgParse::StructParser.new(data)
+    root = parser.parse
+    visitor = OrgParse::HtmlVisitor.new(root)
+    puts visitor.build
+    # puts p.to_html if options[:format] == :html
+    # puts p.to_textile if options[:format] == :textile
+  end
+rescue OptionParser::ParseError
+  puts options_parser
+end
+

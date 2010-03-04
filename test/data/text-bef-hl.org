@@ -1,0 +1,5 @@
+text before 1st headline
+
+* title
+  there is no lines before 1st headline.
+

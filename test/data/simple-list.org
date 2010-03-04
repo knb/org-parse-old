@@ -1,0 +1,6 @@
+Simple list
+- list1 item1
+- list1 item2
+ + list2 item1
+ + list2 item2
+- list1 item3

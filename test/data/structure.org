@@ -1,0 +1,53 @@
+Org-mode document structure
+
+* Document
+  ダミーセクション + 本文
+  dummy_section : DOCUMENT_START
+                | DOCUMENT_START items
+** セクション section
+   HEADLINE items
+   items は、以下の要素の集まり
+*** パラグラフ
+    テキストブロックの集まり
+**** テキストブロック
+     文字列行の集まり
+*** リスト
+    ul, el, dl の３種類
+**** リストアイテム
+     以下の要素の集まり
+***** パラグラフ
+***** リスト
+***** ブロック
+***** 空行
+*** ブロック
+     以下の要素の集まり
+**** パラグラフ
+**** リスト
+**** ブロック
+**** 空行
+
+* Node
+** ContainerNode
+   他のノードを children に持つ Node
+*** RootNode
+    全てのノードの親となるノード
+*** DummySectionNode
+    文書の先頭ノード
+    文書の先頭部分に、セクションが無い場合、items の内容を保持する
+*** SectionNode
+    ヘッドライン 〜　ヘッドラインの直前
+
+*** ParagraphNode
+    テキスト行の集まり
+*** リスト
+    ul, ol, dl を保持する
+*** ブロック
+    =#+BEGIN ... #+END= で囲まれた部分
+*** 空行
+** LeafNode
+*** TextNode
+    １行分のテキスト
+*** VariableNode
+    変数情報保持
+*** HeadlineNode
+    ヘッドラインの情報保持

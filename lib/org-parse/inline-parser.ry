@@ -1,0 +1,70 @@
+class OrgParse::InlineParser
+
+  preclow
+    nonassoc EX_LOW
+    nonassoc OTHER
+    nonassoc EX_HIGH
+  prechigh
+
+  token EM_OPEN EM_CLOSE LINK_START LINK_END LINK_URI
+        ST_OPEN ST_CLOSE QUOTE
+        IT_OPEN IT_CLOSE UL_OPEN UL_CLOSE
+        VERB_OPEN VERB_CLOSE
+        CODE_OPEN CODE_CLOSE
+        OTHER EX_LOW EX_HIGH EOL
+
+  rule
+    content : elements
+
+    elements : elements element { result << val[1] }
+             | element          { result = val }
+
+    element : emphasis
+            | italic
+            | under_line
+            | code
+            | strike
+            | verb
+            | normal_string_element
+	    | link
+            | quote
+
+    emphasis : EM_OPEN elements EM_CLOSE
+               { result = Node.new(:EMPHASIS, val[1]) }
+
+    italic : IT_OPEN elements IT_CLOSE
+               { result = Node.new(:ITALIC, val[1]) }
+
+    under_line : UL_OPEN elements UL_CLOSE
+               { result = Node.new(:UNDER_LINE, val[1]) }
+
+    code :     CODE_OPEN elements CODE_CLOSE
+               { result = Node.new(:CODE, val[1]) }
+
+    verb :     VERB_OPEN elements VERB_CLOSE
+               { result = Node.new(:VERBATIM, val[1]) }
+
+    strike :   ST_OPEN elements ST_CLOSE
+               { result = Node.new(:STRIKE_THROUGH, val[1]) }
+
+    normal_strings : normal_strings OTHER { result << val[1] }
+                   | OTHER
+
+    quote : QUOTE { result = Node.new(:QUOTE, [], val[0]) }
+
+    normal_string_element : normal_strings = EX_LOW
+               { result = Node.new(:STRING, [], val[0]) }
+
+    link_descs : link_descs link_desc { result << val[1] }
+               | link_desc            { result = val }
+
+    link_desc  : emphasis
+               | italic
+               | under_line
+               | code
+               | normal_strings
+
+    link : LINK_START link_descs LINK_END { result = LinkNode.new(val[0], val[1]) }
+         | LINK_URI { result = LinkNode.new(val[0]) }
+
+end

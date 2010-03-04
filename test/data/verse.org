@@ -1,0 +1,48 @@
+VERSE example
+
+  #+BEGIN_VERSE
+      Great clouds overhead
+      Tiny *black* birds /rise/ and fall
+      Snow covers Emacs
+     
+          -- AlexSchroeder
+  #+END_VERSE
+
+#+BEGIN_VERSE
+  - list in verse
+    there is many lines.
+
+      with indent
+  - next list item
+#+END_VERSE
+
+- list out verse
+  there is many lines.
+
+    with indent
+- next list item
+
+  #+BEGIN_VERSE
+    VERSE in list?
+  #+END_VERSE
+
+* out line
+  #+BEGIN_VERSE
+in out line
+
+ ** in verse
+  #+END_VERSE
+
+ + list start
+   #+BEGIN_VERSE
+         this line is in verse
+         is OK?
+         indent check!
+   #+END_VERSE
+   in list item
+   connect the lines
+ + next item
+
+out of list
+in paragraph
+connect the lines
