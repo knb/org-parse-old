@@ -38,6 +38,7 @@ module OrgParse
       @body = @title = @add_to_head = ''
       @root = root
       @section_counts = [0,0,0,0,0,0,0,0,0]
+      @ul_stack = []
       @erb = ERB.new(::File.read(TEMPLATE))
       @verse = false
       @p_tag_flag = true
@@ -61,7 +62,7 @@ module OrgParse
     def section_number(level)
       ret = @section_counts[0].to_s
       (level - 1).times do |i|
-        ret += ".#{@section_counts[i+1]}"
+        ret += ".#{@section_counts[i+1]}" if @section_counts[i+1] > 0
       end
       ret
     end
@@ -80,7 +81,8 @@ module OrgParse
 
     # build the HTML string
     def build
-      @title = @root.options[:title]
+      @options = @root.options
+      @title = exec_list @root.options[:title]
       @language = @root.options[:language]
       @charset = @root.options[:charset]
       @body = ''
@@ -96,23 +98,49 @@ module OrgParse
       '    ' * level
     end
 
+    def close_ul_sec(level)
+      str = ''
+      while @ul_stack.last and @ul_stack.last > level
+        indent = section_indent(@ul_stack.last - 1)
+        @ul_stack.pop
+        str += "#{indent}</ul>\n"
+      end
+      str
+    end
+
     def section(node)
-      @curr_level = node.headline.level
-      update_section_number @curr_level
-      indent = section_indent(@curr_level - 1)
-      %Q|#{indent}<div id="outline-container-#{@curr_level+1}" class="outline-#{@curr_level+1}">
+      curr_level = node.headline.level
+
+      update_section_number curr_level
+      indent = section_indent(curr_level - 1)
+      idx_no = section_number(curr_level)
+      if curr_level > @options[:H]
+        str = close_ul_sec(curr_level)
+        if @ul_stack.last and @ul_stack.last == curr_level
+          str += %Q|#{indent}  <li id="sec-#{idx_no}">#{exec_children node}</li>\n|
+        else
+          str += "#{indent}<ul>\n"
+          @ul_stack << curr_level
+          str += %Q|#{indent}  <li id="sec-#{idx_no}">#{exec_children node}</li>\n|
+        end
+        str
+      else
+        %Q|#{close_ul_sec(curr_level).chomp}
+#{indent}<div id="outline-container-#{idx_no}" class="outline-#{curr_level+1}">
 #{indent}  #{headline node.headline}
-#{indent}  <div class="outline-text-#{@curr_level+1}" id="text-#{@curr_level+1}">
+#{indent}  <div class="outline-text-#{@curr_level+1}" id="text-#{idx_no}">
 #{exec_children node}
+#{close_ul_sec(curr_level).chomp}
 #{indent}  </div>
 #{indent}</div>
 |
+      end
     end
 
     def headline(node)
-        level = node.level+1
-        index_str = section_number(node.level)
-      %Q|<h#{level} id="sec-#{index_str}"><span class="section-number-#{level}">#{index_str}</span> #{exec_children(node).chomp}</h#{level}>|
+      level = node.level+1
+      index_str = section_number(node.level)
+      %Q|<h#{level} id="sec-#{index_str}"><span class="section-number-#{level}">#{index_str}</span> #{exec_children(node).chomp} </h#{level}>|
     end
 
     def get_indent

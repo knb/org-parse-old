@@ -4,8 +4,6 @@ require File.expand_path(
     File.join(File.dirname(__FILE__), %w[.. lib org-parse]))
 require 'optparse'
 
-# Put your code here
-
 options = {}
 options_parser = OptionParser.new do |opts|
   options[:help] = false
@@ -39,4 +37,3 @@ begin
 rescue OptionParser::ParseError
   puts options_parser
 end
-

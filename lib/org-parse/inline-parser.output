@@ -1,0 +1,785 @@
+state 31 contains 1 shift/reduce conflicts
+
+
+-------- Grammar --------
+
+rule 1 content: elements
+rule 2 elements: elements element
+rule 3 elements: element
+rule 4 element: emphasis
+rule 5 element: italic
+rule 6 element: under_line
+rule 7 element: code
+rule 8 element: strike
+rule 9 element: verb
+rule 10 element: normal_string_element
+rule 11 element: link
+rule 12 element: quote
+rule 13 emphasis: EM_OPEN elements EM_CLOSE
+rule 14 italic: IT_OPEN elements IT_CLOSE
+rule 15 under_line: UL_OPEN elements UL_CLOSE
+rule 16 code: CODE_OPEN elements CODE_CLOSE
+rule 17 verb: VERB_OPEN elements VERB_CLOSE
+rule 18 strike: ST_OPEN elements ST_CLOSE
+rule 19 normal_strings: normal_strings OTHER
+rule 20 normal_strings: OTHER
+rule 21 quote: QUOTE
+rule 22 normal_string_element: normal_strings
+rule 23 link_descs: link_descs link_desc
+rule 24 link_descs: link_desc
+rule 25 link_desc: emphasis
+rule 26 link_desc: italic
+rule 27 link_desc: under_line
+rule 28 link_desc: code
+rule 29 link_desc: normal_strings
+rule 30 link: LINK_START link_descs LINK_END
+rule 31 link: LINK_URI
+
+------- Symbols -------
+
+**Nonterminals, with rules where they appear
+
+  $start (22)
+    on right: 
+    on left : 
+  content (23)
+    on right: 
+    on left : 1
+  elements (24)
+    on right: 1 2 13 14 15 16 17 18
+    on left : 2 3
+  element (25)
+    on right: 2 3
+    on left : 4 5 6 7 8 9 10 11 12
+  emphasis (26)
+    on right: 4 25
+    on left : 13
+  italic (27)
+    on right: 5 26
+    on left : 14
+  under_line (28)
+    on right: 6 27
+    on left : 15
+  code (29)
+    on right: 7 28
+    on left : 16
+  strike (30)
+    on right: 8
+    on left : 18
+  verb (31)
+    on right: 9
+    on left : 17
+  normal_string_element (32)
+    on right: 10
+    on left : 22
+  link (33)
+    on right: 11
+    on left : 30 31
+  quote (34)
+    on right: 12
+    on left : 21
+  normal_strings (35)
+    on right: 19 22 29
+    on left : 19 20
+  link_descs (36)
+    on right: 23 30
+    on left : 23 24
+  link_desc (37)
+    on right: 23 24
+    on left : 25 26 27 28 29
+
+**Terminals, with rules where they appear
+
+  $end (0) 
+  error (1) 
+  EX_LOW (2) 
+  OTHER (3) 19 20
+  EX_HIGH (4) 
+  EM_OPEN (5) 13
+  EM_CLOSE (6) 13
+  LINK_START (7) 30
+  LINK_END (8) 30
+  LINK_URI (9) 31
+  ST_OPEN (10) 18
+  ST_CLOSE (11) 18
+  QUOTE (12) 21
+  IT_OPEN (13) 14
+  IT_CLOSE (14) 14
+  UL_OPEN (15) 15
+  UL_CLOSE (16) 15
+  VERB_OPEN (17) 17
+  VERB_CLOSE (18) 17
+  CODE_OPEN (19) 16
+  CODE_CLOSE (20) 16
+  EOL (21) 
+
+--------- State ---------
+
+state 0
+
+
+  OTHER         shift, and go to state 8
+  EM_OPEN       shift, and go to state 12
+  LINK_START    shift, and go to state 16
+  LINK_URI      shift, and go to state 20
+  ST_OPEN       shift, and go to state 22
+  QUOTE         shift, and go to state 2
+  IT_OPEN       shift, and go to state 6
+  UL_OPEN       shift, and go to state 10
+  VERB_OPEN     shift, and go to state 14
+  CODE_OPEN     shift, and go to state 18
+
+  link          go to state 1
+  content       go to state 4
+  quote         go to state 3
+  elements      go to state 7
+  normal_strings  go to state 5
+  element       go to state 9
+  emphasis      go to state 11
+  italic        go to state 13
+  under_line    go to state 15
+  code          go to state 17
+  strike        go to state 19
+  verb          go to state 21
+  normal_string_element  go to state 23
+
+state 1
+
+  11) element : link _
+
+  $default      reduce using rule 11 (element)
+
+
+state 2
+
+  21) quote : QUOTE _
+
+  $default      reduce using rule 21 (quote)
+
+
+state 3
+
+  12) element : quote _
+
+  $default      reduce using rule 12 (element)
+
+
+state 4
+
+
+  $end          shift, and go to state 24
+
+
+state 5
+
+  19) normal_strings : normal_strings _ OTHER
+  22) normal_string_element : normal_strings _
+
+  OTHER         shift, and go to state 25
+  $default      reduce using rule 22 (normal_string_element)
+
+
+state 6
+
+  14) italic : IT_OPEN _ elements IT_CLOSE
+
+  OTHER         shift, and go to state 8
+  EM_OPEN       shift, and go to state 12
+  LINK_START    shift, and go to state 16
+  LINK_URI      shift, and go to state 20
+  ST_OPEN       shift, and go to state 22
+  QUOTE         shift, and go to state 2
+  IT_OPEN       shift, and go to state 6
+  UL_OPEN       shift, and go to state 10
+  VERB_OPEN     shift, and go to state 14
+  CODE_OPEN     shift, and go to state 18
+
+  link          go to state 1
+  quote         go to state 3
+  elements      go to state 26
+  normal_strings  go to state 5
+  element       go to state 9
+  emphasis      go to state 11
+  italic        go to state 13
+  under_line    go to state 15
+  code          go to state 17
+  strike        go to state 19
+  verb          go to state 21
+  normal_string_element  go to state 23
+
+state 7
+
+   1) content : elements _
+   2) elements : elements _ element
+
+  OTHER         shift, and go to state 8
+  EM_OPEN       shift, and go to state 12
+  LINK_START    shift, and go to state 16
+  LINK_URI      shift, and go to state 20
+  ST_OPEN       shift, and go to state 22
+  QUOTE         shift, and go to state 2
+  IT_OPEN       shift, and go to state 6
+  UL_OPEN       shift, and go to state 10
+  VERB_OPEN     shift, and go to state 14
+  CODE_OPEN     shift, and go to state 18
+  $default      reduce using rule 1 (content)
+
+  link          go to state 1
+  quote         go to state 3
+  normal_strings  go to state 5
+  element       go to state 27
+  emphasis      go to state 11
+  italic        go to state 13
+  under_line    go to state 15
+  code          go to state 17
+  strike        go to state 19
+  verb          go to state 21
+  normal_string_element  go to state 23
+
+state 8
+
+  20) normal_strings : OTHER _
+
+  $default      reduce using rule 20 (normal_strings)
+
+
+state 9
+
+   3) elements : element _
+
+  $default      reduce using rule 3 (elements)
+
+
+state 10
+
+  15) under_line : UL_OPEN _ elements UL_CLOSE
+
+  OTHER         shift, and go to state 8
+  EM_OPEN       shift, and go to state 12
+  LINK_START    shift, and go to state 16
+  LINK_URI      shift, and go to state 20
+  ST_OPEN       shift, and go to state 22
+  QUOTE         shift, and go to state 2
+  IT_OPEN       shift, and go to state 6
+  UL_OPEN       shift, and go to state 10
+  VERB_OPEN     shift, and go to state 14
+  CODE_OPEN     shift, and go to state 18
+
+  link          go to state 1
+  quote         go to state 3
+  elements      go to state 28
+  normal_strings  go to state 5
+  element       go to state 9
+  emphasis      go to state 11
+  italic        go to state 13
+  under_line    go to state 15
+  code          go to state 17
+  strike        go to state 19
+  verb          go to state 21
+  normal_string_element  go to state 23
+
+state 11
+
+   4) element : emphasis _
+
+  $default      reduce using rule 4 (element)
+
+
+state 12
+
+  13) emphasis : EM_OPEN _ elements EM_CLOSE
+
+  OTHER         shift, and go to state 8
+  EM_OPEN       shift, and go to state 12
+  LINK_START    shift, and go to state 16
+  LINK_URI      shift, and go to state 20
+  ST_OPEN       shift, and go to state 22
+  QUOTE         shift, and go to state 2
+  IT_OPEN       shift, and go to state 6
+  UL_OPEN       shift, and go to state 10
+  VERB_OPEN     shift, and go to state 14
+  CODE_OPEN     shift, and go to state 18
+
+  link          go to state 1
+  quote         go to state 3
+  elements      go to state 29
+  normal_strings  go to state 5
+  element       go to state 9
+  emphasis      go to state 11
+  italic        go to state 13
+  under_line    go to state 15
+  code          go to state 17
+  strike        go to state 19
+  verb          go to state 21
+  normal_string_element  go to state 23
+
+state 13
+
+   5) element : italic _
+
+  $default      reduce using rule 5 (element)
+
+
+state 14
+
+  17) verb : VERB_OPEN _ elements VERB_CLOSE
+
+  OTHER         shift, and go to state 8
+  EM_OPEN       shift, and go to state 12
+  LINK_START    shift, and go to state 16
+  LINK_URI      shift, and go to state 20
+  ST_OPEN       shift, and go to state 22
+  QUOTE         shift, and go to state 2
+  IT_OPEN       shift, and go to state 6
+  UL_OPEN       shift, and go to state 10
+  VERB_OPEN     shift, and go to state 14
+  CODE_OPEN     shift, and go to state 18
+
+  link          go to state 1
+  quote         go to state 3
+  elements      go to state 30
+  normal_strings  go to state 5
+  element       go to state 9
+  emphasis      go to state 11
+  italic        go to state 13
+  under_line    go to state 15
+  code          go to state 17
+  strike        go to state 19
+  verb          go to state 21
+  normal_string_element  go to state 23
+
+state 15
+
+   6) element : under_line _
+
+  $default      reduce using rule 6 (element)
+
+
+state 16
+
+  30) link : LINK_START _ link_descs LINK_END
+
+  OTHER         shift, and go to state 8
+  EM_OPEN       shift, and go to state 12
+  IT_OPEN       shift, and go to state 6
+  UL_OPEN       shift, and go to state 10
+  CODE_OPEN     shift, and go to state 18
+
+  normal_strings  go to state 31
+  link_descs    go to state 32
+  link_desc     go to state 34
+  emphasis      go to state 33
+  italic        go to state 35
+  under_line    go to state 36
+  code          go to state 37
+
+state 17
+
+   7) element : code _
+
+  $default      reduce using rule 7 (element)
+
+
+state 18
+
+  16) code : CODE_OPEN _ elements CODE_CLOSE
+
+  OTHER         shift, and go to state 8
+  EM_OPEN       shift, and go to state 12
+  LINK_START    shift, and go to state 16
+  LINK_URI      shift, and go to state 20
+  ST_OPEN       shift, and go to state 22
+  QUOTE         shift, and go to state 2
+  IT_OPEN       shift, and go to state 6
+  UL_OPEN       shift, and go to state 10
+  VERB_OPEN     shift, and go to state 14
+  CODE_OPEN     shift, and go to state 18
+
+  link          go to state 1
+  quote         go to state 3
+  elements      go to state 38
+  normal_strings  go to state 5
+  element       go to state 9
+  emphasis      go to state 11
+  italic        go to state 13
+  under_line    go to state 15
+  code          go to state 17
+  strike        go to state 19
+  verb          go to state 21
+  normal_string_element  go to state 23
+
+state 19
+
+   8) element : strike _
+
+  $default      reduce using rule 8 (element)
+
+
+state 20
+
+  31) link : LINK_URI _
+
+  $default      reduce using rule 31 (link)
+
+
+state 21
+
+   9) element : verb _
+
+  $default      reduce using rule 9 (element)
+
+
+state 22
+
+  18) strike : ST_OPEN _ elements ST_CLOSE
+
+  OTHER         shift, and go to state 8
+  EM_OPEN       shift, and go to state 12
+  LINK_START    shift, and go to state 16
+  LINK_URI      shift, and go to state 20
+  ST_OPEN       shift, and go to state 22
+  QUOTE         shift, and go to state 2
+  IT_OPEN       shift, and go to state 6
+  UL_OPEN       shift, and go to state 10
+  VERB_OPEN     shift, and go to state 14
+  CODE_OPEN     shift, and go to state 18
+
+  link          go to state 1
+  quote         go to state 3
+  elements      go to state 39
+  normal_strings  go to state 5
+  element       go to state 9
+  emphasis      go to state 11
+  italic        go to state 13
+  under_line    go to state 15
+  code          go to state 17
+  strike        go to state 19
+  verb          go to state 21
+  normal_string_element  go to state 23
+
+state 23
+
+  10) element : normal_string_element _
+
+  $default      reduce using rule 10 (element)
+
+
+state 24
+
+
+  $end          shift, and go to state 40
+
+
+state 25
+
+  19) normal_strings : normal_strings OTHER _
+
+  $default      reduce using rule 19 (normal_strings)
+
+
+state 26
+
+   2) elements : elements _ element
+  14) italic : IT_OPEN elements _ IT_CLOSE
+
+  OTHER         shift, and go to state 8
+  EM_OPEN       shift, and go to state 12
+  LINK_START    shift, and go to state 16
+  LINK_URI      shift, and go to state 20
+  ST_OPEN       shift, and go to state 22
+  QUOTE         shift, and go to state 2
+  IT_OPEN       shift, and go to state 6
+  IT_CLOSE      shift, and go to state 41
+  UL_OPEN       shift, and go to state 10
+  VERB_OPEN     shift, and go to state 14
+  CODE_OPEN     shift, and go to state 18
+
+  link          go to state 1
+  quote         go to state 3
+  normal_strings  go to state 5
+  element       go to state 27
+  emphasis      go to state 11
+  italic        go to state 13
+  under_line    go to state 15
+  code          go to state 17
+  strike        go to state 19
+  verb          go to state 21
+  normal_string_element  go to state 23
+
+state 27
+
+   2) elements : elements element _
+
+  $default      reduce using rule 2 (elements)
+
+
+state 28
+
+   2) elements : elements _ element
+  15) under_line : UL_OPEN elements _ UL_CLOSE
+
+  OTHER         shift, and go to state 8
+  EM_OPEN       shift, and go to state 12
+  LINK_START    shift, and go to state 16
+  LINK_URI      shift, and go to state 20
+  ST_OPEN       shift, and go to state 22
+  QUOTE         shift, and go to state 2
+  IT_OPEN       shift, and go to state 6
+  UL_OPEN       shift, and go to state 10
+  UL_CLOSE      shift, and go to state 42
+  VERB_OPEN     shift, and go to state 14
+  CODE_OPEN     shift, and go to state 18
+
+  link          go to state 1
+  quote         go to state 3
+  normal_strings  go to state 5
+  element       go to state 27
+  emphasis      go to state 11
+  italic        go to state 13
+  under_line    go to state 15
+  code          go to state 17
+  strike        go to state 19
+  verb          go to state 21
+  normal_string_element  go to state 23
+
+state 29
+
+   2) elements : elements _ element
+  13) emphasis : EM_OPEN elements _ EM_CLOSE
+
+  OTHER         shift, and go to state 8
+  EM_OPEN       shift, and go to state 12
+  EM_CLOSE      shift, and go to state 43
+  LINK_START    shift, and go to state 16
+  LINK_URI      shift, and go to state 20
+  ST_OPEN       shift, and go to state 22
+  QUOTE         shift, and go to state 2
+  IT_OPEN       shift, and go to state 6
+  UL_OPEN       shift, and go to state 10
+  VERB_OPEN     shift, and go to state 14
+  CODE_OPEN     shift, and go to state 18
+
+  link          go to state 1
+  quote         go to state 3
+  normal_strings  go to state 5
+  element       go to state 27
+  emphasis      go to state 11
+  italic        go to state 13
+  under_line    go to state 15
+  code          go to state 17
+  strike        go to state 19
+  verb          go to state 21
+  normal_string_element  go to state 23
+
+state 30
+
+   2) elements : elements _ element
+  17) verb : VERB_OPEN elements _ VERB_CLOSE
+
+  OTHER         shift, and go to state 8
+  EM_OPEN       shift, and go to state 12
+  LINK_START    shift, and go to state 16
+  LINK_URI      shift, and go to state 20
+  ST_OPEN       shift, and go to state 22
+  QUOTE         shift, and go to state 2
+  IT_OPEN       shift, and go to state 6
+  UL_OPEN       shift, and go to state 10
+  VERB_OPEN     shift, and go to state 14
+  VERB_CLOSE    shift, and go to state 44
+  CODE_OPEN     shift, and go to state 18
+
+  link          go to state 1
+  quote         go to state 3
+  normal_strings  go to state 5
+  element       go to state 27
+  emphasis      go to state 11
+  italic        go to state 13
+  under_line    go to state 15
+  code          go to state 17
+  strike        go to state 19
+  verb          go to state 21
+  normal_string_element  go to state 23
+
+state 31
+
+  19) normal_strings : normal_strings _ OTHER
+  29) link_desc : normal_strings _
+
+  OTHER         shift, and go to state 25
+  OTHER         [reduce using rule 29 (link_desc)]
+  $default      reduce using rule 29 (link_desc)
+
+
+state 32
+
+  23) link_descs : link_descs _ link_desc
+  30) link : LINK_START link_descs _ LINK_END
+
+  OTHER         shift, and go to state 8
+  EM_OPEN       shift, and go to state 12
+  LINK_END      shift, and go to state 46
+  IT_OPEN       shift, and go to state 6
+  UL_OPEN       shift, and go to state 10
+  CODE_OPEN     shift, and go to state 18
+
+  normal_strings  go to state 31
+  link_desc     go to state 45
+  emphasis      go to state 33
+  italic        go to state 35
+  under_line    go to state 36
+  code          go to state 37
+
+state 33
+
+  25) link_desc : emphasis _
+
+  $default      reduce using rule 25 (link_desc)
+
+
+state 34
+
+  24) link_descs : link_desc _
+
+  $default      reduce using rule 24 (link_descs)
+
+
+state 35
+
+  26) link_desc : italic _
+
+  $default      reduce using rule 26 (link_desc)
+
+
+state 36
+
+  27) link_desc : under_line _
+
+  $default      reduce using rule 27 (link_desc)
+
+
+state 37
+
+  28) link_desc : code _
+
+  $default      reduce using rule 28 (link_desc)
+
+
+state 38
+
+   2) elements : elements _ element
+  16) code : CODE_OPEN elements _ CODE_CLOSE
+
+  OTHER         shift, and go to state 8
+  EM_OPEN       shift, and go to state 12
+  LINK_START    shift, and go to state 16
+  LINK_URI      shift, and go to state 20
+  ST_OPEN       shift, and go to state 22
+  QUOTE         shift, and go to state 2
+  IT_OPEN       shift, and go to state 6
+  UL_OPEN       shift, and go to state 10
+  VERB_OPEN     shift, and go to state 14
+  CODE_OPEN     shift, and go to state 18
+  CODE_CLOSE    shift, and go to state 47
+
+  link          go to state 1
+  quote         go to state 3
+  normal_strings  go to state 5
+  element       go to state 27
+  emphasis      go to state 11
+  italic        go to state 13
+  under_line    go to state 15
+  code          go to state 17
+  strike        go to state 19
+  verb          go to state 21
+  normal_string_element  go to state 23
+
+state 39
+
+   2) elements : elements _ element
+  18) strike : ST_OPEN elements _ ST_CLOSE
+
+  OTHER         shift, and go to state 8
+  EM_OPEN       shift, and go to state 12
+  LINK_START    shift, and go to state 16
+  LINK_URI      shift, and go to state 20
+  ST_OPEN       shift, and go to state 22
+  ST_CLOSE      shift, and go to state 48
+  QUOTE         shift, and go to state 2
+  IT_OPEN       shift, and go to state 6
+  UL_OPEN       shift, and go to state 10
+  VERB_OPEN     shift, and go to state 14
+  CODE_OPEN     shift, and go to state 18
+
+  link          go to state 1
+  quote         go to state 3
+  normal_strings  go to state 5
+  element       go to state 27
+  emphasis      go to state 11
+  italic        go to state 13
+  under_line    go to state 15
+  code          go to state 17
+  strike        go to state 19
+  verb          go to state 21
+  normal_string_element  go to state 23
+
+state 40
+
+
+  $default      accept
+
+
+state 41
+
+  14) italic : IT_OPEN elements IT_CLOSE _
+
+  $default      reduce using rule 14 (italic)
+
+
+state 42
+
+  15) under_line : UL_OPEN elements UL_CLOSE _
+
+  $default      reduce using rule 15 (under_line)
+
+
+state 43
+
+  13) emphasis : EM_OPEN elements EM_CLOSE _
+
+  $default      reduce using rule 13 (emphasis)
+
+
+state 44
+
+  17) verb : VERB_OPEN elements VERB_CLOSE _
+
+  $default      reduce using rule 17 (verb)
+
+
+state 45
+
+  23) link_descs : link_descs link_desc _
+
+  $default      reduce using rule 23 (link_descs)
+
+
+state 46
+
+  30) link : LINK_START link_descs LINK_END _
+
+  $default      reduce using rule 30 (link)
+
+
+state 47
+
+  16) code : CODE_OPEN elements CODE_CLOSE _
+
+  $default      reduce using rule 16 (code)
+
+
+state 48
+
+  18) strike : ST_OPEN elements ST_CLOSE _
+
+  $default      reduce using rule 18 (strike)
+

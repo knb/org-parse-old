@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 require 'racc/parser'
+require ::File.join(OrgParse::LIBPATH , 'org-parse', 'struct-parser.tab.rb')
+require ::File.join(OrgParse::LIBPATH , 'org-parse', 'utils.rb')
+require ::File.join(OrgParse::LIBPATH , 'org-parse', 'inline-parser.rb')
 
 module OrgParse
 
@@ -16,11 +19,11 @@ module OrgParse
   #
   class StructParser < Racc::Parser
     include Utils
+    include InlineUtils
 
     # コンストラクタ
-    def initialize(src)
-      @scanner = StructScanner.new(src)
-      @inline_parser = InlineParser.new(self)
+    def initialize(src, title = '(non title)')
+      @scanner = StructScanner.new(src, title)
       @yydebug = true
     end
 
@@ -34,9 +37,9 @@ module OrgParse
       @scanner.next_token
     end
 
-    def line_parse(str)
-      @inline_parser.parse(str)
-    end
+    # def line_parse(str)
+    #  @inline_parser.parse(str)
+    # end
 
     # def line_index
     #   @scanner.line_index

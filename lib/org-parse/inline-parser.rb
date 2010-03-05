@@ -3,6 +3,8 @@ require 'racc/parser'
 require 'forwardable'
 require 'strscan'
 require 'uri'
+require ::File.join(OrgParse::LIBPATH , 'org-parse', 'inline-parser.tab.rb')
+require ::File.join(OrgParse::LIBPATH , 'org-parse', 'node.rb')
 
 module OrgParse
 
@@ -145,4 +147,12 @@ module OrgParse
       @org_link_text_regexp = /\[\[([^\]]*)\]\[([^\]]*)\]\]/ # $1 is the URL、$2 is the friendly text
     end
   end
+
+  module InlineUtils
+    def line_parse(str)
+      @@inline_parser = InlineParser.new if @inline_parser.nil?
+      @@inline_parser.parse(str)
+    end
+  end
+
 end

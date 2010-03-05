@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 module OrgParse
 
   module Utils
@@ -8,7 +9,7 @@ module OrgParse
       str =~ /^(\s*)/
       $1.gsub(/([^\t]{8})|([^\t]*)\t/n){ [$+].pack("A8") }.size
     end
-
   end
+
 end
     

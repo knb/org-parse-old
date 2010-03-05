@@ -1,0 +1,7 @@
+* 1st head
+- list
+- item
+* 1st head
+ #  # +TITLE: no lines before 1st headline
+:#+OPTIONS: toc:nil author:nil timestamp:nil creator:nil skip:t
+#+LANGUAGE: ja

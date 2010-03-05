@@ -38,7 +38,6 @@ module OrgParse
   #
   class Node
     attr_accessor :kind, :children, :value
-    @@inline_scanner = InlineParser.new
 
     def initialize(kind = nil, children = [], value = nil)
       @kind = kind
@@ -55,13 +54,6 @@ module OrgParse
       @done = true
     end
 
-    def inline_parse(str)
-      @@inline_scanner.parse(str)
-    end
-
-    def set_struct_parser(sp)
-      @@inline_scanner.structp = sp
-    end
 
     # todo: 必要あるのかな？？？
     def accept(visitor)

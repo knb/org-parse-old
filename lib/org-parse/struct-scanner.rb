@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+require ::File.join(OrgParse::LIBPATH , 'org-parse', 'inline-parser.rb')
+require ::File.join(OrgParse::LIBPATH , 'org-parse', 'utils.rb')
+
 module OrgParse
 
   # Org-modeの文字列を、構造レベルのトークンに分解する
@@ -7,6 +10,8 @@ module OrgParse
   #
   class StructScanner
     include Utils
+    include InlineUtils
+
     ListSymbols = {
       :UL_START => :UL_END, :OL_START => :OL_END,
       :DL_START => :DL_END,
@@ -15,7 +20,8 @@ module OrgParse
     # コンストラクタ
     # [_src_] ソース文字列（または、文字列の配列）
     #         ソース文字列は、1行単位の配列として @srcに保存する
-    def initialize(src)
+    # [_title_] skip:t の場合にタイトルとして使われる
+    def initialize(src, title)
       @src = (src.is_a? Array) ? src : src.to_a
       @line_idx = 0
       @outline_level = 0
@@ -25,6 +31,7 @@ module OrgParse
       @options = { :H => 3, :skip => false, :toc => true, :num => true,
         :author => true, :creator => true, :timestamp => true,
         :title => nil, :text => '', :language => 'ja', :charset => 'utf-8',
+        :default_title => title,
       }
       read_options
     end
@@ -128,15 +135,23 @@ module OrgParse
 
     # scan before 1st headline
     def scan_before_1st_headline
+      title = nil
       if @options[:title]
+        title =@options[:title]
         skip_to_1st_headline if @options[:skip]
       elsif @options[:skip]
         skip_to_1st_headline
-        @options[:title] = @src[@line_idx].chomp.sub(/^\*(\s*)/,'')
+        title = @options[:default_title]
       else
         @line_idx += 1 while @src[@line_idx] =~ /^\s*$/
-        @options[:title] = @src[@line_idx].chomp.sub(/^\s*/, '')
+        title = @src[@line_idx].chomp.sub(/^\s*/, '')
+        if title =~ /^\*+\s*/
+          title = @options[:default_title]
+        else
+          @line_idx += 1
+        end
       end
+      @options[:title] = line_parse title
     end
 
     # 行単位でトークンに分解し、@token_que に内容を保存する
