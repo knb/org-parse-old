@@ -20,7 +20,7 @@ module OrgParse
   #
   # - _WHITELINE_ :: 空行
   # - _BLOCK_    :: ブロック(verse, example, src, html, ...)
-  # - _ITEMLIST_ :: Unorderd list <UL>
+  # - _UNORDERED_LIST_ :: Unorderd list <UL>
   # - _LISTITEM_ :: リストの項目(ul, ol, dl 共通)
   # - _ENUMLIST_ :: Ordered list <OL>
   # - _DESCLIST_ :: Description list <DL> _value_ に<DT>の内容が入る
@@ -67,7 +67,7 @@ module OrgParse
 
     # コンテナノードか？
     def is_container?
-      [:SECTION, :TEXTBLOCK, :LISTITEM, :ITEMLIST, :ENUMLIST, :DESCLIST, :BLOCK].include? @kind
+      [:SECTION, :TEXTBLOCK, :LISTITEM, :UNORDERED_LIST, :ENUMLIST, :DESCLIST, :BLOCK].include? @kind
     end
 
     # 見やすく表示
@@ -157,6 +157,17 @@ module OrgParse
     def initialize(children, vals)
       @indent = vals[1]
       super(:TEXTLINE, children, vals[0])
+    end
+  end
+
+  # リストアイテム
+  class ListitemNode < Node
+    attr_reader :dt, :type
+
+    def initialize(type, children, value, dt)
+      @type = type
+      @dt = dt
+      super(:LIST_ITEM, children, value)
     end
   end
 

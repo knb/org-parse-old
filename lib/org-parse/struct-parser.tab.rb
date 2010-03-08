@@ -60,8 +60,8 @@ racc_reduce_table = [
  1, 47, :_reduce_43,
  1, 48, :_reduce_44,
  3, 44, :_reduce_45,
- 3, 45, :_reduce_none,
- 3, 46, :_reduce_none,
+ 3, 45, :_reduce_46,
+ 3, 46, :_reduce_47,
  2, 49, :_reduce_48,
  1, 49, :_reduce_49,
  3, 50, :_reduce_50,
@@ -483,14 +483,24 @@ module_eval <<'.,.,', 'lib/org-parse/struct-parser.ry', 83
 
 module_eval <<'.,.,', 'lib/org-parse/struct-parser.ry', 86
   def _reduce_45( val, _values, result )
- result = Node.new(:ITEMLIST, val[1], 'dummy')
+ result = Node.new(:UNORDERED_LIST, val[1], 'dummy')
    result
   end
 .,.,
 
- # reduce 46 omitted
+module_eval <<'.,.,', 'lib/org-parse/struct-parser.ry', 88
+  def _reduce_46( val, _values, result )
+ result = Node.new(:ORDERED_LIST, val[1], 'dummy')
+   result
+  end
+.,.,
 
- # reduce 47 omitted
+module_eval <<'.,.,', 'lib/org-parse/struct-parser.ry', 90
+  def _reduce_47( val, _values, result )
+ result = Node.new(:DEFINITION_LIST, val[1], 'dummy')
+   result
+  end
+.,.,
 
 module_eval <<'.,.,', 'lib/org-parse/struct-parser.ry', 92
   def _reduce_48( val, _values, result )
@@ -506,56 +516,58 @@ module_eval <<'.,.,', 'lib/org-parse/struct-parser.ry', 93
   end
 .,.,
 
-module_eval <<'.,.,', 'lib/org-parse/struct-parser.ry', 95
-  def _reduce_50( val, _values, result )
- result = Node.new(:LIST_ITEM, val[1], line_parse(val[0]))
-   result
-  end
-.,.,
-
-module_eval <<'.,.,', 'lib/org-parse/struct-parser.ry', 96
-  def _reduce_51( val, _values, result )
- result = Node.new(:LIST_ITEM, [], line_parse(val[0]))
-   result
-  end
-.,.,
-
 module_eval <<'.,.,', 'lib/org-parse/struct-parser.ry', 99
+  def _reduce_50( val, _values, result )
+                result = ListitemNode.new(val[0][0], val[1], line_parse(val[0][1]), 
+                                          line_parse(val[0][2]))
+   result
+  end
+.,.,
+
+module_eval <<'.,.,', 'lib/org-parse/struct-parser.ry', 103
+  def _reduce_51( val, _values, result )
+	        result = ListitemNode.new(val[0][0],     [], line_parse(val[0][1]), 
+		                          line_parse(val[0][2]))
+   result
+  end
+.,.,
+
+module_eval <<'.,.,', 'lib/org-parse/struct-parser.ry', 105
   def _reduce_52( val, _values, result )
  result = TableNode.new(val[0], val[2])
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'lib/org-parse/struct-parser.ry', 101
+module_eval <<'.,.,', 'lib/org-parse/struct-parser.ry', 107
   def _reduce_53( val, _values, result )
  result = TableNode.new([], val[0])
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'lib/org-parse/struct-parser.ry', 103
+module_eval <<'.,.,', 'lib/org-parse/struct-parser.ry', 109
   def _reduce_54( val, _values, result )
  result << val[1]
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'lib/org-parse/struct-parser.ry', 104
+module_eval <<'.,.,', 'lib/org-parse/struct-parser.ry', 110
   def _reduce_55( val, _values, result )
  result = val
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'lib/org-parse/struct-parser.ry', 106
+module_eval <<'.,.,', 'lib/org-parse/struct-parser.ry', 112
   def _reduce_56( val, _values, result )
  result = Node.new(:TABLE_SEP)
    result
   end
 .,.,
 
-module_eval <<'.,.,', 'lib/org-parse/struct-parser.ry', 108
+module_eval <<'.,.,', 'lib/org-parse/struct-parser.ry', 114
   def _reduce_57( val, _values, result )
  result = TableRowNode.new(val[0])
    result

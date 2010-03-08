@@ -27,7 +27,8 @@ begin
     puts options_parser
   else
     data = IO.read(ARGV[0])
-    parser = OrgParse::StructParser.new(data)
+    
+    parser = OrgParse::StructParser.new(data, File.basename(ARGV[0], '.*'))
     root = parser.parse
     visitor = OrgParse::HtmlVisitor.new(root)
     puts visitor.build

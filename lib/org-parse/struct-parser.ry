@@ -84,17 +84,23 @@ class OrgParse::StructParser
   example : EXAMPLE { result = TextlineNode.new(line_parse(val[0][0]), val[0]) }
 
 
-  unordered_list : UL_START list_items UL_END { result = Node.new(:ITEMLIST, val[1], 'dummy') }
+  unordered_list : UL_START list_items UL_END { result = Node.new(:UNORDERED_LIST, val[1], 'dummy') }
 
-  ordered_list : OL_START list_items OL_END
+  ordered_list : OL_START list_items OL_END  { result = Node.new(:ORDERED_LIST, val[1], 'dummy') }
 
-  description_list : DL_START list_items DL_END
+  description_list : DL_START list_items DL_END { result = Node.new(:DEFINITION_LIST, val[1], 'dummy') }
 
   list_items : list_items list_item { result << val[1] }
              | list_item { result = val }
 
-  list_item : LI_START items LI_END { result = Node.new(:LIST_ITEM, val[1], line_parse(val[0])) }
-  	    | LI_START LI_END { result = Node.new(:LIST_ITEM, [], line_parse(val[0])) }
+  list_item : LI_START items LI_END { 
+                result = ListitemNode.new(val[0][0], val[1], line_parse(val[0][1]), 
+                                          line_parse(val[0][2])) 
+              }
+  	    | LI_START LI_END { 
+	        result = ListitemNode.new(val[0][0],     [], line_parse(val[0][1]), 
+		                          line_parse(val[0][2])) 
+              }
 
   table : table_rows table_sep table_rows = PLOW
             { result = TableNode.new(val[0], val[2]) }

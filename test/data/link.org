@@ -1,0 +1,7 @@
+* link
+  [[file:html-export.html][html-export]]
+  [[file:./html-export.org]]
+  [[file:lily20100228t.jpg]]
+  [[file:lily20100228.jpg][file:lily20100228t.jpg]]
+#+OPTIONS: toc:nil author:nil timestamp:nil creator:nil
+#+LANGUAGE: ja

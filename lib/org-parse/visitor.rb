@@ -11,6 +11,7 @@ module OrgParse
 
     def exec_list(nodes)
       ret = ''
+      # p nodes
       nodes.each{|n| ret += execute(n) }
       ret
     end
@@ -98,6 +99,12 @@ module OrgParse
       '    ' * level
     end
 
+    def get_indent
+      base = section_indent
+      base += ('  ' * @list_level)
+      base += ('  ' * @para_level)
+    end
+
     def close_ul_sec(level)
       str = ''
       while @ul_stack.last and @ul_stack.last > level
@@ -112,6 +119,7 @@ module OrgParse
       curr_level = node.headline.level
 
       update_section_number curr_level
+      @curr_level = curr_level
       indent = section_indent(curr_level - 1)
       idx_no = section_number(curr_level)
       if curr_level > @options[:H]
@@ -143,12 +151,6 @@ module OrgParse
       %Q|<h#{level} id="sec-#{index_str}"><span class="section-number-#{level}">#{index_str}</span> #{exec_children(node).chomp} </h#{level}>|
     end
 
-    def get_indent
-      base = section_indent
-      base += ('  ' * @list_level)
-      base += ('  ' * @para_level)
-    end
-
     # paragraph 
     # if @p_tag_flag == false then we do'nt output <p></p> tags.
     def textblock(node)
@@ -161,23 +163,6 @@ module OrgParse
       else
         str = exec_children node
         @p_tag_flag = true  # next paragraph has <p>
-        str
-      end
-    end
-
-    # list_item 
-    def list_item(node)
-      indent = get_indent
-      if node.children.empty?
-        "#{indent}<li>#{exec_list(node.value).chomp}</li>\n"
-      else
-        @list_level += 1
-        @p_tag_flag = false
-        str = get_indent + exec_list(node.value)
-        str += exec_children node
-        str = "#{indent}<li>\n#{str.chomp}\n#{indent}</li>\n"
-        @p_tag_flag = true
-        @list_level -= 1
         str
       end
     end
@@ -289,6 +274,7 @@ module OrgParse
       attr = " #{@flash_vars['ATTR_HTML']}" if @flash_vars['ATTR_HTML']
       
       desc = nil
+      # puts " #{node.value}: #{node.children.inspect}"
       desc = exec_children node unless node.is_leaf?
       if desc and desc =~ @image_file_reg
         desc = image_tag desc, attr
@@ -296,7 +282,11 @@ module OrgParse
 
       link = nil
       if node.uri =~ @image_file_reg 
-        link = image_tag node, attr unless desc
+        unless desc
+          image_tag node.uri, attr 
+        else
+          %Q|<a href="#{node.uri.sub(/^file:/,'')}">#{desc}</a>|
+        end
       else
         desc = ''
         if node.is_leaf?
@@ -347,17 +337,45 @@ module OrgParse
       @flash_vars.clear
     end
 
-    # unordered list
-    def itemlist(node)
+    def lists(node)
+      tags = { :UNORDERED_LIST => ['<ul>', '</ul>'],
+        :ORDERED_LIST => ['<ol>', '</ol>'],
+        :DEFINITION_LIST => ['<dl>', '</dl>'],
+      }
       indent = get_indent
       @list_level += 1
       body = exec_children node
       @list_level -= 1
-      "#{indent}<ul>\n#{body.chomp}\n#{indent}</ul>\n"
+      "#{indent}#{tags[node.kind][0]}\n#{body.chomp}\n#{indent}#{tags[node.kind][1]}\n"
+    end
+
+    # list_item 
+    def list_item(node)
+      indent = get_indent
+      if node.children.empty?
+        if node.type == :DL_START
+          "#{indent}<dt>#{exec_list(node.dt)}</dt>\n#{indent}<dd>#{exec_list(node.value).chomp}</dd>\n"
+        else
+          "#{indent}<li>#{exec_list(node.value).chomp}</li>\n"
+        end
+      else
+        @list_level += 1
+        @p_tag_flag = false
+        str = get_indent + exec_list(node.value)
+        str += exec_children node
+        if node.type == :DL_START
+          str = "#{indent}<dt>#{exec_list(node.dt)}</dt>\n#{indent}<dd>\n#{str.chomp}\n#{indent}</dd>\n"
+        else
+          str = "#{indent}<li>\n#{str.chomp}\n#{indent}</li>\n"
+        end
+        @p_tag_flag = true
+        @list_level -= 1
+        str
+      end
     end
 
     def execute(node)
-      # puts "node:#{node.kind} #{node.value}\n"
+      # puts "node:#{node.kind} [#{node.value}]\n"
       # STDERR.puts "-----[#{@example}/#{@verse}]-----"
       # STDERR.puts node.inspect
       return '' if node.done?
@@ -369,6 +387,7 @@ module OrgParse
       when :TEXTBLOCK
         textblock node
       when :WHITELINE, :WHITELINES
+        @p_tag_flag = true
         "\n" * node.value
       when :STRING
         h node.value
@@ -392,8 +411,8 @@ module OrgParse
         "<code>#{ exec_children node }</code>"
       when :VARIABLE
         variable node
-      when :ITEMLIST
-        itemlist node
+      when :UNORDERED_LIST, :ORDERED_LIST, :DEFINITION_LIST
+        lists node
       when :LIST_ITEM
         list_item node
       when :LINK

@@ -125,4 +125,24 @@ class TestOrgParse < Test::Unit::TestCase
       assert_equal 'sec-2.1.2', ul.children[2]['id']
     end
   end
+
+  context "lists" do
+    setup do
+      src = load_data('lists.org')
+      @html = to_html(src, 'lists')
+      @doc = Nokogiri(@html)
+    end
+
+    should "have unordered list" do
+      # puts @html
+      ulli1 = @doc.xpath('//div[@id="text-1"]/ul')[0].xpath('li')
+      assert_equal 2, ulli1.size
+      assert_equal 'This is an unordered list', ulli1[0].inner_text
+      assert_equal 'This continues the unordered list', ulli1[1].inner_text.strip
+      p1 = @doc.xpath('//div[@id="text-1"]/ul')[0].next
+      assert_equal 'And this is a paragraph after the list.', p1.text.strip
+      assert_equal 'p', p1.name
+      # puts @doc.to_html
+    end
+  end
 end

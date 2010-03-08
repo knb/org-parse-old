@@ -1,0 +1,12 @@
+* Ordered list
+1. first list: first item
+  1) second list: first item
+     - unordered list
+     - unordered list
+  1) second list: second item
+     
+     this has brank line
+1. I can't count mmm.
+
+#+OPTIONS: toc:nil author:nil timestamp:nil creator:nil
+#+LANGUAGE: ja

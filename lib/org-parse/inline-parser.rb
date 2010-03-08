@@ -31,6 +31,7 @@ module OrgParse
     end
 
     def parse(src)
+      return [] if src.empty?
       @src = src
       @token_que = []
       @yydebug = true

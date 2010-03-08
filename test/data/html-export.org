@@ -59,9 +59,7 @@ OrgParse HTML export specification
 indent shallower
 
   paragraph 3
-** list only section
-    - list1
-- list2
+** list
 ** blocks
 ** Verse
    verse ブロック内では、改行が保存される。//

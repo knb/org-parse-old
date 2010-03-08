@@ -62,7 +62,7 @@ class OrgParse::InlineParser
                | italic
                | under_line
                | code
-               | normal_strings
+               | normal_string_element
 
     link : LINK_START link_descs LINK_END { result = LinkNode.new(val[0], val[1]) }
          | LINK_URI { result = LinkNode.new(val[0]) }

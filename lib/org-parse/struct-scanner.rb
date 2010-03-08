@@ -64,6 +64,8 @@ module OrgParse
           @options[:title] = $1
         when /\s*#\+TEXT:\s+(.*)/i
           @options[:text] += $1
+        when /\s*#\+LANGUAGE:\s+(.*)/i
+          @options[:language] = $1
         else
           m = false
         end
@@ -85,19 +87,19 @@ module OrgParse
     # 新規のリストアイテムの開始
     # @nest_stack.last のインデントよりインデントが浅ければ、
     # @nest_stack.last のリストの終了後、新規リストを開始
-    def check_nest(kind, indent, string)
+    def check_nest(kind, indent, string, dt = '')
       last = @nest_stack.last
       if @nest_stack.empty? 
         # puts "0: line: #{line.chomp}  indent: #{indent} last: #{last.inspect}"
         @nest_stack << [kind, indent]
         @token_que << [kind, string]
-        @token_que << [:LI_START, string]
+        @token_que << [:LI_START, [kind, string, dt]]
       elsif last[1] < indent
         # puts "1: line: #{line.chomp}  indent: #{indent} last: #{last.inspect}"
         @nest_stack << [kind, indent]
         # @token_que << [:LI_END, line]
         @token_que << [kind, string]
-        @token_que << [:LI_START, string]
+        @token_que << [:LI_START, [kind, string, dt]]
       elsif last[1] > indent
         # puts "2: line: #{line.chomp}  indent: #{indent} last: #{last.inspect}"
         nest = @nest_stack.pop
@@ -107,7 +109,7 @@ module OrgParse
       else
         # puts "3: line: #{line.chomp}  indent: #{indent} last: #{last.inspect}"
         @token_que << [:LI_END, string]
-        @token_que << [:LI_START, string]
+        @token_que << [:LI_START, [kind, string, dt]]
       end
     end
 
@@ -169,7 +171,7 @@ module OrgParse
         end
 
         case line
-        when /^s*$/ # WHITELINE
+        when /^\s*$/ # WHITELINE
           @token_que << [:WHITELINE, line]
         when /^(\*+)(\s+)/
           rest = $'
@@ -178,10 +180,20 @@ module OrgParse
           exit_section(level.size)
           @section_stack << level.size
           @token_que << [:HEADLINE, [level, rest]]
+        when /^(\s*)-\s(.+)\s::\s+/
+          # Definition LIST
+          rest = $'
+          check_nest :DL_START, get_indent($1), rest, $2
         when /^(\s*)[-+*]\s/
+          # Unordered LIST
           rest = $'
           check_nest :UL_START, get_indent($1), rest
+        when /^(\s*)[0-9]+(\.|\))\s+/
+          # Ordered LIST
+          rest = $'
+          check_nest :OL_START, get_indent($1), rest
         when /^\s*#\+HTML:/
+          # #+HTML
           rest = $'
           @token_que << [:QUOTE, $']
         when /^\s*:\s(.*)$/

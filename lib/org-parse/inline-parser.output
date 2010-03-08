@@ -1,4 +1,3 @@
-state 31 contains 1 shift/reduce conflicts
 
 
 -------- Grammar --------
@@ -31,7 +30,7 @@ rule 25 link_desc: emphasis
 rule 26 link_desc: italic
 rule 27 link_desc: under_line
 rule 28 link_desc: code
-rule 29 link_desc: normal_strings
+rule 29 link_desc: normal_string_element
 rule 30 link: LINK_START link_descs LINK_END
 rule 31 link: LINK_URI
 
@@ -70,7 +69,7 @@ rule 31 link: LINK_URI
     on right: 9
     on left : 17
   normal_string_element (32)
-    on right: 10
+    on right: 10 29
     on left : 22
   link (33)
     on right: 11
@@ -79,7 +78,7 @@ rule 31 link: LINK_URI
     on right: 12
     on left : 21
   normal_strings (35)
-    on right: 19 22 29
+    on right: 19 22
     on left : 19 20
   link_descs (36)
     on right: 23 30
@@ -365,13 +364,14 @@ state 16
   UL_OPEN       shift, and go to state 10
   CODE_OPEN     shift, and go to state 18
 
-  normal_strings  go to state 31
-  link_descs    go to state 32
-  link_desc     go to state 34
-  emphasis      go to state 33
-  italic        go to state 35
-  under_line    go to state 36
-  code          go to state 37
+  normal_strings  go to state 5
+  link_descs    go to state 31
+  link_desc     go to state 33
+  emphasis      go to state 32
+  italic        go to state 34
+  under_line    go to state 35
+  code          go to state 36
+  normal_string_element  go to state 37
 
 state 17
 
@@ -602,16 +602,6 @@ state 30
 
 state 31
 
-  19) normal_strings : normal_strings _ OTHER
-  29) link_desc : normal_strings _
-
-  OTHER         shift, and go to state 25
-  OTHER         [reduce using rule 29 (link_desc)]
-  $default      reduce using rule 29 (link_desc)
-
-
-state 32
-
   23) link_descs : link_descs _ link_desc
   30) link : LINK_START link_descs _ LINK_END
 
@@ -622,46 +612,54 @@ state 32
   UL_OPEN       shift, and go to state 10
   CODE_OPEN     shift, and go to state 18
 
-  normal_strings  go to state 31
+  normal_strings  go to state 5
   link_desc     go to state 45
-  emphasis      go to state 33
-  italic        go to state 35
-  under_line    go to state 36
-  code          go to state 37
+  emphasis      go to state 32
+  italic        go to state 34
+  under_line    go to state 35
+  code          go to state 36
+  normal_string_element  go to state 37
 
-state 33
+state 32
 
   25) link_desc : emphasis _
 
   $default      reduce using rule 25 (link_desc)
 
 
-state 34
+state 33
 
   24) link_descs : link_desc _
 
   $default      reduce using rule 24 (link_descs)
 
 
-state 35
+state 34
 
   26) link_desc : italic _
 
   $default      reduce using rule 26 (link_desc)
 
 
-state 36
+state 35
 
   27) link_desc : under_line _
 
   $default      reduce using rule 27 (link_desc)
 
 
-state 37
+state 36
 
   28) link_desc : code _
 
   $default      reduce using rule 28 (link_desc)
+
+
+state 37
+
+  29) link_desc : normal_string_element _
+
+  $default      reduce using rule 29 (link_desc)
 
 
 state 38
