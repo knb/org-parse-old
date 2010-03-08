@@ -198,7 +198,7 @@ module OrgParse
       @p_tag_flag = true
       @indent_stack.pop
       @example = false
-      %Q|#{indent}<pre class="example">\n#{ body.chomp }\n#{indent}</pre>\n|
+      %Q|<pre class="example">\n#{ body.chomp }\n</pre>\n|
     #rescue
     #  ''
     end

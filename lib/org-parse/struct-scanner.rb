@@ -34,6 +34,7 @@ module OrgParse
         :default_title => title,
       }
       read_options
+      # p @options
     end
 
     # http://orgmode.org/manual/Export-options.html#Export-options
@@ -60,11 +61,11 @@ module OrgParse
           else
             m = false
           end
-        when /\s*#\+TITLE:\s+(.*)$/i
+        when /^\s*#\+TITLE:\s+(.*)$/i
           @options[:title] = $1
-        when /\s*#\+TEXT:\s+(.*)/i
+        when /^\s*#\+TEXT:\s+(.*)/i
           @options[:text] += $1
-        when /\s*#\+LANGUAGE:\s+(.*)/i
+        when /^\s*#\+LANGUAGE:\s+(.*)/i
           @options[:language] = $1
         else
           m = false
@@ -196,8 +197,8 @@ module OrgParse
           # #+HTML
           rest = $'
           @token_que << [:QUOTE, $']
-        when /^\s*:\s(.*)$/
-          @token_que << [:EXAMPLE, [$1, get_indent($1)]]
+        when /^(\s*):\s(.*)$/
+          @token_que << [:EXAMPLE, [$2+"\n", get_indent($1)]]
         when /^\s*#\+BEGIN_([A-Z0-9_]+)/i # BLOCK
           block_name = $1.upcase
           exit_nests line

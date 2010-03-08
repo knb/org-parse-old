@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 lang="ja" xml:lang="ja">
 <head>
-<title>xxxx]] <a href="title.org">file:title.org</a> <a href="title.html">html</a></title>
+<title>sample dayo</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="generator" content="Org-mode"/>
 <meta name="generated" content="2010-02-17 17:30:08 JST"/>
@@ -79,7 +79,7 @@ lang="ja" xml:lang="ja">
 <body>
 <div id="content">
 
-<h1 class="title">xxxx]] <a href="title.org">file:title.org</a> <a href="title.html">html</a></h1>
+<h1 class="title">sample dayo</h1>
 
 
 <p>
@@ -99,21 +99,40 @@ lang="ja" xml:lang="ja">
           最初のテキストラインが、待った無しでタイトルになり、
           残りの部分は、普通にHTMLに変換される。
         </p>
-        <pre class="example">
-titlexxxx* 1st headline
-        </pre>
+<pre class="example">
+title
+
+xxxx
+* 1st headline
+</pre>
         <p>
           の場合、
         </p>
-        <pre class="example">
-&lt;h1&gt;title&lt;/h1&gt;xxxx&lt;h2&gt;1st headline&lt;/h2&gt;
-        </pre>
+<pre class="example">
+&lt;h1&gt;title&lt;/h1&gt;
+
+xxxx
+&lt;h2&gt;1st headline&lt;/h2&gt;
+</pre>
         <p>
           の様に変換。[fn::実際はセクションヘッダには&lt;div&gt;やら何やらくっつく]
         </p>
 
         <p>
           ヘッドラインから始まる場合は、最初のヘッドラインの内容がタイトルとなる。
+        </p>
+
+
+      </div>
+    </div>
+
+    <div id="outline-container-1.2" class="outline-3">
+      <h3 id="sec-1.2"><span class="section-number-3">1.2</span> #+TITLE: xxxx </h3>
+      <div class="outline-text-3" id="text-1.2">
+<pre class="example">
+#+TITLE: xxxx
+</pre>
+        <p>
           が指定されている場合は、xxxx がタイトルになる。
         </p>
 
@@ -122,12 +141,12 @@ titlexxxx* 1st headline
       </div>
     </div>
 
-    <div id="outline-container-1.2" class="outline-3">
-      <h3 id="sec-1.2"><span class="section-number-3">1.2</span> Options: skip:t </h3>
-      <div class="outline-text-3" id="text-1.2">
-        <pre class="example">
+    <div id="outline-container-1.3" class="outline-3">
+      <h3 id="sec-1.3"><span class="section-number-3">1.3</span> Options: skip:t </h3>
+      <div class="outline-text-3" id="text-1.3">
+<pre class="example">
 #+OPTIONS: skip:t
-        </pre>
+</pre>
         <p>
           が指定されていると、最初のセクション以前のテキストは捨てられる。
           タイトルには、ファイル名 が使われる。
@@ -135,8 +154,29 @@ titlexxxx* 1st headline
 
         <p>
           この場合も、
+        </p>
+<pre class="example">
+#+TITLE: xxxx
+</pre>
+        <p>
           で、タイトルを指定出来る。
+        </p>
+
+
+      </div>
+    </div>
+
+    <div id="outline-container-1.4" class="outline-3">
+      <h3 id="sec-1.4"><span class="section-number-3">1.4</span> #+TEXT: xxxx </h3>
+      <div class="outline-text-3" id="text-1.4">
+        <p>
           skip: t が指定されている場合、
+        </p>
+<pre class="example">
+#+TEXT: xxxx
+#+TEXT: xxxx
+</pre>
+        <p>
           の様に、書くと、それが、最初のセクションの前に挿入される。
         </p>
 
@@ -144,9 +184,9 @@ titlexxxx* 1st headline
       </div>
     </div>
 
-    <div id="outline-container-1.3" class="outline-3">
-      <h3 id="sec-1.3"><span class="section-number-3">1.3</span> Mark up </h3>
-      <div class="outline-text-3" id="text-1.3">
+    <div id="outline-container-1.5" class="outline-3">
+      <h3 id="sec-1.5"><span class="section-number-3">1.5</span> Mark up </h3>
+      <div class="outline-text-3" id="text-1.5">
         <p>
           タイトルに対してもインライン要素としての解釈は実行される
         </p>
@@ -256,7 +296,7 @@ verse line4<br/>
           インデントは、 <b>ブロック</b> 先頭行のインデント位置からの
           インデントに変換される。<a href="blocks.html">blocks.html</a>
         </p>
-        <pre class="example">
+<pre class="example">
 # *非破壊的*
   def expand_tab( str )
     str.gsub(/([^\t]{8})|([^\t]*)\t/n) { [$+].pack(&quot;A8&quot;) }
@@ -273,13 +313,13 @@ verse line4<br/>
   def expand_tab!( str )
     1 while str.sub!(/\t(\t*)/) {' ' * (8-$~.begin(0)%8+8*$1.size) }
   end
-        </pre>
+</pre>
 
-        <pre class="example">
+<pre class="example">
 (defun org-xor (a b)
    &quot;Exclusive or.&quot;
    (if a (not b) b))
-        </pre>
+</pre>
 
 
 
@@ -370,11 +410,11 @@ verse line4<br/>
       子要素に含むノードである。
     </p>
 
-    <pre class="example">
+<pre class="example">
 Section node
     Headline
     some other nodes
-    </pre>
+</pre>
 
     <p>
       COMMENT から始まるヘッドラインを持つ Section は、全体をコメントとして扱う。
@@ -427,20 +467,20 @@ Section node
           段落として扱う。段落中で、改行させたい場合には、行末に&quot;\\&quot;を置く。
         </p>
 
-        <pre class="example">
+<pre class="example">
 #+BEGIN_VERSE 〜 #+END_VERSE
-        </pre>
+</pre>
         <p>
           で囲われた部分は、改行が保存される。
           <a href="./verse.org">verse example</a> <a href="./verse.html">html</a>
         </p>
 
-        <pre class="example">
+<pre class="example">
 &lt;p class=&quot;verse&quot;&gt;
 ...&lt;br/&gt;
 &amp;nbsp;&amp;nbsp;...&lt;br/&gt;
 &lt;/p&gt;
-        </pre>
+</pre>
 
         <p>
           の様に、展開される様だ。
@@ -478,20 +518,20 @@ Section node
         <div id="outline-container-5.4.1" class="outline-4">
           <h4 id="sec-5.4.1"><span class="section-number-4">5.4.1</span> EXAMPLE </h4>
           <div class="outline-text-4" id="text-5.4.1">
-            <pre class="example">
+<pre class="example">
 : #+BEGIN_EXMPLE
 :  ...
 : #+END_EXAMPLE
-            </pre>
+</pre>
 
             <p>
               you can also start the example lines with a colon followed by a space. 
               There may also be additional whitespace before the colon: 
             </p>
 
-            <pre class="example">
-: example
-            </pre>
+<pre class="example">
+  : example
+</pre>
 
             <p>
               EXAMPL ブロックは、&lt;pre&gt; タグに変換される
@@ -504,9 +544,9 @@ Section node
         <div id="outline-container-5.4.2" class="outline-4">
           <h4 id="sec-5.4.2"><span class="section-number-4">5.4.2</span> SRC </h4>
           <div class="outline-text-4" id="text-5.4.2">
-            <pre class="example">
+<pre class="example">
 (+ 1 2)
-            </pre>
+</pre>
 
 
 
@@ -601,9 +641,9 @@ Section node
         <div id="outline-container-5.5.3" class="outline-4">
           <h4 id="sec-5.5.3"><span class="section-number-4">5.5.3</span> Description list </h4>
           <div class="outline-text-4" id="text-5.5.3">
-            <pre class="example">
+<pre class="example">
 - XXXX :: mmmmm
-            </pre>
+</pre>
             <p>
               の形式の行は、説明付きリストを表す。
             </p>
@@ -646,9 +686,9 @@ Section node
     <div id="outline-container-5.8" class="outline-3">
       <h3 id="sec-5.8"><span class="section-number-3">5.8</span> Option node </h3>
       <div class="outline-text-3" id="text-5.8">
-        <pre class="example">
+<pre class="example">
 #+TITLE
-        </pre>
+</pre>
         <p>
           等の、オプション設定を行う行
         </p>
@@ -666,9 +706,10 @@ Section node
             <p>
               Here is an example that sets title and style attributes for a link: 
             </p>
-            <pre class="example">
-#+ATTR_HTML: title=&quot;The Org-mode homepage&quot; style=&quot;color:red;&quot;[[http://orgmode.org]]
-            </pre>
+<pre class="example">
+  #+ATTR_HTML: title=&quot;The Org-mode homepage&quot; style=&quot;color:red;&quot;
+  [[http://orgmode.org]]
+</pre>
 
 
 
@@ -778,9 +819,9 @@ Section node
         <div id="outline-container-6.4.1" class="outline-4">
           <h4 id="sec-6.4.1"><span class="section-number-4">6.4.1</span> Link format </h4>
           <div class="outline-text-4" id="text-6.4.1">
-            <pre class="example">
+<pre class="example">
 [[link][description]]  or  [[link]]
-            </pre>
+</pre>
 
             <p>
               <a href="index.html">desc <b>bold</b> </a> &lt;- description part は修飾出来る。
@@ -830,9 +871,9 @@ Section node
             <div id="outline-container-6.4.4.1" class="outline-5">
               <h5 id="sec-6.4.4.1"><span class="section-number-5">6.4.4.1</span> そのままの大きさで表示 </h5>
               <div class="outline-text-5" id="text-6.4.4.1">
-                <pre class="example">
+<pre class="example">
 [[lily20100228t.jpg]]
-                </pre>
+</pre>
                 <p>
                   <img src="lily20100228t.jpg">
                 </p>
@@ -844,9 +885,9 @@ Section node
             <div id="outline-container-6.4.4.2" class="outline-5">
               <h5 id="sec-6.4.4.2"><span class="section-number-5">6.4.4.2</span> サムネールとリンク </h5>
               <div class="outline-text-5" id="text-6.4.4.2">
-                <pre class="example">
+<pre class="example">
 [[lily20100228.jpg][lily20100228t.jpg]]    
-                </pre>
+</pre>
                 <p>
                   <a href="lily20100228.jpg"><img src="lily20100228t.jpg"></a>
                 </p>
@@ -890,6 +931,7 @@ Section node
   <div class="outline-text-2" id="text-8">
     <ul>
       <li><a href="texts before 1st headline">texts before 1st headline</a> <a href="text-bef-hl.org">file:text-bef-hl.org</a> <a href="text-bef-hl.html">html</a></li>
+      <li><a href="#+TITLE: xxxx">#+TITLE: xxxx</a> <a href="title.org">file:title.org</a> <a href="title.html">html</a></li>
     </ul>
 
 

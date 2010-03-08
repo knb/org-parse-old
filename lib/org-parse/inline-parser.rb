@@ -25,6 +25,7 @@ module OrgParse
       @markers = "*/_=~+"
       @org_quote_regexp = /@<[^>]+>/
       @org_br_regexp = /\\\\$/
+      @org_footnote_regexp = /\[fn:(.*)/
 
       build_org_emphasis_regexp
       build_org_link_regexp
