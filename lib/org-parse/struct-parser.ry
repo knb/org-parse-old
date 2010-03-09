@@ -116,4 +116,10 @@ class OrgParse::StructParser
 
   table_sep : TABLE_SEP { result = Node.new(:TABLE_SEP) }
 
-  table_row : TABLE_ROW { result = TableRowNode.new(val[0]) }
+  table_row : TABLE_ROW { 
+                cols = []
+                val[0].chomp.sub(/^\s*\|/,'').split('|').each do |col|
+        	  cols << line_parse(col)
+      		end
+                result = TableRowNode.new(cols) 
+	}

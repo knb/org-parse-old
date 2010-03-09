@@ -1,23 +1,30 @@
 #!/usr/bin/env ruby
 
-require File.expand_path(
-    File.join(File.dirname(__FILE__), %w[.. lib org-parse]))
+#require File.expand_path(
+#    File.join(File.dirname(__FILE__), %w[.. lib org-parse]))
+require 'rubygems'
+require 'org-parse'
 require 'optparse'
 
 options = {}
 options_parser = OptionParser.new do |opts|
   options[:help] = false
   options[:format] = :html
+  options[:template] = nil
   
-  opts.banner = "Usage: org-parse <file> [options]"
+  opts.banner = "Usage: org-parse [options] <file>"
 
   opts.on("-h", "--help", "Show this message") do |v|
     options[:help] = true
   end
 
-  opts.on("-t", "--translate FORMAT", [:html, :textile],
-          "Translate the ORG file to the specified format.") do |v|
+  opts.on("-f", "--format FORMAT", [:html, :textile],
+          "Translate the ORG file to the specified format.(not yet)") do |v|
     options[:format] = v
+  end
+  opts.on("-t", "--template TEMPLATE", 
+          "Erb template for build the output.") do |v|
+    options[:template] = v
   end
 end
 
@@ -30,10 +37,8 @@ begin
     
     parser = OrgParse::StructParser.new(data, File.basename(ARGV[0], '.*'))
     root = parser.parse
-    visitor = OrgParse::HtmlVisitor.new(root)
+    visitor = OrgParse::HtmlVisitor.new(root, options[:template])
     puts visitor.build
-    # puts p.to_html if options[:format] == :html
-    # puts p.to_textile if options[:format] == :textile
   end
 rescue OptionParser::ParseError
   puts options_parser

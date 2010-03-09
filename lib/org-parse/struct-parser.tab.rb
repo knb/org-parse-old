@@ -588,9 +588,13 @@ module_eval <<'.,.,', 'lib/org-parse/struct-parser.ry', 116
   end
 .,.,
 
-module_eval <<'.,.,', 'lib/org-parse/struct-parser.ry', 118
+module_eval <<'.,.,', 'lib/org-parse/struct-parser.ry', 125
   def _reduce_60( val, _values, result )
- result = TableRowNode.new(val[0])
+                cols = []
+                val[0].chomp.sub(/^\s*\|/,'').split('|').each do |col|
+        	  cols << line_parse(col)
+      		end
+                result = TableRowNode.new(cols)
    result
   end
 .,.,

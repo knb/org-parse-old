@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 module OrgParse
 
   # 構文木のノード
@@ -197,11 +198,7 @@ module OrgParse
 
   # table row
   class TableRowNode < Node
-    def initialize(line, head = false)
-      cols = []
-      line.chomp.sub(/^\s*\|/,'').split('|').each do |col|
-        cols << inline_parse(col)
-      end
+    def initialize(cols, head = false)
       super(:TABLE_ROW, cols, head)
     end
 

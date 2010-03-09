@@ -203,8 +203,10 @@ module OrgParse
   end
 
   module InlineUtils
+    @@inline_parser = nil
+
     def line_parse(str)
-      @@inline_parser = InlineParser.new if @inline_parser.nil?
+      @@inline_parser = InlineParser.new if @@inline_parser.nil?
       @@inline_parser.parse(str)
     end
   end

@@ -33,14 +33,15 @@ module OrgParse
     TEMPLATE = ::File.join(OrgParse::LIBPATH , 'org-parse', 'templates', 'single.html.erb')
     attr_reader :body
 
-    def initialize(root)
+    def initialize(root, template = nil)
       image_exts = ['jpeg', 'jpg', 'png', 'gif', 'bmp', 'tiff']
       make_image_regs image_exts
       @body = @title = @add_to_head = ''
       @root = root
       @section_counts = [0,0,0,0,0,0,0,0,0]
       @ul_stack = []
-      @erb = ERB.new(::File.read(TEMPLATE))
+      template = TEMPLATE unless template
+      @erb = ERB.new(::File.read(template))
       @verse = false
       @p_tag_flag = true
       @list_level = 0
