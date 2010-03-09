@@ -7,7 +7,7 @@ class OrgParse::InlineParser
   prechigh
 
   token EM_OPEN EM_CLOSE LINK_START LINK_END LINK_URI
-        ST_OPEN ST_CLOSE QUOTE
+        ST_OPEN ST_CLOSE QUOTE FN_LINK FN_START FN_END
         IT_OPEN IT_CLOSE UL_OPEN UL_CLOSE
         VERB_OPEN VERB_CLOSE
         CODE_OPEN CODE_CLOSE
@@ -28,6 +28,13 @@ class OrgParse::InlineParser
             | normal_string_element
 	    | link
             | quote
+	    | fn_link
+	    | fn_define
+
+    fn_link : FN_LINK { result = Node.new(:FN_LINK, [], val[0]) }
+
+    fn_define : FN_START elements FN_END
+                      { result = Node.new(:FN_DEFINE, val[1], val[0]) }
 
     emphasis : EM_OPEN elements EM_CLOSE
                { result = Node.new(:EMPHASIS, val[1]) }

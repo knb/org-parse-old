@@ -22,165 +22,172 @@ rule 17 sitem: table
 rule 18 sitem: lists
 rule 19 sitem: whitelines
 rule 20 sitem: variable
-rule 21 items: items item
-rule 22 items: item
-rule 23 item: textlines
-rule 24 item: block
-rule 25 item: table
-rule 26 item: lists
-rule 27 item: whitelines
-rule 28 item: variable
-rule 29 variable: VARIABLELINE
-rule 30 whitelines: whitelines WHITELINE
-rule 31 whitelines: WHITELINE
-rule 32 textlines: textlines textline
-rule 33 textlines: textline
-rule 34 textline: TEXTLINE
-rule 35 textline: html_quote
-rule 36 html_quote: QUOTE
-rule 37 lists: unordered_list
-rule 38 lists: ordered_list
-rule 39 lists: description_list
-rule 40 block: BLOCK_START items BLOCK_END
-rule 41 block: examples
-rule 42 examples: examples example
-rule 43 examples: example
-rule 44 example: EXAMPLE
-rule 45 unordered_list: UL_START list_items UL_END
-rule 46 ordered_list: OL_START list_items OL_END
-rule 47 description_list: DL_START list_items DL_END
-rule 48 list_items: list_items list_item
-rule 49 list_items: list_item
-rule 50 list_item: LI_START items LI_END
-rule 51 list_item: LI_START LI_END
-rule 52 table: table_rows table_sep table_rows
-rule 53 table: table_rows
-rule 54 table_rows: table_rows table_row
-rule 55 table_rows: table_row
-rule 56 table_sep: TABLE_SEP
-rule 57 table_row: TABLE_ROW
+rule 21 sitem: footnote
+rule 22 items: items item
+rule 23 items: item
+rule 24 item: textlines
+rule 25 item: block
+rule 26 item: table
+rule 27 item: lists
+rule 28 item: whitelines
+rule 29 item: variable
+rule 30 item: footnote
+rule 31 footnote: FOOTNOTE
+rule 32 variable: VARIABLELINE
+rule 33 whitelines: whitelines WHITELINE
+rule 34 whitelines: WHITELINE
+rule 35 textlines: textlines textline
+rule 36 textlines: textline
+rule 37 textline: TEXTLINE
+rule 38 textline: html_quote
+rule 39 html_quote: QUOTE
+rule 40 lists: unordered_list
+rule 41 lists: ordered_list
+rule 42 lists: description_list
+rule 43 block: BLOCK_START items BLOCK_END
+rule 44 block: examples
+rule 45 examples: examples example
+rule 46 examples: example
+rule 47 example: EXAMPLE
+rule 48 unordered_list: UL_START list_items UL_END
+rule 49 ordered_list: OL_START list_items OL_END
+rule 50 description_list: DL_START list_items DL_END
+rule 51 list_items: list_items list_item
+rule 52 list_items: list_item
+rule 53 list_item: LI_START items LI_END
+rule 54 list_item: LI_START LI_END
+rule 55 table: table_rows table_sep table_rows
+rule 56 table: table_rows
+rule 57 table_rows: table_rows table_row
+rule 58 table_rows: table_row
+rule 59 table_sep: TABLE_SEP
+rule 60 table_row: TABLE_ROW
 
 ------- Symbols -------
 
 **Nonterminals, with rules where they appear
 
-  $start (24)
+  $start (25)
     on right: 
     on left : 
-  document (25)
+  document (26)
     on right: 
     on left : 1 2
-  dummy_section (26)
+  dummy_section (27)
     on right: 1 2
     on left : 3 4
-  sections (27)
+  sections (28)
     on right: 2 6
     on left : 6 7
-  doc_start (28)
+  doc_start (29)
     on right: 3 4
     on left : 5
-  items (29)
-    on right: 3 21 40 50
-    on left : 21 22
-  section (30)
+  items (30)
+    on right: 3 22 43 53
+    on left : 22 23
+  section (31)
     on right: 6 7 14
     on left : 8
-  section_body (31)
+  section_body (32)
     on right: 8
     on left : 9 10
-  headline (32)
+  headline (33)
     on right: 9 10
     on left : 11
-  sitems (33)
+  sitems (34)
     on right: 10 12
     on left : 12 13
-  sitem (34)
+  sitem (35)
     on right: 12 13
-    on left : 14 15 16 17 18 19 20
-  textlines (35)
-    on right: 15 23 32
-    on left : 32 33
-  block (36)
-    on right: 16 24
-    on left : 40 41
-  table (37)
-    on right: 17 25
-    on left : 52 53
-  lists (38)
-    on right: 18 26
-    on left : 37 38 39
-  whitelines (39)
-    on right: 19 27 30
-    on left : 30 31
-  variable (40)
-    on right: 20 28
-    on left : 29
-  item (41)
-    on right: 21 22
-    on left : 23 24 25 26 27 28
-  textline (42)
-    on right: 32 33
-    on left : 34 35
-  html_quote (43)
-    on right: 35
-    on left : 36
-  unordered_list (44)
-    on right: 37
-    on left : 45
-  ordered_list (45)
+    on left : 14 15 16 17 18 19 20 21
+  textlines (36)
+    on right: 15 24 35
+    on left : 35 36
+  block (37)
+    on right: 16 25
+    on left : 43 44
+  table (38)
+    on right: 17 26
+    on left : 55 56
+  lists (39)
+    on right: 18 27
+    on left : 40 41 42
+  whitelines (40)
+    on right: 19 28 33
+    on left : 33 34
+  variable (41)
+    on right: 20 29
+    on left : 32
+  footnote (42)
+    on right: 21 30
+    on left : 31
+  item (43)
+    on right: 22 23
+    on left : 24 25 26 27 28 29 30
+  textline (44)
+    on right: 35 36
+    on left : 37 38
+  html_quote (45)
     on right: 38
-    on left : 46
-  description_list (46)
-    on right: 39
+    on left : 39
+  unordered_list (46)
+    on right: 40
+    on left : 48
+  ordered_list (47)
+    on right: 41
+    on left : 49
+  description_list (48)
+    on right: 42
+    on left : 50
+  examples (49)
+    on right: 44 45
+    on left : 45 46
+  example (50)
+    on right: 45 46
     on left : 47
-  examples (47)
-    on right: 41 42
-    on left : 42 43
-  example (48)
-    on right: 42 43
-    on left : 44
-  list_items (49)
-    on right: 45 46 47 48
-    on left : 48 49
-  list_item (50)
-    on right: 48 49
-    on left : 50 51
-  table_rows (51)
-    on right: 52 53 54
-    on left : 54 55
-  table_sep (52)
-    on right: 52
-    on left : 56
-  table_row (53)
-    on right: 54 55
-    on left : 57
+  list_items (51)
+    on right: 48 49 50 51
+    on left : 51 52
+  list_item (52)
+    on right: 51 52
+    on left : 53 54
+  table_rows (53)
+    on right: 55 56 57
+    on left : 57 58
+  table_sep (54)
+    on right: 55
+    on left : 59
+  table_row (55)
+    on right: 57 58
+    on left : 60
 
 **Terminals, with rules where they appear
 
   $end (0) 
   error (1) 
   PLOW (2) 
-  TEXTLINE (3) 34
-  WHITELINE (4) 30 31
-  TABLE_ROW (5) 57
-  TABLE_SEP (6) 56
-  QUOTE (7) 36
-  BLOCK_END (8) 40
-  EXAMPLE (9) 44
+  TEXTLINE (3) 37
+  WHITELINE (4) 33 34
+  TABLE_ROW (5) 60
+  TABLE_SEP (6) 59
+  QUOTE (7) 39
+  BLOCK_END (8) 43
+  EXAMPLE (9) 47
   DOCUMENT_START (10) 5
   HEADLINE (11) 11
-  VARIABLELINE (12) 29
+  VARIABLELINE (12) 32
   SEC_END (13) 8
-  BLOCK_START (14) 40
-  UL_START (15) 45
-  UL_END (16) 45
-  OL_START (17) 46
-  OL_END (18) 46
-  DL_START (19) 47
-  DL_END (20) 47
-  LI_START (21) 50 51
-  LI_END (22) 50 51
+  BLOCK_START (14) 43
+  UL_START (15) 48
+  UL_END (16) 48
+  OL_START (17) 49
+  OL_END (18) 49
+  DL_START (19) 50
+  DL_END (20) 50
+  LI_START (21) 53 54
+  LI_END (22) 53 54
   P_END (23) 
+  FOOTNOTE (24) 31
 
 --------- State ---------
 
@@ -207,45 +214,47 @@ state 2
   HEADLINE      shift, and go to state 6
   $default      reduce using rule 1 (document)
 
-  sections      go to state 7
-  section       go to state 8
-  section_body  go to state 9
-  headline      go to state 10
+  headline      go to state 7
+  sections      go to state 8
+  section       go to state 9
+  section_body  go to state 10
 
 state 3
 
    3) dummy_section : doc_start _ items
    4) dummy_section : doc_start _
 
-  TEXTLINE      shift, and go to state 18
-  WHITELINE     shift, and go to state 22
-  TABLE_ROW     shift, and go to state 24
-  QUOTE         shift, and go to state 29
-  EXAMPLE       shift, and go to state 35
-  VARIABLELINE  shift, and go to state 13
+  TEXTLINE      shift, and go to state 19
+  WHITELINE     shift, and go to state 23
+  TABLE_ROW     shift, and go to state 25
+  QUOTE         shift, and go to state 31
+  EXAMPLE       shift, and go to state 37
+  VARIABLELINE  shift, and go to state 14
   BLOCK_START   shift, and go to state 17
-  UL_START      shift, and go to state 20
-  OL_START      shift, and go to state 26
-  DL_START      shift, and go to state 32
+  UL_START      shift, and go to state 21
+  OL_START      shift, and go to state 28
+  DL_START      shift, and go to state 33
+  FOOTNOTE      shift, and go to state 16
   $default      reduce using rule 4 (dummy_section)
 
-  unordered_list  go to state 11
-  ordered_list  go to state 12
-  textlines     go to state 15
-  description_list  go to state 14
-  block         go to state 19
-  examples      go to state 16
-  table         go to state 23
-  example       go to state 21
-  lists         go to state 25
-  whitelines    go to state 27
-  items         go to state 31
-  variable      go to state 30
-  table_rows    go to state 28
-  item          go to state 33
-  textline      go to state 36
-  table_row     go to state 34
-  html_quote    go to state 37
+  textline      go to state 12
+  table_row     go to state 11
+  html_quote    go to state 13
+  unordered_list  go to state 15
+  textlines     go to state 20
+  ordered_list  go to state 18
+  block         go to state 24
+  description_list  go to state 22
+  table         go to state 27
+  examples      go to state 26
+  lists         go to state 30
+  example       go to state 29
+  whitelines    go to state 32
+  items         go to state 35
+  variable      go to state 34
+  footnote      go to state 38
+  table_rows    go to state 36
+  item          go to state 39
 
 state 4
 
@@ -257,7 +266,7 @@ state 4
 state 5
 
 
-  $end          shift, and go to state 38
+  $end          shift, and go to state 40
 
 
 state 6
@@ -269,351 +278,357 @@ state 6
 
 state 7
 
+   9) section_body : headline _
+  10) section_body : headline _ sitems
+
+  TEXTLINE      shift, and go to state 19
+  WHITELINE     shift, and go to state 23
+  TABLE_ROW     shift, and go to state 25
+  QUOTE         shift, and go to state 31
+  EXAMPLE       shift, and go to state 37
+  HEADLINE      shift, and go to state 6
+  VARIABLELINE  shift, and go to state 14
+  BLOCK_START   shift, and go to state 17
+  UL_START      shift, and go to state 21
+  OL_START      shift, and go to state 28
+  DL_START      shift, and go to state 33
+  FOOTNOTE      shift, and go to state 16
+  $default      reduce using rule 9 (section_body)
+
+  headline      go to state 7
+  textline      go to state 12
+  table_row     go to state 11
+  sitems        go to state 41
+  html_quote    go to state 13
+  sitem         go to state 42
+  unordered_list  go to state 15
+  textlines     go to state 43
+  ordered_list  go to state 18
+  block         go to state 44
+  description_list  go to state 22
+  table         go to state 45
+  examples      go to state 26
+  lists         go to state 46
+  example       go to state 29
+  whitelines    go to state 47
+  variable      go to state 48
+  section       go to state 50
+  footnote      go to state 49
+  table_rows    go to state 36
+  section_body  go to state 10
+
+state 8
+
    2) document : dummy_section sections _
    6) sections : sections _ section
 
   HEADLINE      shift, and go to state 6
   $default      reduce using rule 2 (document)
 
-  section       go to state 39
-  section_body  go to state 9
-  headline      go to state 10
+  headline      go to state 7
+  section       go to state 51
+  section_body  go to state 10
 
-state 8
+state 9
 
    7) sections : section _
 
   $default      reduce using rule 7 (sections)
 
 
-state 9
+state 10
 
    8) section : section_body _ SEC_END
 
-  SEC_END       shift, and go to state 40
+  SEC_END       shift, and go to state 52
 
-
-state 10
-
-   9) section_body : headline _
-  10) section_body : headline _ sitems
-
-  TEXTLINE      shift, and go to state 18
-  WHITELINE     shift, and go to state 22
-  TABLE_ROW     shift, and go to state 24
-  QUOTE         shift, and go to state 29
-  EXAMPLE       shift, and go to state 35
-  HEADLINE      shift, and go to state 6
-  VARIABLELINE  shift, and go to state 13
-  BLOCK_START   shift, and go to state 17
-  UL_START      shift, and go to state 20
-  OL_START      shift, and go to state 26
-  DL_START      shift, and go to state 32
-  $default      reduce using rule 9 (section_body)
-
-  sitems        go to state 41
-  unordered_list  go to state 11
-  sitem         go to state 42
-  ordered_list  go to state 12
-  textlines     go to state 43
-  description_list  go to state 14
-  block         go to state 44
-  examples      go to state 16
-  table         go to state 45
-  example       go to state 21
-  lists         go to state 46
-  whitelines    go to state 47
-  variable      go to state 48
-  table_rows    go to state 28
-  section       go to state 49
-  section_body  go to state 9
-  textline      go to state 36
-  table_row     go to state 34
-  headline      go to state 10
-  html_quote    go to state 37
 
 state 11
 
-  37) lists : unordered_list _
+  58) table_rows : table_row _
 
-  $default      reduce using rule 37 (lists)
+  $default      reduce using rule 58 (table_rows)
 
 
 state 12
 
-  38) lists : ordered_list _
+  36) textlines : textline _
 
-  $default      reduce using rule 38 (lists)
+  $default      reduce using rule 36 (textlines)
 
 
 state 13
 
-  29) variable : VARIABLELINE _
+  38) textline : html_quote _
 
-  $default      reduce using rule 29 (variable)
+  $default      reduce using rule 38 (textline)
 
 
 state 14
 
-  39) lists : description_list _
+  32) variable : VARIABLELINE _
 
-  $default      reduce using rule 39 (lists)
+  $default      reduce using rule 32 (variable)
 
 
 state 15
 
-  23) item : textlines _
-  32) textlines : textlines _ textline
+  40) lists : unordered_list _
 
-  TEXTLINE      shift, and go to state 18
-  QUOTE         shift, and go to state 29
-  $default      reduce using rule 23 (item)
+  $default      reduce using rule 40 (lists)
 
-  textline      go to state 50
-  html_quote    go to state 37
 
 state 16
 
-  41) block : examples _
-  42) examples : examples _ example
+  31) footnote : FOOTNOTE _
 
-  EXAMPLE       shift, and go to state 35
-  $default      reduce using rule 41 (block)
+  $default      reduce using rule 31 (footnote)
 
-  example       go to state 51
 
 state 17
 
-  40) block : BLOCK_START _ items BLOCK_END
+  43) block : BLOCK_START _ items BLOCK_END
 
-  TEXTLINE      shift, and go to state 18
-  WHITELINE     shift, and go to state 22
-  TABLE_ROW     shift, and go to state 24
-  QUOTE         shift, and go to state 29
-  EXAMPLE       shift, and go to state 35
-  VARIABLELINE  shift, and go to state 13
+  TEXTLINE      shift, and go to state 19
+  WHITELINE     shift, and go to state 23
+  TABLE_ROW     shift, and go to state 25
+  QUOTE         shift, and go to state 31
+  EXAMPLE       shift, and go to state 37
+  VARIABLELINE  shift, and go to state 14
   BLOCK_START   shift, and go to state 17
-  UL_START      shift, and go to state 20
-  OL_START      shift, and go to state 26
-  DL_START      shift, and go to state 32
+  UL_START      shift, and go to state 21
+  OL_START      shift, and go to state 28
+  DL_START      shift, and go to state 33
+  FOOTNOTE      shift, and go to state 16
 
-  unordered_list  go to state 11
-  ordered_list  go to state 12
-  textlines     go to state 15
-  description_list  go to state 14
-  block         go to state 19
-  examples      go to state 16
-  table         go to state 23
-  example       go to state 21
-  lists         go to state 25
-  whitelines    go to state 27
-  items         go to state 52
-  variable      go to state 30
-  table_rows    go to state 28
-  item          go to state 33
-  textline      go to state 36
-  table_row     go to state 34
-  html_quote    go to state 37
+  textline      go to state 12
+  table_row     go to state 11
+  html_quote    go to state 13
+  unordered_list  go to state 15
+  textlines     go to state 20
+  ordered_list  go to state 18
+  block         go to state 24
+  description_list  go to state 22
+  table         go to state 27
+  examples      go to state 26
+  lists         go to state 30
+  example       go to state 29
+  whitelines    go to state 32
+  items         go to state 53
+  variable      go to state 34
+  footnote      go to state 38
+  table_rows    go to state 36
+  item          go to state 39
 
 state 18
 
-  34) textline : TEXTLINE _
+  41) lists : ordered_list _
 
-  $default      reduce using rule 34 (textline)
+  $default      reduce using rule 41 (lists)
 
 
 state 19
 
-  24) item : block _
+  37) textline : TEXTLINE _
 
-  $default      reduce using rule 24 (item)
+  $default      reduce using rule 37 (textline)
 
 
 state 20
 
-  45) unordered_list : UL_START _ list_items UL_END
+  24) item : textlines _
+  35) textlines : textlines _ textline
 
-  LI_START      shift, and go to state 55
+  TEXTLINE      shift, and go to state 19
+  QUOTE         shift, and go to state 31
+  $default      reduce using rule 24 (item)
 
-  list_items    go to state 53
-  list_item     go to state 54
+  textline      go to state 54
+  html_quote    go to state 13
 
 state 21
 
-  43) examples : example _
+  48) unordered_list : UL_START _ list_items UL_END
 
-  $default      reduce using rule 43 (examples)
+  LI_START      shift, and go to state 57
 
+  list_items    go to state 55
+  list_item     go to state 56
 
 state 22
 
-  31) whitelines : WHITELINE _
+  42) lists : description_list _
 
-  $default      reduce using rule 31 (whitelines)
+  $default      reduce using rule 42 (lists)
 
 
 state 23
 
-  25) item : table _
+  34) whitelines : WHITELINE _
 
-  $default      reduce using rule 25 (item)
+  $default      reduce using rule 34 (whitelines)
 
 
 state 24
 
-  57) table_row : TABLE_ROW _
+  25) item : block _
 
-  $default      reduce using rule 57 (table_row)
+  $default      reduce using rule 25 (item)
 
 
 state 25
 
-  26) item : lists _
+  60) table_row : TABLE_ROW _
 
-  $default      reduce using rule 26 (item)
+  $default      reduce using rule 60 (table_row)
 
 
 state 26
 
-  46) ordered_list : OL_START _ list_items OL_END
+  44) block : examples _
+  45) examples : examples _ example
 
-  LI_START      shift, and go to state 55
+  EXAMPLE       shift, and go to state 37
+  $default      reduce using rule 44 (block)
 
-  list_items    go to state 56
-  list_item     go to state 54
+  example       go to state 58
 
 state 27
 
-  27) item : whitelines _
-  30) whitelines : whitelines _ WHITELINE
+  26) item : table _
 
-  WHITELINE     shift, and go to state 57
-  $default      reduce using rule 27 (item)
+  $default      reduce using rule 26 (item)
 
 
 state 28
 
-  52) table : table_rows _ table_sep table_rows
-  53) table : table_rows _
-  54) table_rows : table_rows _ table_row
+  49) ordered_list : OL_START _ list_items OL_END
 
-  TABLE_ROW     shift, and go to state 24
-  TABLE_SEP     shift, and go to state 58
-  $default      reduce using rule 53 (table)
+  LI_START      shift, and go to state 57
 
-  table_sep     go to state 59
-  table_row     go to state 60
+  list_items    go to state 59
+  list_item     go to state 56
 
 state 29
 
-  36) html_quote : QUOTE _
+  46) examples : example _
 
-  $default      reduce using rule 36 (html_quote)
+  $default      reduce using rule 46 (examples)
 
 
 state 30
 
-  28) item : variable _
+  27) item : lists _
 
-  $default      reduce using rule 28 (item)
+  $default      reduce using rule 27 (item)
 
 
 state 31
 
-   3) dummy_section : doc_start items _
-  21) items : items _ item
+  39) html_quote : QUOTE _
 
-  TEXTLINE      shift, and go to state 18
-  WHITELINE     shift, and go to state 22
-  TABLE_ROW     shift, and go to state 24
-  QUOTE         shift, and go to state 29
-  EXAMPLE       shift, and go to state 35
-  VARIABLELINE  shift, and go to state 13
-  BLOCK_START   shift, and go to state 17
-  UL_START      shift, and go to state 20
-  OL_START      shift, and go to state 26
-  DL_START      shift, and go to state 32
-  $default      reduce using rule 3 (dummy_section)
+  $default      reduce using rule 39 (html_quote)
 
-  unordered_list  go to state 11
-  ordered_list  go to state 12
-  textlines     go to state 15
-  description_list  go to state 14
-  block         go to state 19
-  examples      go to state 16
-  table         go to state 23
-  example       go to state 21
-  lists         go to state 25
-  whitelines    go to state 27
-  variable      go to state 30
-  table_rows    go to state 28
-  item          go to state 61
-  textline      go to state 36
-  table_row     go to state 34
-  html_quote    go to state 37
 
 state 32
 
-  47) description_list : DL_START _ list_items DL_END
+  28) item : whitelines _
+  33) whitelines : whitelines _ WHITELINE
 
-  LI_START      shift, and go to state 55
+  WHITELINE     shift, and go to state 60
+  $default      reduce using rule 28 (item)
 
-  list_items    go to state 62
-  list_item     go to state 54
 
 state 33
 
-  22) items : item _
+  50) description_list : DL_START _ list_items DL_END
 
-  $default      reduce using rule 22 (items)
+  LI_START      shift, and go to state 57
 
+  list_items    go to state 61
+  list_item     go to state 56
 
 state 34
 
-  55) table_rows : table_row _
+  29) item : variable _
 
-  $default      reduce using rule 55 (table_rows)
+  $default      reduce using rule 29 (item)
 
 
 state 35
 
-  44) example : EXAMPLE _
+   3) dummy_section : doc_start items _
+  22) items : items _ item
 
-  $default      reduce using rule 44 (example)
+  TEXTLINE      shift, and go to state 19
+  WHITELINE     shift, and go to state 23
+  TABLE_ROW     shift, and go to state 25
+  QUOTE         shift, and go to state 31
+  EXAMPLE       shift, and go to state 37
+  VARIABLELINE  shift, and go to state 14
+  BLOCK_START   shift, and go to state 17
+  UL_START      shift, and go to state 21
+  OL_START      shift, and go to state 28
+  DL_START      shift, and go to state 33
+  FOOTNOTE      shift, and go to state 16
+  $default      reduce using rule 3 (dummy_section)
 
+  textline      go to state 12
+  table_row     go to state 11
+  html_quote    go to state 13
+  unordered_list  go to state 15
+  textlines     go to state 20
+  ordered_list  go to state 18
+  block         go to state 24
+  description_list  go to state 22
+  table         go to state 27
+  examples      go to state 26
+  lists         go to state 30
+  example       go to state 29
+  whitelines    go to state 32
+  variable      go to state 34
+  footnote      go to state 38
+  table_rows    go to state 36
+  item          go to state 62
 
 state 36
 
-  33) textlines : textline _
+  55) table : table_rows _ table_sep table_rows
+  56) table : table_rows _
+  57) table_rows : table_rows _ table_row
 
-  $default      reduce using rule 33 (textlines)
+  TABLE_ROW     shift, and go to state 25
+  TABLE_SEP     shift, and go to state 64
+  $default      reduce using rule 56 (table)
 
+  table_row     go to state 63
+  table_sep     go to state 65
 
 state 37
 
-  35) textline : html_quote _
+  47) example : EXAMPLE _
 
-  $default      reduce using rule 35 (textline)
+  $default      reduce using rule 47 (example)
 
 
 state 38
 
+  30) item : footnote _
 
-  $default      accept
+  $default      reduce using rule 30 (item)
 
 
 state 39
 
-   6) sections : sections section _
+  23) items : item _
 
-  $default      reduce using rule 6 (sections)
+  $default      reduce using rule 23 (items)
 
 
 state 40
 
-   8) section : section_body SEC_END _
 
-  $default      reduce using rule 8 (section)
+  $default      accept
 
 
 state 41
@@ -621,38 +636,40 @@ state 41
   10) section_body : headline sitems _
   12) sitems : sitems _ sitem
 
-  TEXTLINE      shift, and go to state 18
-  WHITELINE     shift, and go to state 22
-  TABLE_ROW     shift, and go to state 24
-  QUOTE         shift, and go to state 29
-  EXAMPLE       shift, and go to state 35
+  TEXTLINE      shift, and go to state 19
+  WHITELINE     shift, and go to state 23
+  TABLE_ROW     shift, and go to state 25
+  QUOTE         shift, and go to state 31
+  EXAMPLE       shift, and go to state 37
   HEADLINE      shift, and go to state 6
-  VARIABLELINE  shift, and go to state 13
+  VARIABLELINE  shift, and go to state 14
   BLOCK_START   shift, and go to state 17
-  UL_START      shift, and go to state 20
-  OL_START      shift, and go to state 26
-  DL_START      shift, and go to state 32
+  UL_START      shift, and go to state 21
+  OL_START      shift, and go to state 28
+  DL_START      shift, and go to state 33
+  FOOTNOTE      shift, and go to state 16
   $default      reduce using rule 10 (section_body)
 
-  unordered_list  go to state 11
-  sitem         go to state 63
-  ordered_list  go to state 12
+  headline      go to state 7
+  textline      go to state 12
+  table_row     go to state 11
+  html_quote    go to state 13
+  sitem         go to state 66
+  unordered_list  go to state 15
   textlines     go to state 43
-  description_list  go to state 14
+  ordered_list  go to state 18
   block         go to state 44
-  examples      go to state 16
+  description_list  go to state 22
   table         go to state 45
-  example       go to state 21
+  examples      go to state 26
   lists         go to state 46
+  example       go to state 29
   whitelines    go to state 47
   variable      go to state 48
-  table_rows    go to state 28
-  section       go to state 49
-  section_body  go to state 9
-  textline      go to state 36
-  table_row     go to state 34
-  headline      go to state 10
-  html_quote    go to state 37
+  section       go to state 50
+  footnote      go to state 49
+  table_rows    go to state 36
+  section_body  go to state 10
 
 state 42
 
@@ -664,14 +681,14 @@ state 42
 state 43
 
   15) sitem : textlines _
-  32) textlines : textlines _ textline
+  35) textlines : textlines _ textline
 
-  TEXTLINE      shift, and go to state 18
-  QUOTE         shift, and go to state 29
+  TEXTLINE      shift, and go to state 19
+  QUOTE         shift, and go to state 31
   $default      reduce using rule 15 (sitem)
 
-  textline      go to state 50
-  html_quote    go to state 37
+  textline      go to state 54
+  html_quote    go to state 13
 
 state 44
 
@@ -697,9 +714,9 @@ state 46
 state 47
 
   19) sitem : whitelines _
-  30) whitelines : whitelines _ WHITELINE
+  33) whitelines : whitelines _ WHITELINE
 
-  WHITELINE     shift, and go to state 57
+  WHITELINE     shift, and go to state 60
   $default      reduce using rule 19 (sitem)
 
 
@@ -712,264 +729,291 @@ state 48
 
 state 49
 
+  21) sitem : footnote _
+
+  $default      reduce using rule 21 (sitem)
+
+
+state 50
+
   14) sitem : section _
 
   $default      reduce using rule 14 (sitem)
 
 
-state 50
-
-  32) textlines : textlines textline _
-
-  $default      reduce using rule 32 (textlines)
-
-
 state 51
 
-  42) examples : examples example _
+   6) sections : sections section _
 
-  $default      reduce using rule 42 (examples)
+  $default      reduce using rule 6 (sections)
 
 
 state 52
 
-  21) items : items _ item
-  40) block : BLOCK_START items _ BLOCK_END
+   8) section : section_body SEC_END _
 
-  TEXTLINE      shift, and go to state 18
-  WHITELINE     shift, and go to state 22
-  TABLE_ROW     shift, and go to state 24
-  QUOTE         shift, and go to state 29
-  BLOCK_END     shift, and go to state 64
-  EXAMPLE       shift, and go to state 35
-  VARIABLELINE  shift, and go to state 13
-  BLOCK_START   shift, and go to state 17
-  UL_START      shift, and go to state 20
-  OL_START      shift, and go to state 26
-  DL_START      shift, and go to state 32
+  $default      reduce using rule 8 (section)
 
-  unordered_list  go to state 11
-  ordered_list  go to state 12
-  textlines     go to state 15
-  description_list  go to state 14
-  block         go to state 19
-  examples      go to state 16
-  table         go to state 23
-  example       go to state 21
-  lists         go to state 25
-  whitelines    go to state 27
-  variable      go to state 30
-  table_rows    go to state 28
-  item          go to state 61
-  textline      go to state 36
-  table_row     go to state 34
-  html_quote    go to state 37
 
 state 53
 
-  45) unordered_list : UL_START list_items _ UL_END
-  48) list_items : list_items _ list_item
+  22) items : items _ item
+  43) block : BLOCK_START items _ BLOCK_END
 
-  UL_END        shift, and go to state 65
-  LI_START      shift, and go to state 55
+  TEXTLINE      shift, and go to state 19
+  WHITELINE     shift, and go to state 23
+  TABLE_ROW     shift, and go to state 25
+  QUOTE         shift, and go to state 31
+  BLOCK_END     shift, and go to state 67
+  EXAMPLE       shift, and go to state 37
+  VARIABLELINE  shift, and go to state 14
+  BLOCK_START   shift, and go to state 17
+  UL_START      shift, and go to state 21
+  OL_START      shift, and go to state 28
+  DL_START      shift, and go to state 33
+  FOOTNOTE      shift, and go to state 16
 
-  list_item     go to state 66
+  textline      go to state 12
+  table_row     go to state 11
+  html_quote    go to state 13
+  unordered_list  go to state 15
+  textlines     go to state 20
+  ordered_list  go to state 18
+  block         go to state 24
+  description_list  go to state 22
+  table         go to state 27
+  examples      go to state 26
+  lists         go to state 30
+  example       go to state 29
+  whitelines    go to state 32
+  variable      go to state 34
+  footnote      go to state 38
+  table_rows    go to state 36
+  item          go to state 62
 
 state 54
 
-  49) list_items : list_item _
+  35) textlines : textlines textline _
 
-  $default      reduce using rule 49 (list_items)
+  $default      reduce using rule 35 (textlines)
 
 
 state 55
 
-  50) list_item : LI_START _ items LI_END
-  51) list_item : LI_START _ LI_END
+  48) unordered_list : UL_START list_items _ UL_END
+  51) list_items : list_items _ list_item
 
-  TEXTLINE      shift, and go to state 18
-  WHITELINE     shift, and go to state 22
-  TABLE_ROW     shift, and go to state 24
-  QUOTE         shift, and go to state 29
-  EXAMPLE       shift, and go to state 35
-  VARIABLELINE  shift, and go to state 13
-  BLOCK_START   shift, and go to state 17
-  UL_START      shift, and go to state 20
-  OL_START      shift, and go to state 26
-  DL_START      shift, and go to state 32
-  LI_END        shift, and go to state 67
+  UL_END        shift, and go to state 68
+  LI_START      shift, and go to state 57
 
-  unordered_list  go to state 11
-  ordered_list  go to state 12
-  textlines     go to state 15
-  description_list  go to state 14
-  block         go to state 19
-  examples      go to state 16
-  table         go to state 23
-  example       go to state 21
-  lists         go to state 25
-  whitelines    go to state 27
-  items         go to state 68
-  variable      go to state 30
-  table_rows    go to state 28
-  item          go to state 33
-  textline      go to state 36
-  table_row     go to state 34
-  html_quote    go to state 37
+  list_item     go to state 69
 
 state 56
 
-  46) ordered_list : OL_START list_items _ OL_END
-  48) list_items : list_items _ list_item
+  52) list_items : list_item _
 
-  OL_END        shift, and go to state 69
-  LI_START      shift, and go to state 55
+  $default      reduce using rule 52 (list_items)
 
-  list_item     go to state 66
 
 state 57
 
-  30) whitelines : whitelines WHITELINE _
+  53) list_item : LI_START _ items LI_END
+  54) list_item : LI_START _ LI_END
 
-  $default      reduce using rule 30 (whitelines)
+  TEXTLINE      shift, and go to state 19
+  WHITELINE     shift, and go to state 23
+  TABLE_ROW     shift, and go to state 25
+  QUOTE         shift, and go to state 31
+  EXAMPLE       shift, and go to state 37
+  VARIABLELINE  shift, and go to state 14
+  BLOCK_START   shift, and go to state 17
+  UL_START      shift, and go to state 21
+  OL_START      shift, and go to state 28
+  DL_START      shift, and go to state 33
+  LI_END        shift, and go to state 70
+  FOOTNOTE      shift, and go to state 16
 
+  textline      go to state 12
+  table_row     go to state 11
+  html_quote    go to state 13
+  unordered_list  go to state 15
+  textlines     go to state 20
+  ordered_list  go to state 18
+  block         go to state 24
+  description_list  go to state 22
+  table         go to state 27
+  examples      go to state 26
+  lists         go to state 30
+  example       go to state 29
+  whitelines    go to state 32
+  items         go to state 71
+  variable      go to state 34
+  footnote      go to state 38
+  table_rows    go to state 36
+  item          go to state 39
 
 state 58
 
-  56) table_sep : TABLE_SEP _
+  45) examples : examples example _
 
-  $default      reduce using rule 56 (table_sep)
+  $default      reduce using rule 45 (examples)
 
 
 state 59
 
-  52) table : table_rows table_sep _ table_rows
+  49) ordered_list : OL_START list_items _ OL_END
+  51) list_items : list_items _ list_item
 
-  TABLE_ROW     shift, and go to state 24
+  OL_END        shift, and go to state 72
+  LI_START      shift, and go to state 57
 
-  table_rows    go to state 70
-  table_row     go to state 34
+  list_item     go to state 69
 
 state 60
 
-  54) table_rows : table_rows table_row _
+  33) whitelines : whitelines WHITELINE _
 
-  $default      reduce using rule 54 (table_rows)
+  $default      reduce using rule 33 (whitelines)
 
 
 state 61
 
-  21) items : items item _
+  50) description_list : DL_START list_items _ DL_END
+  51) list_items : list_items _ list_item
 
-  $default      reduce using rule 21 (items)
+  DL_END        shift, and go to state 73
+  LI_START      shift, and go to state 57
 
+  list_item     go to state 69
 
 state 62
 
-  47) description_list : DL_START list_items _ DL_END
-  48) list_items : list_items _ list_item
+  22) items : items item _
 
-  DL_END        shift, and go to state 71
-  LI_START      shift, and go to state 55
+  $default      reduce using rule 22 (items)
 
-  list_item     go to state 66
 
 state 63
+
+  57) table_rows : table_rows table_row _
+
+  $default      reduce using rule 57 (table_rows)
+
+
+state 64
+
+  59) table_sep : TABLE_SEP _
+
+  $default      reduce using rule 59 (table_sep)
+
+
+state 65
+
+  55) table : table_rows table_sep _ table_rows
+
+  TABLE_ROW     shift, and go to state 25
+
+  table_row     go to state 11
+  table_rows    go to state 74
+
+state 66
 
   12) sitems : sitems sitem _
 
   $default      reduce using rule 12 (sitems)
 
 
-state 64
-
-  40) block : BLOCK_START items BLOCK_END _
-
-  $default      reduce using rule 40 (block)
-
-
-state 65
-
-  45) unordered_list : UL_START list_items UL_END _
-
-  $default      reduce using rule 45 (unordered_list)
-
-
-state 66
-
-  48) list_items : list_items list_item _
-
-  $default      reduce using rule 48 (list_items)
-
-
 state 67
 
-  51) list_item : LI_START LI_END _
+  43) block : BLOCK_START items BLOCK_END _
 
-  $default      reduce using rule 51 (list_item)
+  $default      reduce using rule 43 (block)
 
 
 state 68
 
-  21) items : items _ item
-  50) list_item : LI_START items _ LI_END
+  48) unordered_list : UL_START list_items UL_END _
 
-  TEXTLINE      shift, and go to state 18
-  WHITELINE     shift, and go to state 22
-  TABLE_ROW     shift, and go to state 24
-  QUOTE         shift, and go to state 29
-  EXAMPLE       shift, and go to state 35
-  VARIABLELINE  shift, and go to state 13
-  BLOCK_START   shift, and go to state 17
-  UL_START      shift, and go to state 20
-  OL_START      shift, and go to state 26
-  DL_START      shift, and go to state 32
-  LI_END        shift, and go to state 72
+  $default      reduce using rule 48 (unordered_list)
 
-  unordered_list  go to state 11
-  ordered_list  go to state 12
-  textlines     go to state 15
-  description_list  go to state 14
-  block         go to state 19
-  examples      go to state 16
-  table         go to state 23
-  example       go to state 21
-  lists         go to state 25
-  whitelines    go to state 27
-  variable      go to state 30
-  table_rows    go to state 28
-  item          go to state 61
-  textline      go to state 36
-  table_row     go to state 34
-  html_quote    go to state 37
 
 state 69
 
-  46) ordered_list : OL_START list_items OL_END _
+  51) list_items : list_items list_item _
 
-  $default      reduce using rule 46 (ordered_list)
+  $default      reduce using rule 51 (list_items)
 
 
 state 70
 
-  52) table : table_rows table_sep table_rows _
-  54) table_rows : table_rows _ table_row
+  54) list_item : LI_START LI_END _
 
-  TABLE_ROW     shift, and go to state 24
-  $default      reduce using rule 52 (table)
+  $default      reduce using rule 54 (list_item)
 
-  table_row     go to state 60
 
 state 71
 
-  47) description_list : DL_START list_items DL_END _
+  22) items : items _ item
+  53) list_item : LI_START items _ LI_END
 
-  $default      reduce using rule 47 (description_list)
+  TEXTLINE      shift, and go to state 19
+  WHITELINE     shift, and go to state 23
+  TABLE_ROW     shift, and go to state 25
+  QUOTE         shift, and go to state 31
+  EXAMPLE       shift, and go to state 37
+  VARIABLELINE  shift, and go to state 14
+  BLOCK_START   shift, and go to state 17
+  UL_START      shift, and go to state 21
+  OL_START      shift, and go to state 28
+  DL_START      shift, and go to state 33
+  LI_END        shift, and go to state 75
+  FOOTNOTE      shift, and go to state 16
 
+  textline      go to state 12
+  table_row     go to state 11
+  html_quote    go to state 13
+  unordered_list  go to state 15
+  textlines     go to state 20
+  ordered_list  go to state 18
+  block         go to state 24
+  description_list  go to state 22
+  table         go to state 27
+  examples      go to state 26
+  lists         go to state 30
+  example       go to state 29
+  whitelines    go to state 32
+  variable      go to state 34
+  footnote      go to state 38
+  table_rows    go to state 36
+  item          go to state 62
 
 state 72
 
-  50) list_item : LI_START items LI_END _
+  49) ordered_list : OL_START list_items OL_END _
 
-  $default      reduce using rule 50 (list_item)
+  $default      reduce using rule 49 (ordered_list)
+
+
+state 73
+
+  50) description_list : DL_START list_items DL_END _
+
+  $default      reduce using rule 50 (description_list)
+
+
+state 74
+
+  55) table : table_rows table_sep table_rows _
+  57) table_rows : table_rows _ table_row
+
+  TABLE_ROW     shift, and go to state 25
+  $default      reduce using rule 55 (table)
+
+  table_row     go to state 63
+
+state 75
+
+  53) list_item : LI_START items LI_END _
+
+  $default      reduce using rule 53 (list_item)
 

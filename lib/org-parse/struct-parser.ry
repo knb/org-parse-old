@@ -9,7 +9,7 @@ class OrgParse::StructParser
          PLOW SEC_END TABLE_ROW TABLE_SEP QUOTE EXAMPLE
          BLOCK_START BLOCK_END UL_START UL_END
          OL_START OL_END DL_START DL_END
-         LI_START LI_END P_END
+         LI_START LI_END P_END FOOTNOTE
 
   rule
   document : dummy_section 
@@ -44,6 +44,7 @@ class OrgParse::StructParser
        | lists
        | whitelines = PLOW
        | variable
+       | footnote
 
   items : items item = PLOW { result << val[1] }
         | item { result = val }
@@ -54,6 +55,9 @@ class OrgParse::StructParser
        | lists
        | whitelines = PLOW
        | variable
+       | footnote
+
+  footnote : FOOTNOTE { result = Node.new(:FN_DEFINE, line_parse(val[0][1]), val[0][0]) }
 
   variable : VARIABLELINE { result = VarNode.new(val[0][0], val[0][1]) }
 

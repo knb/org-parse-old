@@ -12,6 +12,8 @@ module OrgParse
     include Utils
     include InlineUtils
 
+    GENERATOR = "OrgParse #{VERSION} Powered by Ruby #{RUBY_VERSION}"
+
     ListSymbols = {
       :UL_START => :UL_END, :OL_START => :OL_END,
       :DL_START => :DL_END,
@@ -29,8 +31,11 @@ module OrgParse
       @token_que = []
       @section_stack = []
       @options = { :H => 3, :skip => false, :toc => true, :num => true,
-        :author => true, :creator => true, :timestamp => true,
-        :title => nil, :text => '', :language => 'ja', :charset => 'utf-8',
+        :author => nil, 
+        :url => nil,
+        :email => nil,
+        :creator => GENERATOR, :timestamp => true,
+        :title => nil, :text => [], :language => 'ja', :charset => 'utf-8',
         :default_title => title,
       }
       read_options
@@ -63,10 +68,14 @@ module OrgParse
           end
         when /^\s*#\+TITLE:\s+(.*)$/i
           @options[:title] = $1
-        when /^\s*#\+TEXT:\s+(.*)/i
-          @options[:text] += $1
+        when /^\s*#\+TEXT:\s+(.*)$/i
+          @options[:text] += line_parse($1 + "\n")
         when /^\s*#\+LANGUAGE:\s+(.*)/i
           @options[:language] = $1
+        when /^\s*#\+AUTHOR:\s*(.*)/i
+          @options[:author] = $1
+        when /^\s*#\+EMAIL:\s*(.*)/i
+          @options[:email] = $1
         else
           m = false
         end
@@ -222,6 +231,9 @@ module OrgParse
           # the first non-whitespace character is a | (pipe).
           exit_nests line
           @token_que << [:TABLE_ROW, line]
+        when /^\s*\[fn:([^\]]+)\]\s+(.+)$/
+          exit_nests line
+          @token_que << [:FOOTNOTE, [$1, $2]]
         else
           exit_nests line
           @token_que << [:TEXTLINE, [line, get_indent(line)]]

@@ -15,7 +15,9 @@ module OrgParse
 
     def initialize(bp = nil)
       @structp = bp
-      @token_que=[]
+      @token_que = []
+      @footnote_idx = 0
+      @footnotes = {}
 
       # Set up the emphasis regular expression.
       @pre_emphasis = " \t\\('\""
@@ -25,7 +27,7 @@ module OrgParse
       @markers = "*/_=~+"
       @org_quote_regexp = /@<[^>]+>/
       @org_br_regexp = /\\\\$/
-      @org_footnote_regexp = /\[fn:(.*)/
+      @org_footnote_regexp = /\[fn:(.+)\]/
 
       build_org_emphasis_regexp
       build_org_link_regexp
@@ -59,6 +61,7 @@ module OrgParse
         matches << [:ln, Regexp.last_match] if @org_link_regexp =~ str
         matches << [:quote, Regexp.last_match] if @org_quote_regexp =~ str
         matches << [:br, Regexp.last_match] if @org_br_regexp =~ str
+        matches << [:fn, Regexp.last_match] if @org_footnote_regexp =~ str
 
         if matches.empty?
           @token_que << [:OTHER, str]
@@ -110,6 +113,17 @@ module OrgParse
             pre = lm.pre_match
             @token_que << [:OTHER, pre] unless pre.empty?
             @token_que << [:QUOTE, "\n"]
+          when :fn
+            match, nstr = balanced?(lm[1]+']'+lm.post_match, ['[', ']'])
+            pre = lm.pre_match
+            if match.empty?
+              @token_que << [:OTHER, pre + "[fn:"]
+              str = lm[1]+']'+lm.post_match
+            else
+              str = nstr
+              @token_que << [:OTHER, pre] unless pre.empty?
+              footnote match
+            end
           end
         end
         # p str
@@ -129,6 +143,44 @@ module OrgParse
     end
 
     private
+
+    def balanced?(str, pair)
+      idx = 0;
+      cnt = 1;
+      str.each_byte{|c|
+        cnt += 1 if c == pair[0][0]
+        cnt -= 1 if c == pair[1][0]
+        break if cnt == 0
+        idx += 1
+      }
+      return ['', str] if cnt != 0
+      rest = str[idx+1, str.size]
+      rest = '' unless rest
+      [str[0, idx], rest] 
+    end
+
+    # [n] -- not impliment
+    #   org-source               str
+    # a  [fn:name]                name
+    # b  [fn:: definition]        : definition
+    # c  [fn:name: definition]    name: definition
+    def footnote(str)
+      case str
+      when /^:\s*(.+)$/      # b
+        @token_que << [:FN_LINK,  @footnote_idx]
+        @token_que << [:FN_START, @footnote_idx]
+        @footnote_idx += 1
+        scan $1
+        @token_que << [:FN_END, '']
+      when /^([^:]+):\s*(.+)$/  # c
+        @token_que << [:FN_LINK, $1]
+        @token_que << [:FN_START, $1]
+        scan $2
+        @token_que << [:FN_END, '']
+      else                   # a
+        @token_que << [:FN_LINK, str]
+      end
+    end
 
     def build_org_emphasis_regexp
       @org_emphasis_regexp = Regexp.new("([#{@pre_emphasis}]|^)\n" +

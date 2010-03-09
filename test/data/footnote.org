@@ -1,0 +1,8 @@
+Footnotes
+* name only[fn:1]
+  name only
+[fn:1] definition is here
+* definition /only/
+  footnote definition only[fn:: *definition* inline with [[html-export.html][link]]]
+* with name and definition
+  footnote name and definition[fn:2: name with definition]

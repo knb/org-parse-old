@@ -138,6 +138,8 @@ indent shallower
      - creator:   turn on/off inclusion of creator info into exported file
      - timestamp: turn on/off inclusion creation time into exported file
      - d:         turn on/off inclusion of drawers
+* footnote
+  [[./footnote.org]]
 * Section node
   Section node は、Headline から始まり、次のHeadline（又は文末）の直前までを、
   子要素に含むノードである。
@@ -334,7 +336,8 @@ indent shallower
 #+TEXT: head block
 #+TEXT: this area is <b> *literal* </b>
 #+TITLE: sample dayo
- 
+#+AUTHOR: knb
+#+EMAIL: knb@artif.org
 * test files
 - [[texts before 1st headline]] [[file:text-bef-hl.org]] [[text-bef-hl.html][html]]
 - [[#+TITLE: xxxx]] [[file:title.org]] [[file:title.html][html]]

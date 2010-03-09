@@ -81,10 +81,112 @@ lang="ja" xml:lang="ja">
 
 <h1 class="title">sample dayo</h1>
 
-
+head block
+this area is &lt;b&gt; <b>literal</b> &lt;/b&gt;
 <p>
   OrgParse HTML export specification
 </p>
+
+
+
+<div id="table-of-contents">
+  <h2>Table of Contents</h2>
+  <div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1 texts before 1st headline
+</a>
+<ul>
+<li><a href="#sec-1.1">1.1 by default
+</a><li><a href="#sec-1.2">1.2 #+TITLE: xxxx
+</a><li><a href="#sec-1.3">1.3 Options: skip:t
+</a><li><a href="#sec-1.4">1.4 #+TEXT: xxxx
+</a><li><a href="#sec-1.5">1.5 Mark up
+</a></ul>
+</li>
+<li><a href="#sec-2">2 sections
+</a>
+<ul>
+<li><a href="#sec-2.1">2.1 paragraphs 
+</a><li><a href="#sec-2.2">2.2 list
+</a><li><a href="#sec-2.3">2.3 blocks
+</a><li><a href="#sec-2.4">2.4 Verse
+</a><li><a href="#sec-2.5">2.5 Example
+</a><li><a href="#sec-2.6">2.6 Quote
+</a><li><a href="#sec-2.7">2.7 section 3
+</a></ul>
+</li>
+<li><a href="#sec-3">3 options
+</a><li><a href="#sec-4">4 footnote
+</a><li><a href="#sec-5">5 Section node
+</a><li><a href="#sec-6">6 Brock nodes
+</a>
+<ul>
+<li><a href="#sec-6.1">6.1 Headline node
+</a>
+<ul>
+<li><a href="#sec-6.1.1">6.1.1 Tags
+</a></ul>
+</li>
+<li><a href="#sec-6.2">6.2 Paragraph node
+</a><li><a href="#sec-6.3">6.3 Whiteline node
+</a><li><a href="#sec-6.4">6.4 Block nodes
+</a>
+<ul>
+<li><a href="#sec-6.4.1">6.4.1 EXAMPLE
+</a><li><a href="#sec-6.4.2">6.4.2 SRC
+</a><li><a href="#sec-6.4.3">6.4.3 VERSE
+</a><li><a href="#sec-6.4.4">6.4.4 HTML
+</a></ul>
+</li>
+<li><a href="#sec-6.5">6.5 Plain Lists
+</a>
+<ul>
+<li><a href="#sec-6.5.1">6.5.1 Unordered list
+</a><li><a href="#sec-6.5.2">6.5.2 Ordered list
+</a><li><a href="#sec-6.5.3">6.5.3 Description list
+</a></ul>
+</li>
+<li><a href="#sec-6.6">6.6 Comment line
+</a><li><a href="#sec-6.7">6.7 COMMENT comment block
+</a><li><a href="#sec-6.8">6.8 Option node
+</a>
+<ul>
+<li><a href="#sec-6.8.1">6.8.1 #+ATTR_HTML
+</a></ul>
+</li>
+<li><a href="#sec-6.9">6.9 Horizontal line
+</a></ul>
+</li>
+<li><a href="#sec-7">7 Inline nodes
+</a>
+<ul>
+<li><a href="#sec-7.1">7.1 Footnotes
+</a><li><a href="#sec-7.2">7.2 Emphasis and monospace
+</a><li><a href="#sec-7.3">7.3 Quoting HTML tags
+</a><li><a href="#sec-7.4">7.4 Linkとイメージ
+</a>
+<ul>
+<li><a href="#sec-7.4.1">7.4.1 Link format
+</a><li><a href="#sec-7.4.2">7.4.2 Internal links
+</a><li><a href="#sec-7.4.3">7.4.3 External links
+</a><li><a href="#sec-7.4.4">7.4.4 Images
+</a>
+<ul>
+<li><a href="#sec-7.4.4.1">7.4.4.1 そのままの大きさで表示
+</a><li><a href="#sec-7.4.4.2">7.4.4.2 サムネールとリンク
+</a></ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-8">8 Table of contents
+</a><li><a href="#sec-9">9 test files
+</a></ul>
+
+  </div>
+</div>
+
 
 
 <div id="outline-container-1" class="outline-2">
@@ -115,7 +217,7 @@ xxxx
 &lt;h2&gt;1st headline&lt;/h2&gt;
 </pre>
         <p>
-          の様に変換。[fn::実際はセクションヘッダには&lt;div&gt;やら何やらくっつく]
+          の様に変換。<sup><a class="footref" name="fnr.1" href="#fn.1">1</a></sup> 
         </p>
 
         <p>
@@ -403,8 +505,19 @@ verse line4<br/>
 </div>
 
 <div id="outline-container-4" class="outline-2">
-  <h2 id="sec-4"><span class="section-number-2">4</span> Section node </h2>
+  <h2 id="sec-4"><span class="section-number-2">4</span> footnote </h2>
   <div class="outline-text-2" id="text-4">
+    <p>
+      <a href="./footnote.org">./footnote.org</a>
+    </p>
+
+
+  </div>
+</div>
+
+<div id="outline-container-5" class="outline-2">
+  <h2 id="sec-5"><span class="section-number-2">5</span> Section node </h2>
+  <div class="outline-text-2" id="text-5">
     <p>
       Section node は、Headline から始まり、次のHeadline（又は文末）の直前までを、
       子要素に含むノードである。
@@ -425,17 +538,17 @@ Section node
   </div>
 </div>
 
-<div id="outline-container-5" class="outline-2">
-  <h2 id="sec-5"><span class="section-number-2">5</span> Brock nodes </h2>
-  <div class="outline-text-2" id="text-5">
+<div id="outline-container-6" class="outline-2">
+  <h2 id="sec-6"><span class="section-number-2">6</span> Brock nodes </h2>
+  <div class="outline-text-2" id="text-6">
     <p>
       行単位の範囲を持つ要素。
     </p>
 
 
-    <div id="outline-container-5.1" class="outline-3">
-      <h3 id="sec-5.1"><span class="section-number-3">5.1</span> Headline node </h3>
-      <div class="outline-text-3" id="text-5.1">
+    <div id="outline-container-6.1" class="outline-3">
+      <h3 id="sec-6.1"><span class="section-number-3">6.1</span> Headline node </h3>
+      <div class="outline-text-3" id="text-6.1">
         <p>
           /^\*+ / から始まる行。'*' の数がセクションのレベルを表す。
         </p>
@@ -444,9 +557,9 @@ Section node
           セクションの開始を示す。
         </p>
 
-        <div id="outline-container-5.1.1" class="outline-4">
-          <h4 id="sec-5.1.1"><span class="section-number-4">5.1.1</span> Tags </h4>
-          <div class="outline-text-4" id="text-5.1.1">
+        <div id="outline-container-6.1.1" class="outline-4">
+          <h4 id="sec-6.1.1"><span class="section-number-4">6.1.1</span> Tags </h4>
+          <div class="outline-text-4" id="text-6.1.1">
             <p>
               ヘッドラインには、TAGを付けることが出来る。
             </p>
@@ -459,9 +572,9 @@ Section node
       </div>
     </div>
 
-    <div id="outline-container-5.2" class="outline-3">
-      <h3 id="sec-5.2"><span class="section-number-3">5.2</span> Paragraph node </h3>
-      <div class="outline-text-3" id="text-5.2">
+    <div id="outline-container-6.2" class="outline-3">
+      <h3 id="sec-6.2"><span class="section-number-3">6.2</span> Paragraph node </h3>
+      <div class="outline-text-3" id="text-6.2">
         <p>
           ヘッドラインの次の行から始まり、セクションの最後か、１行以上の空行で終わる部分は、
           段落として扱う。段落中で、改行させたい場合には、行末に&quot;\\&quot;を置く。
@@ -491,9 +604,9 @@ Section node
       </div>
     </div>
 
-    <div id="outline-container-5.3" class="outline-3">
-      <h3 id="sec-5.3"><span class="section-number-3">5.3</span> Whiteline node </h3>
-      <div class="outline-text-3" id="text-5.3">
+    <div id="outline-container-6.3" class="outline-3">
+      <h3 id="sec-6.3"><span class="section-number-3">6.3</span> Whiteline node </h3>
+      <div class="outline-text-3" id="text-6.3">
         <p>
           空行のノード。
           パラグラフや、その他のブロックの終端を示す。
@@ -508,16 +621,16 @@ Section node
       </div>
     </div>
 
-    <div id="outline-container-5.4" class="outline-3">
-      <h3 id="sec-5.4"><span class="section-number-3">5.4</span> Block nodes </h3>
-      <div class="outline-text-3" id="text-5.4">
+    <div id="outline-container-6.4" class="outline-3">
+      <h3 id="sec-6.4"><span class="section-number-3">6.4</span> Block nodes </h3>
+      <div class="outline-text-3" id="text-6.4">
         <p>
           #+begin 〜 #+end ブロック。
         </p>
 
-        <div id="outline-container-5.4.1" class="outline-4">
-          <h4 id="sec-5.4.1"><span class="section-number-4">5.4.1</span> EXAMPLE </h4>
-          <div class="outline-text-4" id="text-5.4.1">
+        <div id="outline-container-6.4.1" class="outline-4">
+          <h4 id="sec-6.4.1"><span class="section-number-4">6.4.1</span> EXAMPLE </h4>
+          <div class="outline-text-4" id="text-6.4.1">
 <pre class="example">
 : #+BEGIN_EXMPLE
 :  ...
@@ -541,9 +654,9 @@ Section node
           </div>
         </div>
 
-        <div id="outline-container-5.4.2" class="outline-4">
-          <h4 id="sec-5.4.2"><span class="section-number-4">5.4.2</span> SRC </h4>
-          <div class="outline-text-4" id="text-5.4.2">
+        <div id="outline-container-6.4.2" class="outline-4">
+          <h4 id="sec-6.4.2"><span class="section-number-4">6.4.2</span> SRC </h4>
+          <div class="outline-text-4" id="text-6.4.2">
 <pre class="example">
 (+ 1 2)
 </pre>
@@ -553,9 +666,9 @@ Section node
           </div>
         </div>
 
-        <div id="outline-container-5.4.3" class="outline-4">
-          <h4 id="sec-5.4.3"><span class="section-number-4">5.4.3</span> VERSE </h4>
-          <div class="outline-text-4" id="text-5.4.3">
+        <div id="outline-container-6.4.3" class="outline-4">
+          <h4 id="sec-6.4.3"><span class="section-number-4">6.4.3</span> VERSE </h4>
+          <div class="outline-text-4" id="text-6.4.3">
             <p class="verse">
 &nbsp;&nbsp;&nbsp;&nbsp;このブロック内では、改行が<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;保存される。<br/>
@@ -575,9 +688,9 @@ Section node
           </div>
         </div>
 
-        <div id="outline-container-5.4.4" class="outline-4">
-          <h4 id="sec-5.4.4"><span class="section-number-4">5.4.4</span> HTML </h4>
-          <div class="outline-text-4" id="text-5.4.4">
+        <div id="outline-container-6.4.4" class="outline-4">
+          <h4 id="sec-6.4.4"><span class="section-number-4">6.4.4</span> HTML </h4>
+          <div class="outline-text-4" id="text-6.4.4">
             <p>
               <a href="Quote HTML">Quote HTML</a>
             </p>
@@ -598,17 +711,17 @@ Section node
       </div>
     </div>
 
-    <div id="outline-container-5.5" class="outline-3">
-      <h3 id="sec-5.5"><span class="section-number-3">5.5</span> Plain Lists </h3>
-      <div class="outline-text-3" id="text-5.5">
+    <div id="outline-container-6.5" class="outline-3">
+      <h3 id="sec-6.5"><span class="section-number-3">6.5</span> Plain Lists </h3>
+      <div class="outline-text-3" id="text-6.5">
         <p>
           <a href="./lists.org">lists.org</a> <a href="./lists.html">html</a>
         </p>
 
 
-        <div id="outline-container-5.5.1" class="outline-4">
-          <h4 id="sec-5.5.1"><span class="section-number-4">5.5.1</span> Unordered list </h4>
-          <div class="outline-text-4" id="text-5.5.1">
+        <div id="outline-container-6.5.1" class="outline-4">
+          <h4 id="sec-6.5.1"><span class="section-number-4">6.5.1</span> Unordered list </h4>
+          <div class="outline-text-4" id="text-6.5.1">
             <p>
               先頭が[-+*]で始まる行は、順序無リストアイテムの開始を示し、
               これに続く、インデントが開始マークより大きい行、又は、空行は
@@ -627,9 +740,9 @@ Section node
           </div>
         </div>
 
-        <div id="outline-container-5.5.2" class="outline-4">
-          <h4 id="sec-5.5.2"><span class="section-number-4">5.5.2</span> Ordered list </h4>
-          <div class="outline-text-4" id="text-5.5.2">
+        <div id="outline-container-6.5.2" class="outline-4">
+          <h4 id="sec-6.5.2"><span class="section-number-4">6.5.2</span> Ordered list </h4>
+          <div class="outline-text-4" id="text-6.5.2">
             <p>
               先頭が、&quot;数字.&quot; 又は &quot;数字)&quot; で始まる行は、番号付きリストを表す。
             </p>
@@ -638,9 +751,9 @@ Section node
           </div>
         </div>
 
-        <div id="outline-container-5.5.3" class="outline-4">
-          <h4 id="sec-5.5.3"><span class="section-number-4">5.5.3</span> Description list </h4>
-          <div class="outline-text-4" id="text-5.5.3">
+        <div id="outline-container-6.5.3" class="outline-4">
+          <h4 id="sec-6.5.3"><span class="section-number-4">6.5.3</span> Description list </h4>
+          <div class="outline-text-4" id="text-6.5.3">
 <pre class="example">
 - XXXX :: mmmmm
 </pre>
@@ -657,9 +770,9 @@ Section node
       </div>
     </div>
 
-    <div id="outline-container-5.6" class="outline-3">
-      <h3 id="sec-5.6"><span class="section-number-3">5.6</span> Comment line </h3>
-      <div class="outline-text-3" id="text-5.6">
+    <div id="outline-container-6.6" class="outline-3">
+      <h3 id="sec-6.6"><span class="section-number-3">6.6</span> Comment line </h3>
+      <div class="outline-text-3" id="text-6.6">
         <p>
           #+ これは、コメント行
           # これもコメント行
@@ -671,9 +784,9 @@ Section node
       </div>
     </div>
 
-    <div id="outline-container-5.7" class="outline-3">
-      <h3 id="sec-5.7"><span class="section-number-3">5.7</span> COMMENT comment block </h3>
-      <div class="outline-text-3" id="text-5.7">
+    <div id="outline-container-6.7" class="outline-3">
+      <h3 id="sec-6.7"><span class="section-number-3">6.7</span> COMMENT comment block </h3>
+      <div class="outline-text-3" id="text-6.7">
         <p>
           このセクションは、全体がコメントとして扱われる。
         </p>
@@ -683,9 +796,9 @@ Section node
       </div>
     </div>
 
-    <div id="outline-container-5.8" class="outline-3">
-      <h3 id="sec-5.8"><span class="section-number-3">5.8</span> Option node </h3>
-      <div class="outline-text-3" id="text-5.8">
+    <div id="outline-container-6.8" class="outline-3">
+      <h3 id="sec-6.8"><span class="section-number-3">6.8</span> Option node </h3>
+      <div class="outline-text-3" id="text-6.8">
 <pre class="example">
 #+TITLE
 </pre>
@@ -693,9 +806,9 @@ Section node
           等の、オプション設定を行う行
         </p>
 
-        <div id="outline-container-5.8.1" class="outline-4">
-          <h4 id="sec-5.8.1"><span class="section-number-4">5.8.1</span> #+ATTR_HTML </h4>
-          <div class="outline-text-4" id="text-5.8.1">
+        <div id="outline-container-6.8.1" class="outline-4">
+          <h4 id="sec-6.8.1"><span class="section-number-4">6.8.1</span> #+ATTR_HTML </h4>
+          <div class="outline-text-4" id="text-6.8.1">
             <p>
               If you want to specify attributes for links, 
               you can do so using a special #+ATTR_HTML line 
@@ -721,9 +834,9 @@ Section node
       </div>
     </div>
 
-    <div id="outline-container-5.9" class="outline-3">
-      <h3 id="sec-5.9"><span class="section-number-3">5.9</span> Horizontal line </h3>
-      <div class="outline-text-3" id="text-5.9">
+    <div id="outline-container-6.9" class="outline-3">
+      <h3 id="sec-6.9"><span class="section-number-3">6.9</span> Horizontal line </h3>
+      <div class="outline-text-3" id="text-6.9">
         <p>
           ------
           '-'が5個以上のみの行は、&lt;hr/&gt; に変換される
@@ -737,24 +850,24 @@ Section node
   </div>
 </div>
 
-<div id="outline-container-6" class="outline-2">
-  <h2 id="sec-6"><span class="section-number-2">6</span> Inline nodes </h2>
-  <div class="outline-text-2" id="text-6">
+<div id="outline-container-7" class="outline-2">
+  <h2 id="sec-7"><span class="section-number-2">7</span> Inline nodes </h2>
+  <div class="outline-text-2" id="text-7">
     <p>
       行内で完結している諸要素
     </p>
 
-    <div id="outline-container-6.1" class="outline-3">
-      <h3 id="sec-6.1"><span class="section-number-3">6.1</span> Footnotes </h3>
-      <div class="outline-text-3" id="text-6.1">
+    <div id="outline-container-7.1" class="outline-3">
+      <h3 id="sec-7.1"><span class="section-number-3">7.1</span> Footnotes </h3>
+      <div class="outline-text-3" id="text-7.1">
 
 
       </div>
     </div>
 
-    <div id="outline-container-6.2" class="outline-3">
-      <h3 id="sec-6.2"><span class="section-number-3">6.2</span> Emphasis and monospace </h3>
-      <div class="outline-text-3" id="text-6.2">
+    <div id="outline-container-7.2" class="outline-3">
+      <h3 id="sec-7.2"><span class="section-number-3">7.2</span> Emphasis and monospace </h3>
+      <div class="outline-text-3" id="text-7.2">
         <ul>
           <li><b>bold</b></li>
           <li><i>italic</i></li>
@@ -776,9 +889,9 @@ Section node
       </div>
     </div>
 
-    <div id="outline-container-6.3" class="outline-3">
-      <h3 id="sec-6.3"><span class="section-number-3">6.3</span> Quoting HTML tags </h3>
-      <div class="outline-text-3" id="text-6.3">
+    <div id="outline-container-7.3" class="outline-3">
+      <h3 id="sec-7.3"><span class="section-number-3">7.3</span> Quoting HTML tags </h3>
+      <div class="outline-text-3" id="text-7.3">
         <p>
           <a href="Quote HTML">Quote HTML</a>
           <br/> <b>bold</b> の様にすることが出来る
@@ -788,9 +901,9 @@ Section node
       </div>
     </div>
 
-    <div id="outline-container-6.4" class="outline-3">
-      <h3 id="sec-6.4"><span class="section-number-3">6.4</span> Linkとイメージ </h3>
-      <div class="outline-text-3" id="text-6.4">
+    <div id="outline-container-7.4" class="outline-3">
+      <h3 id="sec-7.4"><span class="section-number-3">7.4</span> Linkとイメージ </h3>
+      <div class="outline-text-3" id="text-7.4">
         <p>
           リンクの、拡張子が画像ファイルの場合、&lt;img&gt;タグに展開される
         </p>
@@ -816,9 +929,9 @@ Section node
           </li>
         </ul>
 
-        <div id="outline-container-6.4.1" class="outline-4">
-          <h4 id="sec-6.4.1"><span class="section-number-4">6.4.1</span> Link format </h4>
-          <div class="outline-text-4" id="text-6.4.1">
+        <div id="outline-container-7.4.1" class="outline-4">
+          <h4 id="sec-7.4.1"><span class="section-number-4">7.4.1</span> Link format </h4>
+          <div class="outline-text-4" id="text-7.4.1">
 <pre class="example">
 [[link][description]]  or  [[link]]
 </pre>
@@ -832,17 +945,17 @@ Section node
           </div>
         </div>
 
-        <div id="outline-container-6.4.2" class="outline-4">
-          <h4 id="sec-6.4.2"><span class="section-number-4">6.4.2</span> Internal links </h4>
-          <div class="outline-text-4" id="text-6.4.2">
+        <div id="outline-container-7.4.2" class="outline-4">
+          <h4 id="sec-7.4.2"><span class="section-number-4">7.4.2</span> Internal links </h4>
+          <div class="outline-text-4" id="text-7.4.2">
 
 
           </div>
         </div>
 
-        <div id="outline-container-6.4.3" class="outline-4">
-          <h4 id="sec-6.4.3"><span class="section-number-4">6.4.3</span> External links </h4>
-          <div class="outline-text-4" id="text-6.4.3">
+        <div id="outline-container-7.4.3" class="outline-4">
+          <h4 id="sec-7.4.3"><span class="section-number-4">7.4.3</span> External links </h4>
+          <div class="outline-text-4" id="text-7.4.3">
             <p>
               外部へのリンク
             </p>
@@ -861,16 +974,16 @@ Section node
           </div>
         </div>
 
-        <div id="outline-container-6.4.4" class="outline-4">
-          <h4 id="sec-6.4.4"><span class="section-number-4">6.4.4</span> Images </h4>
-          <div class="outline-text-4" id="text-6.4.4">
+        <div id="outline-container-7.4.4" class="outline-4">
+          <h4 id="sec-7.4.4"><span class="section-number-4">7.4.4</span> Images </h4>
+          <div class="outline-text-4" id="text-7.4.4">
             <p>
               <a href="images.org">file:images.org</a> <a href="images.html">file:images.html</a>
             </p>
 
-            <div id="outline-container-6.4.4.1" class="outline-5">
-              <h5 id="sec-6.4.4.1"><span class="section-number-5">6.4.4.1</span> そのままの大きさで表示 </h5>
-              <div class="outline-text-5" id="text-6.4.4.1">
+            <div id="outline-container-7.4.4.1" class="outline-5">
+              <h5 id="sec-7.4.4.1"><span class="section-number-5">7.4.4.1</span> そのままの大きさで表示 </h5>
+              <div class="outline-text-5" id="text-7.4.4.1">
 <pre class="example">
 [[lily20100228t.jpg]]
 </pre>
@@ -882,9 +995,9 @@ Section node
               </div>
             </div>
 
-            <div id="outline-container-6.4.4.2" class="outline-5">
-              <h5 id="sec-6.4.4.2"><span class="section-number-5">6.4.4.2</span> サムネールとリンク </h5>
-              <div class="outline-text-5" id="text-6.4.4.2">
+            <div id="outline-container-7.4.4.2" class="outline-5">
+              <h5 id="sec-7.4.4.2"><span class="section-number-5">7.4.4.2</span> サムネールとリンク </h5>
+              <div class="outline-text-5" id="text-7.4.4.2">
 <pre class="example">
 [[lily20100228.jpg][lily20100228t.jpg]]    
 </pre>
@@ -909,9 +1022,9 @@ Section node
   </div>
 </div>
 
-<div id="outline-container-7" class="outline-2">
-  <h2 id="sec-7"><span class="section-number-2">7</span> Table of contents </h2>
-  <div class="outline-text-2" id="text-7">
+<div id="outline-container-8" class="outline-2">
+  <h2 id="sec-8"><span class="section-number-2">8</span> Table of contents </h2>
+  <div class="outline-text-2" id="text-8">
     <p>
       サポートは後回しにするかね。
     </p>
@@ -922,13 +1035,12 @@ Section node
     </p>
 
 
-
   </div>
 </div>
 
-<div id="outline-container-8" class="outline-2">
-  <h2 id="sec-8"><span class="section-number-2">8</span> test files </h2>
-  <div class="outline-text-2" id="text-8">
+<div id="outline-container-9" class="outline-2">
+  <h2 id="sec-9"><span class="section-number-2">9</span> test files </h2>
+  <div class="outline-text-2" id="text-9">
     <ul>
       <li><a href="texts before 1st headline">texts before 1st headline</a> <a href="text-bef-hl.org">file:text-bef-hl.org</a> <a href="text-bef-hl.html">html</a></li>
       <li><a href="#+TITLE: xxxx">#+TITLE: xxxx</a> <a href="title.org">file:title.org</a> <a href="title.html">html</a></li>
@@ -939,7 +1051,30 @@ Section node
 </div>
 
 
+
+<div id="footnotes">
+  <h2 class="footnotes">Footnotes: </h2>
+  <div id="text-footnotes">
+    <p class="footnote"><sup><a class="footnum" name="fn.1" href="#fnr.1">1</a></sup> 実際はセクションヘッダには&lt;div&gt;やら何やらくっつく</p>
+
+  </div>
+</div>
+
+
 <div id="postamble">
+
+  <p class="author"> Author: knb
+    
+      <a href="mailto:knb@artif.org">&lt;knb@artif.org&gt;</a>
+    
+  </p>
+
+
+  <p class="date"> Date: Tue Mar 09 13:55:15 +0900 2010 </p>
+
+
+  <p class="creator">HTML generated by OrgParse 0.0.0 Powered by Ruby 1.8.7</p>
+
 </div>
 </div>
 </body>

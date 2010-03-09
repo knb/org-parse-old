@@ -87,8 +87,18 @@ module OrgParse
       @language = @root.options[:language]
       @charset = @root.options[:charset]
       @body = ''
+      @footnotes = []
+      @footnote_idxs = []
+      @before_text = ''
+      @options[:text].each {|n| @before_text += execute(n)}
+      start_flag = true
       @root.children.each do |node|
-        @body += execute(node)
+        if start_flag and node.kind != :SECTION
+          @before_text += execute(node)
+        else
+          start_flag = false
+          @body += execute(node)
+        end
       end
       @language = @root.options[:language]
       @erb.result(binding)
@@ -111,6 +121,59 @@ module OrgParse
         indent = section_indent(@ul_stack.last - 1)
         @ul_stack.pop
         str += "#{indent}</ul>\n"
+      end
+      str
+    end
+
+    def table_of_contents
+      section_counts = @section_counts
+      @section_counts = [0,0,0,0,0,0,0,0,0]
+      toc = "<ul>\n"
+      @root.children.each {|node|
+        if node.kind == :SECTION
+          toc += toc_out node
+        end
+      }
+      toc += "</ul>\n"
+      @section_counts = section_counts
+      return '' if toc == "<ul>\n</ul>\n"
+      ret =<<"EOS"
+<div id="table-of-contents">
+  <h2>Table of Contents</h2>
+  <div id="text-table-of-contents">
+#{toc}
+  </div>
+</div>
+EOS
+    end
+
+    def toc_out(node)
+      curr_level = node.headline.level
+      update_section_number curr_level
+      idx_no = section_number(curr_level)
+      str = toc_headline node.headline
+      ret = %Q|<li><a href="#sec-#{idx_no}">#{idx_no} #{str}</a>|
+      has_child = false
+      node.children.each {|node|
+        if node.kind == :SECTION
+          ret += "\n<ul>\n" unless has_child
+          has_child = true
+          ret += toc_out node
+        end
+      }
+      if has_child
+        ret += "</ul>\n"
+        ret += "</li>\n"
+      end
+      ret
+    end
+
+    def toc_headline(node)
+      str = ''
+      node.children.each do |item|
+        unless item.kind == :FN_LINK
+          str += execute item
+        end
       end
       str
     end
@@ -374,6 +437,36 @@ module OrgParse
       end
     end
 
+    def footnote_link(node)
+      idx = @footnote_idxs.index node.value
+      unless idx
+        idx = @footnote_idxs.size
+        @footnote_idxs << node.value
+      end
+      idx += 1
+      %Q|<sup><a class="footref" name="fnr.#{idx}" href="#fn.#{idx}">#{idx}</a></sup> |
+    end
+
+    def footnote_define(node)
+      idx = @footnote_idxs.index node.value
+      unless idx
+        idx = @footnote_idxs.size
+        @footnotes_idxs << node.value
+      end
+      @footnotes[idx] = exec_children(node)
+      ''
+    end
+
+    def footnotes
+      ret = ''
+      @footnotes.each_index{|idx|
+        n = idx+1
+        val = @footnotes[idx]
+        ret += %Q|<p class="footnote"><sup><a class="footnum" name="fn.#{n}" href="#fnr.#{n}">#{n}</a></sup> #{val}</p>\n|
+      }
+      ret
+    end
+
     def execute(node)
       # puts "node:#{node.kind} [#{node.value}]\n"
       # STDERR.puts "-----[#{@example}/#{@verse}]-----"
@@ -423,6 +516,10 @@ module OrgParse
         table node
       when :TABLE_ROW
         table_row node
+      when :FN_LINK
+        footnote_link node
+      when :FN_DEFINE
+        footnote_define node
       else
         puts "not implimented=>[#{node.kind}](#{node.inspect})"
         ''
