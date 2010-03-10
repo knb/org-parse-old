@@ -55,12 +55,6 @@ module OrgParse
       @done = true
     end
 
-
-    # todo: 必要あるのかな？？？
-    def accept(visitor)
-      visitor.execute(self)
-    end
-
     # 葉ノードか？
     def is_leaf?
       @children.empty?

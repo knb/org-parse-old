@@ -1,16 +1,10 @@
 = org-parse
 
-Org-Mode の文書を他の形式に変換する Ruby のライブラリ。
+A library of Ruby which converts a document of Org-Mode into other formats.
 http://orgmode.org/
 
-一部 org-ruby のコードを参考にしています。
+I refer to a cord of org-ruby partly.
 http://orgmode.org/worg/org-tutorials/org-ruby.php
-
-== TODO
-- 未実装部分の潰し込み
-- textile に対応する
-- ドキュメントを作成する
-- test を作る
 
 == Note on Patches/Pull Requests
  

@@ -5,17 +5,18 @@
 
 Gem::Specification.new do |s|
   s.name = %q{org-parse}
-  s.version = "0.0.1"
+  s.version = "0.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["knb"]
-  s.date = %q{2010-03-09}
+  s.date = %q{2010-03-10}
   s.default_executable = %q{org-parse}
   s.description = %q{This gem contains libraries for parsing org-mode files and build other format file}
   s.email = %q{knb@artif.org}
   s.executables = ["org-parse"]
   s.extra_rdoc_files = [
-    "LICENSE",
+    "ChangeLog",
+     "LICENSE",
      "README.rdoc"
   ]
   s.files = [
@@ -26,6 +27,7 @@ Gem::Specification.new do |s|
      "Rakefile",
      "VERSION.yml",
      "bin/org-parse",
+     "examples/body-only.html.erb",
      "lib/org-parse.rb",
      "lib/org-parse/inline-parser.output",
      "lib/org-parse/inline-parser.rb",
@@ -40,6 +42,7 @@ Gem::Specification.new do |s|
      "lib/org-parse/templates/single.html.erb",
      "lib/org-parse/utils.rb",
      "lib/org-parse/visitor.rb",
+     "org-parse.gemspec",
      "rakelib/racc.rake",
      "test/data/blocks.org",
      "test/data/emphasis.org",
@@ -78,7 +81,8 @@ Gem::Specification.new do |s|
      "tmp/html-export.html",
      "tmp/lily20100228.jpg",
      "tmp/lily20100228t.jpg",
-     "tmp/lists.html"
+     "tmp/lists.html",
+     "tmp/table.html"
   ]
   s.homepage = %q{http://github.com/knb/org-parse}
   s.rdoc_options = ["--charset=UTF-8"]
