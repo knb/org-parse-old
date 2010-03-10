@@ -1,0 +1,4 @@
+2010-03-10  Kensei Nakamura  <kensei@dalmore.artifarm.com>
+
+	* lib/org-parse/node.rb (OrgParse): 
+

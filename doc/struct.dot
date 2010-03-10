@@ -1,0 +1,10 @@
+digraph structure {
+  graph [rankdir = LR];
+  "org-file" [shape = box];
+  output [shape = box];
+  tree [shape = box];
+  "org-file" -> parser;
+  parser -> tree;
+  tree -> visitor;
+  visitor -> output;
+}

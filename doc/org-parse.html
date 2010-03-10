@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+lang="en" xml:lang="en">
+<head>
+<title>OrgParse</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2010-03-10 11:09:20 JST"/>
+<meta name="author" content="Kensei Nakamura"/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+
+<h1 class="title">OrgParse</h1>
+
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1 これは何か？ </a></li>
+<li><a href="#sec-2">2 何故作ったか。 </a></li>
+<li><a href="#sec-3">3 構成 </a>
+<ul>
+<li><a href="#sec-3.1">3.1 概要 </a></li>
+</ul>
+</li>
+<li><a href="#sec-4">4 使い方 </a>
+<ul>
+<li><a href="#sec-4.1">4.1 org-parse コマンド </a></li>
+<li><a href="#sec-4.2">4.2 org-parse ライブラリ </a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> これは何か？ </h2>
+<div class="outline-text-2" id="text-1">
+
+<p><a href="http://orgmode.org">Org-Mode</a> で書かれた文書を他のフォーマットに変換するためのライブラリである。
+</p></div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> 何故作ったか。 </h2>
+<div class="outline-text-2" id="text-2">
+
+<p>直接の動機は、Redmine の文書やWikiに、Org-Modeで書いた文書を入れたかったから。
+長文になると、textileで書くのは骨が折れる。Org-Mode のアウトライン操作は快適である。
+</p>
+<p>
+この用途には<a href="http://orgmode.org/worg/org-tutorials/org-ruby.php">Org-ruby</a> が使えそうだけど、日本語の textile 文書との相性が悪かった。
+Org-rubyに手を入れるか自分用を作るか迷ったのだが、Racc の勉強を兼ねて一から作ることにした。
+</p></div>
+
+</div>
+
+<div id="outline-container-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> 構成 </h2>
+<div class="outline-text-2" id="text-3">
+
+
+</div>
+
+<div id="outline-container-3.1" class="outline-3">
+<h3 id="sec-3.1"><span class="section-number-3">3.1</span> 概要 </h3>
+<div class="outline-text-3" id="text-3.1">
+
+<p>org-file を、スキャナー、パーサーを通して、構文木を作成する。
+出来上がった構文木から、HTMLや、textile 等のフォーマットの文書を構築する。
+</p>
+<p>
+<img src="images/org-parse-struct_1ffae50f0c5eb867f9418df6800f40a5cc3d1751.png"  alt="images/org-parse-struct_1ffae50f0c5eb867f9418df6800f40a5cc3d1751.png" />
+</p>
+<p>
+RDtool の構成と同じ様な形式である。
+visitor の部分を置き換えることで、様々なフォーマットへの対応を行う予定である。
+</p></div>
+</div>
+
+</div>
+
+<div id="outline-container-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> 使い方 </h2>
+<div class="outline-text-2" id="text-4">
+
+
+</div>
+
+<div id="outline-container-4.1" class="outline-3">
+<h3 id="sec-4.1"><span class="section-number-3">4.1</span> org-parse コマンド </h3>
+<div class="outline-text-3" id="text-4.1">
+
+
+
+
+<pre class="example">Usage: org-parse [options] &lt;file&gt;
+  -h, --help                       Show this message
+  -f, --format FORMAT              Translate the ORG file to the specified format.(not yet)
+  -t, --template TEMPLATE          Erb template for build the output.
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-4.2" class="outline-3">
+<h3 id="sec-4.2"><span class="section-number-3">4.2</span> org-parse ライブラリ </h3>
+<div class="outline-text-3" id="text-4.2">
+
+<p>以下の様な感じ。
+</p>
+
+
+<pre class="example">data = IO.read(ARGV[0])
+
+# ソース文字列と、タイトルに使われるファイルのベース名を与える
+parser = OrgParse::StructParser.new(data, File.basename(ARGV[0], '.*'))
+# 構文解析を実行して、構文木を取得する
+root = parser.parse
+# ビジターに構文木を渡す。
+visitor = OrgParse::HtmlVisitor.new(root, options[:template])
+# 結果を得る
+puts visitor.build
+</pre>
+
+
+</div>
+</div>
+</div>
+<div id="postamble">
+<p class="author"> Author: Kensei Nakamura
+<a href="mailto:kensei@dalmore.artifarm.com">&lt;kensei@dalmore.artifarm.com&gt;</a>
+</p>
+<p class="date"> Date: 2010-03-10 11:09:20 JST</p>
+<p class="creator">HTML generated by org-mode 6.34c in emacs 23</p>
+</div>
+</div>
+</body>
+</html>

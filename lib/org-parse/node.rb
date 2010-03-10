@@ -2,32 +2,36 @@
 
 module OrgParse
 
-  # 構文木のノード
+  # syntax tree node
   #
   # [_kind_] Node kind
   # [_children_] Child Nodes
   # [_value_] Value of Node
   #
   # _children_  is Node array
-  # オプション行でセットされた値は、RootNode の options ハッシュにセットされる
   #
-  # ノードの種類
-  # - _ROOT_ :: ルートノード (RootNode 参照)
-  # - _SECTION_ :: セクションノード (SectionNode 参照)
+  # === Node kind
+  # - _ROOT_ :: RootNode
   #
-  # - _COMMENT_SECTION_ :: コメントセクション (SectionNode 参照) <--note: スキャナで捨てる
-  # - _HEADLINE_ :: ヘッドラインノード (HeadlineNode 参照)
-  # - _TEXTBLOCK_ :: 段落(テキスト行の集まり 空行で区切られる)
-  #
-  # - _WHITELINE_ :: 空行
-  # - _BLOCK_    :: ブロック(verse, example, src, html, ...)
+  # lines
+  # - _SECTION_ :: SectionNode
+  # - _HEADLINE_ :: HeadlineNode
+  # - _FN_DEFINE_ :: footnote definition
+  # - _VARIABLE_ :: VarNode
+  # - _WHITELINE_ :: WhitelineNode
+  # - _TEXTBLOCK_ :: TextlineNode's list will become paragraph
+  # - _TEXTLINE_  :: TextlineNode
+  # - _QUOTE_ :: HTML quoted text
+  # - _BLOCK_    :: BlockNode (verse, example, src, html, ...)
   # - _UNORDERED_LIST_ :: Unorderd list <UL>
-  # - _LISTITEM_ :: リストの項目(ul, ol, dl 共通)
   # - _ENUMLIST_ :: Ordered list <OL>
-  # - _DESCLIST_ :: Description list <DL> _value_ に<DT>の内容が入る
-  # - _COMMENT_  :: コメント行 <-- note: スキャナで捨てる
+  # - _DESCLIST_ :: Description list <DL>
+  # - _LISTITEM_ :: ListitemNode
+  # - _TABLE_ :: TableNode
+  # - _TABLE_SEP_ :: separator between th and td
+  # - _TABLE_ROW_ :: TableRowNode
   #
-  # - _FOOTNOTE_ :: 脚注 RootNode の footnotes にも設定する
+  #  inline's
   # - _BOLD_     :: bold
   # - _ITALIC_   :: italic
   # - _UNDER_LINE_ :: under line

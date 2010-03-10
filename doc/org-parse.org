@@ -1,0 +1,61 @@
+OrgParse
+* これは何か？
+  [[http://orgmode.org][Org-Mode]] で書かれた文書を他のフォーマットに変換するためのライブラリである。
+** 何故作ったか。
+  直接の動機は、Redmine の文書やWikiに、Org-Modeで書いた文書を入れたかったから。
+  長文になると、textileで書くのは骨が折れる。Org-Mode のアウトライン操作は快適である。
+
+  この用途には[[http://orgmode.org/worg/org-tutorials/org-ruby.php][Org-ruby]] が使えそうだけど、日本語の textile 文書との相性が悪かった。
+  Org-rubyに手を入れるか自分用を作るか迷ったのだが、Racc の勉強を兼ねて一から作ることにした。
+* 構成
+** 概要
+  org-file を、スキャナー、パーサーを通して、構文木を作成する。
+  出来上がった構文木から、HTMLや、textile 等のフォーマットの文書を構築する。
+#+BEGIN_DOT images/org-parse-struct.png -Tpng
+digraph structure {
+  graph [rankdir = LR];
+  "org-file" [shape = box];
+  output [shape = box];
+  tree [shape = box];
+  "org-file" -> parser;
+  parser -> tree;
+  tree -> visitor;
+  visitor -> output;
+}
+#+END_DOT
+  [[images/org-parse-struct.png]]
+  RDtool の構成と同じ様な形式である。
+  visitor の部分を置き換えることで、様々なフォーマットへの対応を行う予定である。
+* 使い方
+** org-parse コマンド
+#+begin_example
+  Usage: org-parse [options] <file>
+    -h, --help                       Show this message
+    -f, --format FORMAT              Translate the ORG file to the specified format.(not yet)
+    -t, --template TEMPLATE          Erb template for build the output.
+#+end_example
+** org-parse ライブラリ
+   以下の様な感じ。
+#+begin_example
+    data = IO.read(ARGV[0])
+    
+    # ソース文字列と、タイトルに使われるファイルのベース名を与える
+    parser = OrgParse::StructParser.new(data, File.basename(ARGV[0], '.*'))
+    # 構文解析を実行して、構文木を取得する
+    root = parser.parse
+    # ビジターに構文木を渡す。
+    visitor = OrgParse::HtmlVisitor.new(root, options[:template])
+    # 結果を得る
+    puts visitor.build
+#+end_example
+* TODOs
+** TODO オプション類の取扱いに対応する
+   [[オプション類の扱い]] 参照
+** TODO textile に対応する
+** TODO #+Begin_DOT 類に対応する 
+* MEMO
+** オプション類の扱い
+   オプションや、セクション番号等の情報は、各Nodeに持たせる。
+   つまり、ビジターで、コンテキストやオプション類の判定を行わないで済む様にする。
+   - セクション番号を、Section Node に持たせる
+   - Verse か否かは、TextlineNode や StringNodeが知っているべき
