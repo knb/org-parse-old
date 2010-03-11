@@ -36,7 +36,7 @@ module OrgParse
         :email => nil,
         :creator => GENERATOR, :timestamp => true,
         :title => nil, :text => [], :language => 'ja', :charset => 'utf-8',
-        :default_title => title,
+        :default_title => title, :style => '', :uv => true,
       }
       read_options
       # p @options
@@ -52,7 +52,7 @@ module OrgParse
           when /H:([0-9]+)/
             @options[:H] = $1.to_i
           when /skip:(\w)/
-            @options[:skip] = $1 == 't'
+            @options[:skip] = $1 != 'nil'
           when /num:(\w+)/
             @options[:num] = $1 != 'nil'
           when /toc:(\w+)/
@@ -63,6 +63,8 @@ module OrgParse
             @options[:creator] = $1 != 'nil'
           when /timestamp:(\w+)/
             @options[:timestamp] = $1 != 'nil'
+          when /uv:(\w+)/
+            @options[:uv] = $1 != 'nil'
           else
             m = false
           end
@@ -76,6 +78,8 @@ module OrgParse
           @options[:author] = $1
         when /^\s*#\+EMAIL:\s*(.*)/i
           @options[:email] = $1
+        when /^\s*#\+STYLE:\s*(.*)$/i
+          @options[:style] += $1
         else
           m = false
         end
@@ -84,9 +88,21 @@ module OrgParse
     end
     
     def next_token
-      return [false, false] if @token_que.empty?
+      return [[false, false],[]] if @token_que.empty?
       # p @token_que[0]
-      @token_que.shift
+      token = @token_que.shift
+      vars = []
+
+      while token[0] == :VARIABLELINE and (token[1][0] == "ATTR_HTML" or token[1][0] == "CAPTION")
+        if token[1][0] == "CAPTION"
+          vars << "CAPTION:" + token[1][1]
+        else
+          vars << token[1][1]
+        end
+        return [[false, false], []] if @token_que.empty?
+        token = @token_que.shift
+      end
+      [token, vars]
     end
 
     # リスト開始ラインのネストをチェックする
@@ -123,7 +139,7 @@ module OrgParse
       end
     end
 
-    # リストからの脱出
+    # if in list then exit list.
     def exit_nests(line)
       indent = get_indent line
       while @nest_stack.last and @nest_stack.last[1] >= indent
@@ -166,7 +182,7 @@ module OrgParse
       @options[:title] = line_parse title
     end
 
-    # 行単位でトークンに分解し、@token_que に内容を保存する
+    # split to tokens from @src array and set to @token_que
     def scan
       @line_idx = 0
       scan_before_1st_headline
@@ -183,6 +199,10 @@ module OrgParse
         case line
         when /^\s*$/ # WHITELINE
           @token_que << [:WHITELINE, line]
+        when /^(\*+)(\s+)COMMENT(\s)/
+          @line_idx += 1
+          @line_idx += 1 while @src[@line_idx] and @src[@line_idx] !~ /^\*+\s/
+          @line_idx -= 1 if @src[@line_idx]
         when /^(\*+)(\s+)/
           rest = $'
           level = $1
@@ -206,21 +226,20 @@ module OrgParse
           # #+HTML
           rest = $'
           @token_que << [:QUOTE, $']
+        when /^\s*#\+([^ :]+):\s*(.+)$/
+          @token_que << [:VARIABLELINE, [$1.upcase, $2.chomp]]
         when /^(\s*):\s(.*)$/
           @token_que << [:EXAMPLE, [$2+"\n", get_indent($1)]]
         when /^\s*#\+BEGIN_([A-Z0-9_]+)/i # BLOCK
           block_name = $1.upcase
           exit_nests line
           @token_que << [:BLOCK_START, [block_name, line, get_indent(line)]]
-          
           example_flag = true if ['EXAMPLE', 'HTML', 'SRC'].include? block_name.upcase
         when /^\s*#\+END_([A-Z0-9_]+)/i # BLOCK
           block_name = $1
           exit_nests line
           @token_que << [:BLOCK_END, [block_name, line]]
           example_flag = false
-        when /^#\+(\w+):\s*(.+)$/
-          @token_que << [:VARIABLELINE, [$1, $2.chomp]]
         when /^\s*\|[-\|\+]*\s*$/ # table separator
           # an org-mode table separator has the first non-whitespace
           # character as a | (pipe), then consists of nothing else other

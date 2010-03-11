@@ -65,7 +65,7 @@ class OrgParse::StructParser
              | WHITELINE { result = WhitelineNode.new }
 
   textlines : textlines textline = TEXTLINE { result.children << val[1] }
-            | textline { result = Node.new(:TEXTBLOCK, val, val[0]) }
+            | textline { result = Node.new(:TEXTBLOCK, val, val[0].value) }
 
   textline : TEXTLINE { result = TextlineNode.new(line_parse(val[0][0]), val[0]) }
            | html_quote
@@ -79,7 +79,7 @@ class OrgParse::StructParser
   block : BLOCK_START items BLOCK_END { result = BlockNode.new(val[0], val[1])}
         | examples = PLOW { 
               params = ["EXAMPLE", val[0][0].value, val[0][0].indent]
-	      result = BlockNode.new(params, val[0]) 
+	      result = BlockNode.new(params, [Node.new(:TEXTBLOCK, val[0], val[0][0].value)]) 
           }
 
   examples : examples example { result << val[1] }

@@ -4,16 +4,12 @@ module OrgParse
 
   # syntax tree node
   #
-  # [_kind_] Node kind
-  # [_children_] Child Nodes
-  # [_value_] Value of Node
-  #
   # _children_  is Node array
   #
   # === Node kind
   # - _ROOT_ :: RootNode
   #
-  # lines
+  # lines (StructParser)
   # - _SECTION_ :: SectionNode
   # - _HEADLINE_ :: HeadlineNode
   # - _FN_DEFINE_ :: footnote definition
@@ -31,7 +27,7 @@ module OrgParse
   # - _TABLE_SEP_ :: separator between th and td
   # - _TABLE_ROW_ :: TableRowNode
   #
-  #  inline's
+  #  inlines (InlineParser)
   # - _BOLD_     :: bold
   # - _ITALIC_   :: italic
   # - _UNDER_LINE_ :: under line
@@ -42,13 +38,57 @@ module OrgParse
   # - _QUOTE_    :: @<br/> , #+HTML ... 等
   #
   class Node
-    attr_accessor :kind, :children, :value
+    # Node type
+    attr_accessor :kind
+    # child nodes
+    attr_accessor :children   
+    # Node value
+    attr_accessor :value 
+    # Parent node
+    attr_accessor :parent
 
     def initialize(kind = nil, children = [], value = nil)
       @kind = kind
       @children = children
       @value = value
       @done = false
+      @parent = nil
+      @verse = false
+      @example = false
+      @html = false
+      @src = false
+    end
+
+    def set_verse
+      @verse = true
+    end
+
+    def verse?
+      @verse
+    end
+
+    def set_example
+      @example = true
+    end
+
+    def example?
+      @example
+    end
+
+    def set_src
+      @src = true
+    end
+
+    def src?
+      @src
+    end
+
+    def set_html
+      @html = true
+    end
+
+    def html?
+      @html
     end
 
     def done?
@@ -59,17 +99,14 @@ module OrgParse
       @done = true
     end
 
-    # 葉ノードか？
     def is_leaf?
       @children.empty?
     end
 
-    # コンテナノードか？
-    def is_container?
-      [:SECTION, :TEXTBLOCK, :LISTITEM, :UNORDERED_LIST, :ENUMLIST, :DESCLIST, :BLOCK].include? @kind
-    end
+    #def is_container?
+    #  [:SECTION, :TEXTBLOCK, :LISTITEM, :UNORDERED_LIST, :ENUMLIST, :DESCLIST, :BLOCK].include? @kind
+    #end
 
-    # 見やすく表示
     def inspect
       c = ''
       c  = @children.collect{|i| indent2(i.inspect)}.join("\n") if @children
@@ -78,27 +115,72 @@ module OrgParse
       "<#{self.class.name} #{@kind}:#{val}>" + (c.empty? ? "" : "\n") + c
     end
 
+    def section_no_array
+      if @section_no
+        @section_no.split('.')
+      else
+        nil
+      end
+    end
+
+    def set_to_descendant(method, val=nil)
+      @children.each{|node|
+        if val
+          node.send method, *val
+        else
+          node.send method
+        end
+        node.set_to_descendant method, val
+      }
+    end
+
+    private
+
     def indent2(str)
       buf = ''
       str.each_line{|i| buf << "  " << i }
       buf
     end
-    private :indent2
   end
 
-  # 構文木の先頭ノード
+  # Root
   #
-  # 全体に関するオプションも保持する
+  # 
   class RootNode < Node
+    # options
     attr_reader :options
+    attr_accessor :section_no
 
     def initialize(opts)
       super(:ROOT)
       @options = opts
+      @section_no = "0"
     end
 
     def add(nodes)
       @children += nodes
+    end
+  end
+
+  # セクション保持用
+  #
+  # _children[0]_ には、必ず Headline Nodeが入る
+  #
+  class SectionNode < Node
+    attr_accessor :section_no
+
+    # コンストラクタ
+    # [_headline_] セクション開始の Headline
+    # [_bodyitems_] セクションに含まれるブロック要素
+    def initialize(headline, bodyitems)
+      @section_no = "0"
+      headline.parent = self
+      super(:SECTION, bodyitems, headline)
+    end
+
+    # Headline のノードを返す
+    def headline
+      @value
     end
   end
 
@@ -128,27 +210,6 @@ module OrgParse
     end
   end
 
-  # セクション保持用
-  #
-  # _children[0]_ には、必ず Headline Nodeが入る
-  #
-  # _kind_ が、:COMMENT_SECTION の場合には出力されない。
-  class SectionNode < Node
-
-    # コンストラクタ
-    # [_headline_] セクション開始の Headline
-    # [_bodyitems_] セクションに含まれるブロック要素
-    # [_is_comment_] コメントセクションなら true をセットする
-    def initialize(headline, bodyitems)
-      # kind = headline.is_comment ? :COMMENT_SECTION : :SECTION
-      super(:SECTION, bodyitems, headline)
-    end
-
-    # Headline のノードを返す
-    def headline
-      @value
-    end
-  end
 
   class TextlineNode < Node
     attr_reader :indent
@@ -157,6 +218,7 @@ module OrgParse
       @indent = vals[1]
       super(:TEXTLINE, children, vals[0])
     end
+
   end
 
   # リストアイテム
@@ -172,11 +234,29 @@ module OrgParse
 
   # BLOCK の情報を保持
   class BlockNode < Node
-    attr_reader :indent, :block_name
+    attr_reader :indent, :block_name, :syntax, :syntax_theme
     def initialize(vals, children)
       @block_name = vals[0].upcase
       @indent = vals[2]
+      @syntax = ''
+      @syntax_theme = ''
       super(:BLOCK, children, vals[1])
+      case @block_name
+      when 'VERSE'
+        set_to_descendant :set_verse
+      when 'EXAMPLE'
+        set_to_descendant :set_example
+      when 'SRC'
+        set_to_descendant :set_src
+        if vals[1] =~ /SRC\s*([^\s]+)\s+([^\s]+)\s*$/i
+          @syntax = $1.downcase
+          @syntax_theme = $2.downcase
+        elsif vals[1] =~ /SRC\s*(.+)\s*$/i
+          @syntax = $1.downcase
+        end
+      when 'HTML'
+        set_to_descendant :set_html
+      end
     end
 
     def line
@@ -212,8 +292,21 @@ module OrgParse
   # Link保持
   #
   class LinkNode < Node
+    attr_reader :html_options, :caption
     
-    def initialize(uri, children = [])
+    def initialize(uri, children = [], vars = [])
+      @html_options = {}
+      @caption = nil
+      vars.each do |v|
+        if v =~ /^CAPTION:(.+)$/
+          @caption = $1.chomp
+        else
+          while v =~ /([^ =]+)=("[^"]+")/
+            @html_options[$1] = $2
+            v = $'
+          end
+        end
+      end
       super(:LINK, children, uri)
     end
 

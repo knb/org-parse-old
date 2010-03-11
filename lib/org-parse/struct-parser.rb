@@ -24,30 +24,48 @@ module OrgParse
     # コンストラクタ
     def initialize(src, title = '(non title)')
       @scanner = StructScanner.new(src, title)
+      @variables = []
       @yydebug = true
+      set_struct_parser self
     end
 
     # 構文解析を実行し、構文木を返す
     def parse
       @scanner.scan
-      do_parse
+      root = do_parse
+      update_nodes root
+      root
+    end
+
+    def update_nodes(node, opt = {})
+      cnt = 1;
+
+      section_no = node.section_no if node.kind == :SECTION
+      node.children.each do |n|
+        n.parent = node
+        if n.kind == :SECTION
+          if node.kind == :ROOT
+            n.section_no = cnt.to_s
+          else
+            n.section_no = section_no + "." + cnt.to_s
+          end
+          cnt += 1
+        end
+        update_nodes n, opt
+      end
     end
 
     def next_token
-      @scanner.next_token
+      (token, variables) = @scanner.next_token
+      @variables = variables unless variables.empty?
+      token
     end
 
-    # def line_parse(str)
-    #  @inline_parser.parse(str)
-    # end
+    def variables
+      ret = @variables.dup
+      @variables.clear
+      ret
+    end
 
-    # def line_index
-    #   @scanner.line_index
-    # end
-
-    # def on_error(et, ev, values)
-    #  message = " #{et} #{ev ? ev : ''} #{values}\n"
-    #  raise ParseError, message
-    # end
   end
 end

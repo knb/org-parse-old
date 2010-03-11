@@ -28,6 +28,33 @@ options_parser = OptionParser.new do |opts|
   end
 end
 
+def update_test(node, opt = {})
+  cnt = 1;
+
+  section_no = node.section_no if node.kind == :SECTION
+  node.children.each do |n|
+    n.parent = node
+    if n.kind == :SECTION
+      if node.kind == :ROOT
+        n.section_no = cnt.to_s
+      else
+        n.section_no = section_no + "." + cnt.to_s
+      end
+      cnt += 1
+    end
+    update_test n, opt
+  end
+end
+
+def disp_toc(node)
+  node.children.each do |n|
+    if n.kind == :SECTION
+      puts n.section_no 
+      disp_toc(n)
+    end
+  end
+end
+
 begin
   options_parser.parse!
   if (ARGV.length == 0) then
@@ -37,8 +64,10 @@ begin
     
     parser = OrgParse::StructParser.new(data, File.basename(ARGV[0], '.*'))
     root = parser.parse
-    visitor = OrgParse::HtmlVisitor.new(root, options[:template])
-    puts visitor.build
+    update_test(root)
+    disp_toc(root)
+    # visitor = OrgParse::HtmlVisitor.new(root, options[:template])
+    # puts visitor.build
   end
 rescue OptionParser::ParseError
   puts options_parser

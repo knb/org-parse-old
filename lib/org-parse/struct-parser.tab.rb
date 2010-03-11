@@ -439,7 +439,7 @@ module_eval <<'.,.,', 'lib/org-parse/struct-parser.ry', 66
 
 module_eval <<'.,.,', 'lib/org-parse/struct-parser.ry', 67
   def _reduce_36( val, _values, result )
- result = Node.new(:TEXTBLOCK, val, val[0])
+ result = Node.new(:TEXTBLOCK, val, val[0].value)
    result
   end
 .,.,
@@ -476,7 +476,7 @@ module_eval <<'.,.,', 'lib/org-parse/struct-parser.ry', 78
 module_eval <<'.,.,', 'lib/org-parse/struct-parser.ry', 83
   def _reduce_44( val, _values, result )
               params = ["EXAMPLE", val[0][0].value, val[0][0].indent]
-	      result = BlockNode.new(params, val[0])
+	      result = BlockNode.new(params, [Node.new(:TEXTBLOCK, val[0], val[0][0].value)])
    result
   end
 .,.,

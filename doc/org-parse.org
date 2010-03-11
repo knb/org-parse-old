@@ -23,9 +23,8 @@ digraph structure {
   visitor -> output;
 }
 #+END_DOT
-  [[images/org-parse-struct.png]]
   RDtool の構成と同じ様な形式である。
-  visitor の部分を置き換えることで、様々なフォーマットへの対応を行う予定である。
+  visitor の部分を置き換えることで、様々なフォーマットへ変換出来るようになる（予定）。
 * 使い方
 ** org-parse コマンド
 #+begin_example
@@ -55,7 +54,12 @@ digraph structure {
 ** TODO #+Begin_DOT 類に対応する 
 * MEMO
 ** オプション類の扱い
+*** プログラム内でのオプションの記憶場所
    オプションや、セクション番号等の情報は、各Nodeに持たせる。
    つまり、ビジターで、コンテキストやオプション類の判定を行わないで済む様にする。
    - セクション番号を、Section Node に持たせる
-   - Verse か否かは、TextlineNode や StringNodeが知っているべき
+   - Verse、Example 等は、各 BlockNode 配下のnode 自体が知っている
+*** オプションの指定方法
+   コマンドラインで指定。
+   コンフィグファイルを作る？(~/.org-parse-rc)
+   文書内での指定を最優先する方が正しいか？

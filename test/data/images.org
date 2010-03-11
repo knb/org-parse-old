@@ -15,12 +15,14 @@ images
     : [[file:lily20100228.jpg][file:lily20100228t.jpg]]
     #+ATTR_HTML: alt="寝起きのリリー君の写真" title="起きて!" align="right"
     [[file:lily20100228.jpg][file:lily20100228t.jpg]]
-    テキストは、右側に回りこみ。
-
-    : #+ATTR_HTML: alt="寝起きのリリー君の写真" title="起きて!" align="right" size="75x100"
+    写真は右寄せ。
+    右寄せの解除は、<br clear="both"/>
+    @<br clear="both"/>
+    : #+ATTR_HTML: alt="寝起きのリリー君の写真" title="起きて!" width="30" height="40"
     : [[file:lily20100228.jpg]]
     #+ATTR_HTML: alt="寝起きのリリー君の写真" title="起きて!" width="30" height="40"
     [[file:lily20100228.jpg]]
+    小さく表示
 ** Image とリンク
    [[./index.html][file:lily20100228t.jpg]]
 ** Image と デスクリプション

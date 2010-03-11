@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
+require 'rubygems'
 require 'erb'
+require 'uv'
 
 module OrgParse
 
@@ -14,6 +16,9 @@ module OrgParse
       # p nodes
       nodes.each{|n| ret += execute(n) }
       ret
+    rescue
+      STDERR.puts "---"
+      STDERR.puts nodes.inspect
     end
 
     def exec_children(node)
@@ -33,49 +38,28 @@ module OrgParse
     TEMPLATE = ::File.join(OrgParse::LIBPATH , 'org-parse', 'templates', 'single.html.erb')
     attr_reader :body
 
-    def initialize(root, template = nil)
-      image_exts = ['jpeg', 'jpg', 'png', 'gif', 'bmp', 'tiff']
+    def initialize(root, template = nil, cm_opt = {})
+      image_exts = ['jpeg', 'jpg', 'png', 'gif', 'bmp', 'tiff', 'srg']
       make_image_regs image_exts
       @body = @title = @add_to_head = ''
       @root = root
-      @section_counts = [0,0,0,0,0,0,0,0,0]
       @ul_stack = []
       template = TEMPLATE unless template
       @erb = ERB.new(::File.read(template))
-      @verse = false
       @p_tag_flag = true
       @list_level = 0
       @indent_stack = [0]
       @body = ''
       @curr_level = 0
       @para_level = 0
-      @example = false
-      @html = false
-      @flash_vars = {}
-      @options = {}
+      @options = cm_opt
     end
 
     def make_image_regs(exts)
       @image_file_reg = /\.(#{exts.join('|')})$/
     end
 
-    # section number
-    #   like "1.1"
-    def section_number(level)
-      ret = @section_counts[0].to_s
-      (level - 1).times do |i|
-        ret += ".#{@section_counts[i+1]}" if @section_counts[i+1] > 0
-      end
-      ret
-    end
-
-    # update section number buffer
-    def update_section_number(level)
-      @section_counts[level - 1] += 1
-      (level..(@section_counts.size - 1)).each {|i| @section_counts[i] = 0}
-    end
-
-    # remove all HTML tags
+    # remove HTML tags
     def rm_html_tag(str)
       str.sub!(/<[^<>]*>/,"") while /<[^<>]*>/ =~ str
       str
@@ -91,7 +75,8 @@ module OrgParse
       @footnotes = []
       @footnote_idxs = []
       @before_text = ''
-      @options[:text].each {|n| @before_text += execute(n)}
+      @before_text = exec_list @options[:text] # .each {|n| @before_text += execute(n)}
+      @add_to_head = @options[:style]
       start_flag = true
       @root.children.each do |node|
         if start_flag and node.kind != :SECTION
@@ -127,8 +112,6 @@ module OrgParse
     end
 
     def table_of_contents
-      section_counts = @section_counts
-      @section_counts = [0,0,0,0,0,0,0,0,0]
       toc = "<ul>\n"
       @root.children.each {|node|
         if node.kind == :SECTION
@@ -136,7 +119,6 @@ module OrgParse
         end
       }
       toc += "</ul>\n"
-      @section_counts = section_counts
       return '' if toc == "<ul>\n</ul>\n"
       ret =<<"EOS"
 <div id="table-of-contents">
@@ -150,8 +132,7 @@ EOS
 
     def toc_out(node)
       curr_level = node.headline.level
-      update_section_number curr_level
-      idx_no = section_number(curr_level)
+      idx_no = node.section_no
       str = toc_headline node.headline
       ret = %Q|<li><a href="#sec-#{idx_no}">#{idx_no} #{str}</a>|
       has_child = false
@@ -182,10 +163,9 @@ EOS
     def section(node)
       curr_level = node.headline.level
 
-      update_section_number curr_level
       @curr_level = curr_level
       indent = section_indent(curr_level - 1)
-      idx_no = section_number(curr_level)
+      idx_no = node.section_no
       if curr_level > @options[:H]
         str = close_ul_sec(curr_level)
         if @ul_stack.last and @ul_stack.last == curr_level
@@ -211,14 +191,16 @@ EOS
 
     def headline(node)
       level = node.level+1
-      index_str = section_number(node.level)
+      index_str = node.parent.section_no
       %Q|<h#{level} id="sec-#{index_str}"><span class="section-number-#{level}">#{index_str}</span> #{exec_children(node).chomp} </h#{level}>|
     end
 
     # paragraph 
     # if @p_tag_flag == false then we do'nt output <p></p> tags.
     def textblock(node)
-      if @p_tag_flag
+      if node.verse? or node.example? or node.html? or node.src?
+        exec_children node
+      elsif @p_tag_flag
         indent = get_indent
         @para_level += 1
         str = "#{indent}<p>\n#{exec_children(node).chomp}\n#{indent}</p>\n"
@@ -231,51 +213,69 @@ EOS
       end
     end
 
+    def textline(node)
+      if node.example? or (node.src? and !@options[:uv])
+        indent = ' ' * @indent_stack.last 
+        return h node.value.sub(/^#{indent}/,'')
+      elsif node.src? and @options[:uv]
+        return node.value
+      elsif node.html?
+        return node.value
+      else
+        indent = get_indent
+        str = exec_children(node).sub(/^\s*/, '')
+        if node.verse?
+          n = node.indent - @indent_stack.last
+          n = 0 if n < 0
+          indent = '&nbsp;&nbsp;' * n
+          indent + str.gsub(/\n/, "<br/>\n")
+        else
+          indent + str
+        end
+      end
+    end
+
     def verse(node)
       pre = get_indent + %Q|<p class="verse">\n|
       post = get_indent + "</p>\n"
       @indent_stack << node.indent
-      @verse = true
-      @para_level += 1
-      @p_tag_flag = false
       body = exec_children node
-      @p_tag_flag = true
-      @verse = false
-      @para_level -= 1
       @indent_stack.pop
       pre + body.chomp + "\n" + post
     end
 
     def example(node)
-      @example = true
       indent = get_indent
-      # STDERR.puts "-->" + node.children[0].inspect
       this_indent = 0
-      if node.children[0].kind == :TEXTBLOCK
-        this_indent = node.children[0].children[0].indent
-      elsif node.children[0].kind == :TEXTLINE
-        this_indent = node.children[0].indent
-      end
+      this_indent = node.children[0].children[0].indent
       @indent_stack << this_indent
-      @p_tag_flag = false
       body = exec_children(node)
-      @p_tag_flag = true
       @indent_stack.pop
-      @example = false
       %Q|<pre class="example">\n#{ body.chomp }\n</pre>\n|
-    #rescue
-    #  ''
+    end
+
+    def src(node)
+      if @options[:uv]
+        text = exec_children(node)
+        syntax = node.syntax
+        syntax = 'lisp' if syntax == 'emacs-lisp'
+        theme = node.syntax_theme
+        theme = 'amy' if theme.empty?
+        begin
+          Uv.parse( text, "xhtml", syntax, true, theme)
+        rescue
+          "uv can't parse #{syntax}/#{theme} <br>\n" + example(node)
+        end
+      else
+        example node
+      end
     end
 
     def html_quote(node)
-      @html = true
       indent = get_indent
       @indent_stack << node.children[0].children[0].indent
-      @p_tag_flag = false
       body = exec_children(node)
-      @p_tag_flag = true
       @indent_stack.pop
-      @html = false
       body
     end
 
@@ -301,67 +301,60 @@ EOS
         when 'COMMENT'
           ''
         when 'SRC'
-          example node
+          src node
         else
           puts "not implimented block=>[#{node.block_name}](#{node.inspect})"
           exec_children(node)
         end
     end
 
-    def textline(node)
-      # p node
-      if @example
-        indent = ' ' * @indent_stack.last 
-        return h node.value.sub(/^#{indent}/,'')
-      elsif @html
-        return node.value
-      else
-        indent = get_indent
-        str = exec_children(node).sub(/^\s*/, '')
-        if @verse
-          n = node.indent - @indent_stack.last
-          n = 0 if n < 0
-          indent = '&nbsp;&nbsp;' * n
-          indent + str.sub(/\n/, "<br/>\n")
-        else
-          indent + str
-        end
-      end
-    end
-
     def image_tag(uri, attr = '')
-      %Q|<img src="#{uri.sub(/^file:/,'')}#{attr}">|
+      %Q|<img src="#{uri.sub(/^file:/,'')}"#{attr}/>|
     end
 
     def link(node)
-      attr = ''
-      attr = " #{@flash_vars['ATTR_HTML']}" if @flash_vars['ATTR_HTML']
-      
-      desc = nil
-      # puts " #{node.value}: #{node.children.inspect}"
-      desc = exec_children node unless node.is_leaf?
-      if desc and desc =~ @image_file_reg
-        desc = image_tag desc, attr
+      if node.caption.nil?
+        mk_link(node)
+      else
+        %Q|<div class="figure">
+  <p>#{mk_link(node)}</p>
+  <p>#{node.caption}</p>
+</div>
+|
       end
+    end
 
-      link = nil
-      if node.uri =~ @image_file_reg 
-        unless desc
-          image_tag node.uri, attr 
+    def mk_link(node)
+      a_attrs = ['href', 'name', 'target', 'charset', 'hreflang', 'type', 'rel', 'rev', 
+                 'tabindex', 'accesskey', 'shape', 'coords']
+      a_attr = ''
+      img_attr = ''
+      node.html_options.each do |k, v|
+        if a_attrs.include? k
+          a_attr = ' ' if a_attr.empty?
+          a_attr += "#{k}=#{v}"
         else
-          %Q|<a href="#{node.uri.sub(/^file:/,'')}">#{desc}</a>|
+          img_attr = ' ' if img_attr.empty?
+          img_attr += "#{k}=#{v} "
+        end
+      end
+      
+      desc = ''
+      desc = exec_children node
+
+      if desc.empty?
+        if node.uri =~ @image_file_reg
+          image_tag(node.uri, a_attr+img_attr)
+        else
+          %Q|<a href="#{node.uri.sub(/^file:/,'')}"#{a_attr+img_attr}>node.uri</a>|
         end
       else
-        desc = ''
-        if node.is_leaf?
-          desc = node.value
-        else
-          desc = exec_children node 
-        end
         if desc =~ @image_file_reg
-          desc = %Q|<img src="#{desc.sub(/^file:/,'')}">|
+          desc = image_tag desc, img_attr
+        else
+          a_attr += img_attr
         end
-        %Q|<a href="#{node.uri.sub(/^file:/, '')}">#{ desc }</a>|
+        %Q|<a href="#{node.uri.sub(/^file:/,'')}"#{a_attr+img_attr}>#{desc}</a>|
       end
     end
 
@@ -470,7 +463,6 @@ EOS
 
     def execute(node)
       # puts "node:#{node.kind} [#{node.value}]\n"
-      # STDERR.puts "-----[#{@example}/#{@verse}]-----"
       # STDERR.puts node.inspect
       return '' if node.done?
       case node.kind
@@ -482,7 +474,11 @@ EOS
         textblock node
       when :WHITELINE, :WHITELINES
         @p_tag_flag = true
-        "\n" * node.value
+        if node.verse?
+          "<br>\n" * node.value
+        else
+          "\n" * node.value
+        end
       when :STRING
         h node.value
       when :QUOTE

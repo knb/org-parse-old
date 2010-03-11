@@ -1,8 +1,7 @@
 OrgParse HTML export specification
 
 * texts before 1st headline
-** by default
-  [[file:text-bef-hl.org]] [[text-bef-hl.html][html]]
+** default
   最初のテキストラインが、待った無しでタイトルになり、
   残りの部分は、普通にHTMLに変換される。
   : title
@@ -15,8 +14,7 @@ OrgParse HTML export specification
   : xxxx
   : <h2>1st headline</h2>
   の様に変換。[fn::実際はセクションヘッダには<div>やら何やらくっつく]
-
-  ヘッドラインから始まる場合は、最初のヘッドラインの内容がタイトルとなる。
+  ヘッドラインから始まる場合は、ファイル名(StructParser の引数で指定されたテキスト)がタイトルになる。
 ** #+TITLE: xxxx
    : #+TITLE: xxxx
    が指定されている場合は、xxxx がタイトルになる。
@@ -24,7 +22,7 @@ OrgParse HTML export specification
 ** Options: skip:t
    : #+OPTIONS: skip:t
    が指定されていると、最初のセクション以前のテキストは捨てられる。
-   タイトルには、ファイル名 が使われる。
+   タイトルには、ファイル名（StructParser に渡された値) が使われる。
 
    この場合も、
    : #+TITLE: xxxx
@@ -37,7 +35,6 @@ OrgParse HTML export specification
 ** Mark up
    タイトルに対してもインライン要素としての解釈は実行される
 * sections
-  [[file:sections.org]]
   #+BEGIN_VERSE
     セクション 1
       セクション 1.1
@@ -62,8 +59,8 @@ indent shallower
 ** list
 ** blocks
 ** Verse
-   verse ブロック内では、改行が保存される。//
-   <p class="verse"> 〜 </p> でくくる。//
+   verse ブロック内では、改行が保存される。\\
+   <p class="verse"> 〜 </p> でくくる。\\
 
    インデントは、ブロック指定行のインデントを基準に、
    各行のインデント * 2 の &nbsp; に置き換わる。
@@ -200,19 +197,19 @@ indent shallower
 
    EXAMPL ブロックは、<pre> タグに変換される
 *** SRC
-   #+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp eiffel
      (+ 1 2)
    #+END_SRC
    
-   #+BEGIN_COMMENT
+#+BEGIN_COMMENT
      ここは、コメントブロックだよ
-   #+END_COMMENT
+#+END_COMMENT
 *** VERSE
    #+begin_verse
      このブロック内では、改行が
      保存される。
 
-     行頭のインデントは、html の場合、&nbsp; に変換される
+     行頭のインデントは、html の場合、&&nbsp; に変換される
    #+end_verse
 
    行頭のインデントは、~#+BEGIN_VERSE~　のインデント + 1 をベースとして、
@@ -252,6 +249,7 @@ indent shallower
    # これは、コメント行では無い。 でも、 #+ ここからは？　やっぱり地の文。
 ** COMMENT comment block
    このセクションは、全体がコメントとして扱われる。
+   (出力には含まれない)
 
 ** Option node
    : #+TITLE
@@ -330,14 +328,15 @@ indent shallower
 * Table of contents
  サポートは後回しにするかね。
 
-
+* OPTIONS
 :#+OPTIONS: skip:t
 #+OPTIONS: H:4
-#+TEXT: head block
-#+TEXT: this area is <b> *literal* </b>
-#+TITLE: sample dayo
+: #+TEXT: head block
+: #+TEXT: this area is <b> *literal* </b>
+: #+TITLE: sample dayo
 #+AUTHOR: knb
 #+EMAIL: knb@artif.org
+#+STYLE: <link rel="stylesheet" type="text/css" href="css/eiffel.css" />
 * test files
 - [[texts before 1st headline]] [[file:text-bef-hl.org]] [[text-bef-hl.html][html]]
 - [[#+TITLE: xxxx]] [[file:title.org]] [[file:title.html][html]]

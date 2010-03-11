@@ -209,6 +209,11 @@ module OrgParse
       @@inline_parser = InlineParser.new if @@inline_parser.nil?
       @@inline_parser.parse(str)
     end
+
+    def set_struct_parser(sp)
+      @@inline_parser = InlineParser.new if @@inline_parser.nil?
+      @@inline_parser.structp = sp
+    end
   end
 
 end

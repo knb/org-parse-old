@@ -390,14 +390,14 @@ module_eval <<'.,.,', 'lib/org-parse/inline-parser.ry', 65
 
 module_eval <<'.,.,', 'lib/org-parse/inline-parser.ry', 73
   def _reduce_34( val, _values, result )
- result = LinkNode.new(val[0], val[1])
+ result = LinkNode.new(val[0], val[1], @structp.variables)
    result
   end
 .,.,
 
 module_eval <<'.,.,', 'lib/org-parse/inline-parser.ry', 74
   def _reduce_35( val, _values, result )
- result = LinkNode.new(val[0])
+ result = LinkNode.new(val[0], [], @structp.variables)
    result
   end
 .,.,

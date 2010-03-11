@@ -4,7 +4,7 @@ namespace "racc" do
 
   desc "Generate tab files"
   file :gen => tabs do |t|
-    t.prerequisites.each {|p| puts "  +" + p}
+    #
   end
 
   tabs.each do |t|

@@ -1,0 +1,11 @@
+<pre class="espresso_libre"><span class="line-numbers">   1 </span> <span class="Keyword">digraph</span> structure {
+<span class="line-numbers">   2 </span>   <span class="Keyword">graph</span> [<span class="LibraryConstant">rankdir</span> = LR];
+<span class="line-numbers">   3 </span>   <span class="String"><span class="String">&quot;</span>org-file<span class="String">&quot;</span></span> [<span class="LibraryConstant">shape</span> = box];
+<span class="line-numbers">   4 </span>   output [<span class="LibraryConstant">shape</span> = box];
+<span class="line-numbers">   5 </span>   tree [<span class="LibraryConstant">shape</span> = box];
+<span class="line-numbers">   6 </span>   <span class="String"><span class="String">&quot;</span>org-file<span class="String">&quot;</span></span> -&gt; parser;
+<span class="line-numbers">   7 </span>   parser -&gt; tree;
+<span class="line-numbers">   8 </span>   tree -&gt; visitor;
+<span class="line-numbers">   9 </span>   visitor -&gt; output;
+<span class="line-numbers">  10 </span> }
+</pre>
