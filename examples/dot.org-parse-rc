@@ -1,0 +1,21 @@
+# org-parse options
+
+---
+:author: knb
+:email: knb@artif.org
+:language: ja
+:charset: utf-8
+:skip: false
+:url: http://www.artif.org/
+:default_title: (no title)
+:H: 3
+:toc: true
+:timestamp: true
+:uv: true
+:num: true
+# :style: <link rel="stylesheet" type="text/css" href="css/eiffel.css" />
+# :creator: OrgParse 0.0.2 Powered by Ruby 1.8.7
+# :title: 
+:text:
+  - Texts before 1st section.
+  - This must be array.

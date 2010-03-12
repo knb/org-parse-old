@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 require ::File.join(OrgParse::LIBPATH , 'org-parse', 'inline-parser.rb')
 require ::File.join(OrgParse::LIBPATH , 'org-parse', 'utils.rb')
+require 'yaml'
+
 
 module OrgParse
 
@@ -39,6 +41,10 @@ module OrgParse
         :default_title => title, :style => '', :uv => true,
       }
       read_options
+      opt = YAML.dump @options
+      File.open('dot.rc2', "w") {|f|
+        f.write opt
+      }
       # p @options
     end
 

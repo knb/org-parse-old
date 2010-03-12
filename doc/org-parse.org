@@ -63,3 +63,4 @@ digraph structure {
    コマンドラインで指定。
    コンフィグファイルを作る？(~/.org-parse-rc)
    文書内での指定を最優先する方が正しいか？
+   [[../examples/dot.org-parse-rc]]

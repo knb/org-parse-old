@@ -1,0 +1,19 @@
+--- 
+options: 
+  :text: []
+
+  :author: knb
+  :language: ja
+  :skip: false
+  :url: 
+  :charset: utf-8
+  :title: 
+  :email: knb@artif.org
+  :default_title: html-export
+  :creator: OrgParse 0.0.2 Powered by Ruby 1.8.7
+  :H: 4
+  :style: <link rel="stylesheet" type="text/css" href="css/eiffel.css" />
+  :toc: true
+  :timestamp: true
+  :uv: true
+  :num: true
