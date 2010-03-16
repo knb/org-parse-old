@@ -33,8 +33,6 @@ Gem::Specification.new do |s|
      "doc/org-parse.org",
      "doc/struct.dot",
      "doc/struct.png",
-     "dot.rc",
-     "dot.rc2",
      "examples/body-only.html.erb",
      "examples/dot.org-parse-rc",
      "lib/org-parse.rb",
@@ -49,6 +47,7 @@ Gem::Specification.new do |s|
      "lib/org-parse/struct-parser.tab.rb",
      "lib/org-parse/struct-scanner.rb",
      "lib/org-parse/templates/single.html.erb",
+     "lib/org-parse/textile-visitor.rb",
      "lib/org-parse/utils.rb",
      "lib/org-parse/visitor.rb",
      "org-parse.gemspec",
@@ -90,11 +89,15 @@ Gem::Specification.new do |s|
      "tmp/footnote.html",
      "tmp/html-export.html",
      "tmp/images.html",
+     "tmp/images.textile",
+     "tmp/index.html",
+     "tmp/index.textile",
      "tmp/lily20100228.jpg",
      "tmp/lily20100228t.jpg",
      "tmp/lists.html",
      "tmp/struct.html",
-     "tmp/table.html"
+     "tmp/table.html",
+     "tmp/table.textile"
   ]
   s.homepage = %q{http://github.com/knb/org-parse}
   s.rdoc_options = ["--charset=UTF-8"]
