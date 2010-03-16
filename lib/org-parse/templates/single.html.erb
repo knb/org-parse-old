@@ -6,9 +6,11 @@ lang="<%= @language %>" xml:lang="<%= @language %>">
 <head>
 <title><%= @title %></title>
 <meta http-equiv="Content-Type" content="text/html;charset=<%= @charset %>"/>
-<meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2010-02-17 17:30:08 JST"/>
-<meta name="author" content="Kensei Nakamura"/>
+<meta name="generator" content="Org-parse"/>
+<meta name="generated" content="<%= Time.now.to_s %>"/>
+<% if @options[:author] %>
+  <meta name="author" content="<%= @options[:author] %>"/>
+<% end %>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
 <style type="text/css">

@@ -42,4 +42,5 @@ require ::File.join(OrgParse::LIBPATH , 'org-parse', 'node.rb')
 require ::File.join(OrgParse::LIBPATH , 'org-parse', 'struct-scanner.rb')
 require ::File.join(OrgParse::LIBPATH , 'org-parse', 'struct-parser.rb')
 require ::File.join(OrgParse::LIBPATH , 'org-parse', 'visitor.rb')
+require ::File.join(OrgParse::LIBPATH , 'org-parse', 'textile-visitor.rb')
 

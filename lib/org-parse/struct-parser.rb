@@ -42,6 +42,13 @@ module OrgParse
 
       section_no = node.section_no if node.kind == :SECTION
       node.children.each do |n|
+        if n.is_a? Array
+          n.each {|a|
+            a.parent = node
+            update_nodes a, opt
+          }
+          next
+        end
         n.parent = node
         if n.kind == :SECTION
           if node.kind == :ROOT

@@ -5,7 +5,8 @@ require 'uv'
 
 module OrgParse
 
-  module VisitorBase
+  module VisitorUtils
+
 
     def execute(node)
       puts "not implimented => #{node.inspect}"
@@ -13,16 +14,24 @@ module OrgParse
 
     def exec_list(nodes)
       ret = ''
-      # p nodes
       nodes.each{|n| ret += execute(n) }
       ret
-    rescue
-      STDERR.puts "---"
-      STDERR.puts nodes.inspect
     end
 
     def exec_children(node)
       exec_list node.children
+    end
+  end
+
+  class OrgVisitor
+    @@image_exts = ['jpeg', 'jpg', 'png', 'gif', 'bmp', 'tiff', 'srg']
+
+    def initialize
+      make_image_regs @@image_exts
+    end
+
+    def make_image_regs(exts)
+      @image_file_reg = /\.(#{exts.join('|')})$/
     end
   end
 
@@ -33,17 +42,16 @@ module OrgParse
   # ...   &hellip;   \ldots
 
   # output HTML format
-  class HtmlVisitor
-    include VisitorBase
+  class HtmlVisitor < OrgVisitor
+    include VisitorUtils
     TEMPLATE = ::File.join(OrgParse::LIBPATH , 'org-parse', 'templates', 'single.html.erb')
     attr_reader :body
 
     def initialize(root, template = nil, cm_opt = {})
-      image_exts = ['jpeg', 'jpg', 'png', 'gif', 'bmp', 'tiff', 'srg']
-      make_image_regs image_exts
       @body = @title = @add_to_head = ''
       @root = root
       @ul_stack = []
+      super()
       template = TEMPLATE unless template
       @erb = ERB.new(::File.read(template))
       @p_tag_flag = true
@@ -339,7 +347,6 @@ EOS
         end
       end
       
-      desc = ''
       desc = exec_children node
 
       if desc.empty?
@@ -388,6 +395,7 @@ EOS
       else
         @options[node.name] = node.value
       end
+      ''
     end
 
     def clear_vars

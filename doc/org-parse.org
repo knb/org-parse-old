@@ -7,6 +7,9 @@ OrgParse
 
   この用途には[[http://orgmode.org/worg/org-tutorials/org-ruby.php][Org-ruby]] が使えそうだけど、日本語の textile 文書との相性が悪かった。
   Org-rubyに手を入れるか自分用を作るか迷ったのだが、Racc の勉強を兼ねて一から作ることにした。
+
+  が、構文エラーを出さない方針にしてみると、Racc 等の構文解析ライブラリは使いにくかった。
+  プログラミング言語じゃないから、あまりガチガチにすると使いにくいし、悩ましい所である。
 * 構成
 ** 概要
   org-file を、スキャナー、パーサーを通して、構文木を作成する。
@@ -47,12 +50,8 @@ digraph structure {
     # 結果を得る
     puts visitor.build
 #+end_example
-* TODOs
-** TODO オプション類の取扱いに対応する
-   [[オプション類の扱い]] 参照
-** TODO textile に対応する
-** TODO #+Begin_DOT 類に対応する 
 * MEMO
+  以下は、これからの修正のための覚書
 ** オプション類の扱い
 *** プログラム内でのオプションの記憶場所
    オプションや、セクション番号等の情報は、各Nodeに持たせる。
@@ -64,3 +63,9 @@ digraph structure {
    コンフィグファイルを作る？(~/.org-parse-rc)
    文書内での指定を最優先する方が正しいか？
    [[../examples/dot.org-parse-rc]]
+*** オプションの優先順位
+    - デフォルト設定
+    - .opt-parse
+    - コマンドラインオプション
+    - ソースファイル内の指定
+

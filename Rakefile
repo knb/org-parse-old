@@ -6,11 +6,11 @@ begin
   Jeweler::Tasks.new do |gem|
     gem.name = "org-parse"
     gem.summary = "parse and convert Org-Mode file"
-    gem.description = %Q|This gem contains libraries for parsing org-mode files and build other format file|
+    gem.description = %Q|This gem contains libraries for parsing org-mode files and build html or textile format file|
     gem.email = "knb@artif.org"
     gem.homepage = "http://github.com/knb/org-parse"
     gem.authors = ["knb"]
-    gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
+    gem.add_development_dependency "ultraviolet", ">= 0"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new

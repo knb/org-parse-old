@@ -19,11 +19,11 @@ options_parser = OptionParser.new do |opts|
   end
 
   opts.on("-f", "--format FORMAT", [:html, :textile],
-          "Translate the ORG file to the specified format.(not yet)") do |v|
+          "Translate the ORG file to the specified format. html(default) or textile") do |v|
     options[:format] = v
   end
   opts.on("-t", "--template TEMPLATE", 
-          "Erb template for build the output.") do |v|
+          "Erb template to build the html output.") do |v|
     options[:template] = v
   end
 end
@@ -37,7 +37,13 @@ begin
     
     parser = OrgParse::StructParser.new(data, File.basename(ARGV[0], '.*'))
     root = parser.parse
-    visitor = OrgParse::HtmlVisitor.new(root, options[:template])
+    if options[:format] == :html
+      visitor = OrgParse::HtmlVisitor.new(root, options[:template])
+    elsif
+      visitor = OrgParse::TextileVisitor.new(root)
+    else
+      raise OptionParser::ParseError.new('format error')
+    end
     puts visitor.build
   end
 rescue OptionParser::ParseError

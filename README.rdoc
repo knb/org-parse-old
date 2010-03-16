@@ -3,10 +3,65 @@
 A library of Ruby which converts a document of Org-Mode into other formats.
 http://orgmode.org/
 
-I refer to a cord of org-ruby partly.
+I refer to cords of org-ruby. 
 http://orgmode.org/worg/org-tutorials/org-ruby.php
 
-{Japanease document}
+== using gems
+  ultraviolet (for syntax highlight)
+  shoulda (for test)
+
+== Usage
+
+=== command line tool
+
+Usage: org-parse [options] <file>
+    -h, --help                       Show this message
+    -f, --format FORMAT              Translate the ORG file to the specified format. html(default) or textile
+    -t, --template TEMPLATE          Erb template to build the html output.
+
+format
+  html (default)
+  textile
+
+template
+  Erb script.
+   default: lib/org-parse/templates/single.html.erb
+   
+   variables
+    * title -- document title
+    * language -- document language
+    * charset
+    * add_to_head -- additional lines for <head> ... </head>
+    * before_text -- Texts before first section( #+TEXT ...)
+    * body -- body contents
+    * footnotes -- footnote definitions
+    * @options[] -- options
+
+   function
+    * table_of_contents
+
+=== as libraly
+    see bin/org-parse
+
+    Get a parser 
+      parser = OrgParse::StructParser.new(data, title)
+        data: Org-Mode document (String)
+        title: Document title (Optional)
+    Do parse
+      root = parser.parse
+    Get a visitor 
+      visitor = OrgParse::HtmlVisitor.new(root, template)
+             or
+      visitor = OrgParse::TextileVisitor.new(root)
+
+      template is optional. default is lib/org-parse/templates/single.html.erb
+    Build output
+      visitor.build
+
+=== todo
+  * write documents
+  * make tests
+  * impilment meny functions...
 
 == Copyright
 

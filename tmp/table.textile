@@ -1,0 +1,17 @@
+h1. table
+
+
+h2. non head table
+
+
+| r1 col1 | r1 col2 | r1 col3 |
+| r2 col1 | r2 col2 | r2 col3 |
+
+
+h2. table with head
+
+
+|_. th1  |_. th2  |
+| col1 | col2 |
+
+

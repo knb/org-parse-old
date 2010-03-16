@@ -5,15 +5,14 @@
 
 Gem::Specification.new do |s|
   s.name = %q{org-parse}
-  s.version = "0.0.2"
+  s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["knb"]
-  s.date = %q{2010-03-10}
-  s.default_executable = %q{org-parse}
-  s.description = %q{This gem contains libraries for parsing org-mode files and build other format file}
+  s.date = %q{2010-03-16}
+  s.description = %q{This gem contains libraries for parsing org-mode files and build html or textile format file}
   s.email = %q{knb@artif.org}
-  s.executables = ["org-parse"]
+  s.executables = ["org-parse", "org-test"]
   s.extra_rdoc_files = [
     "ChangeLog",
      "LICENSE",
@@ -22,12 +21,22 @@ Gem::Specification.new do |s|
   s.files = [
     ".document",
      ".gitignore",
+     "ChangeLog",
      "LICENSE",
      "README.rdoc",
      "Rakefile",
      "VERSION.yml",
      "bin/org-parse",
+     "bin/org-test",
+     "doc/images/org-parse-struct_1ffae50f0c5eb867f9418df6800f40a5cc3d1751.png",
+     "doc/org-parse.html",
+     "doc/org-parse.org",
+     "doc/struct.dot",
+     "doc/struct.png",
+     "dot.rc",
+     "dot.rc2",
      "examples/body-only.html.erb",
+     "examples/dot.org-parse-rc",
      "lib/org-parse.rb",
      "lib/org-parse/inline-parser.output",
      "lib/org-parse/inline-parser.rb",
@@ -50,6 +59,7 @@ Gem::Specification.new do |s|
      "test/data/footnote.org",
      "test/data/html-export.html",
      "test/data/html-export.org",
+     "test/data/images.html",
      "test/data/images.org",
      "test/data/index.org",
      "test/data/lily20100228.jpg",
@@ -79,9 +89,11 @@ Gem::Specification.new do |s|
      "test/test_org-parse.rb",
      "tmp/footnote.html",
      "tmp/html-export.html",
+     "tmp/images.html",
      "tmp/lily20100228.jpg",
      "tmp/lily20100228t.jpg",
      "tmp/lists.html",
+     "tmp/struct.html",
      "tmp/table.html"
   ]
   s.homepage = %q{http://github.com/knb/org-parse}
@@ -99,12 +111,12 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
-      s.add_development_dependency(%q<thoughtbot-shoulda>, [">= 0"])
+      s.add_development_dependency(%q<ultraviolet>, [">= 0"])
     else
-      s.add_dependency(%q<thoughtbot-shoulda>, [">= 0"])
+      s.add_dependency(%q<ultraviolet>, [">= 0"])
     end
   else
-    s.add_dependency(%q<thoughtbot-shoulda>, [">= 0"])
+    s.add_dependency(%q<ultraviolet>, [">= 0"])
   end
 end
 

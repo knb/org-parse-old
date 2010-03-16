@@ -1,0 +1,805 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+lang="ja" xml:lang="ja">
+<head>
+<title>sample dayo</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="generator" content="Org-parse"/>
+<meta name="generated" content="Tue Mar 16 18:08:43 +0900 2010"/>
+
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: "ＭＳ Ｐゴシック",Osaka,sans-serif,serif,monospace,cursive,fantasy; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  blockquote {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace; 
+        font-size: 90%;
+        /* overflow:auto; */
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style>
+
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+
+<h1 class="title">sample dayo</h1>
+
+head block
+this area is &lt;b&gt; <b>literal</b> &lt;/b&gt;
+
+<p>
+  OrgParse Sample files
+</p>
+
+<p>
+  <a href="index.html">node.uri</a>
+</p>
+
+
+
+<div id="table-of-contents">
+  <h2>Table of Contents</h2>
+  <div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1 ブロックレベルの構造
+</a><li><a href="#sec-2">2 タイトル
+</a>
+<ul>
+<li><a href="#sec-2.1">2.1 #+TITLE: xxxx
+</a><li><a href="#sec-2.2">2.2 Options: skip:t
+</a></ul>
+</li>
+<li><a href="#sec-3">3 Section node
+</a><li><a href="#sec-4">4 Brock nodes
+</a>
+<ul>
+<li><a href="#sec-4.1">4.1 Headline node
+</a>
+<ul>
+<li><a href="#sec-4.1.1">4.1.1 Tags
+</a></ul>
+</li>
+<li><a href="#sec-4.2">4.2 Paragraph node
+</a><li><a href="#sec-4.3">4.3 Whiteline node
+</a><li><a href="#sec-4.4">4.4 Block nodes
+</a>
+<ul>
+<li><a href="#sec-4.4.1">4.4.1 EXAMPLE
+</a><li><a href="#sec-4.4.2">4.4.2 SRC
+</a><li><a href="#sec-4.4.3">4.4.3 VERSE
+</a><li><a href="#sec-4.4.4">4.4.4 HTML
+</a></ul>
+</li>
+<li><a href="#sec-4.5">4.5 Plain Lists
+</a>
+<ul>
+<li><a href="#sec-4.5.1">4.5.1 Unordered list
+</a><li><a href="#sec-4.5.2">4.5.2 Ordered list
+</a><li><a href="#sec-4.5.3">4.5.3 Description list
+</a></ul>
+</li>
+<li><a href="#sec-4.6">4.6 Comment line
+</a><li><a href="#sec-4.7">4.7 Option node
+</a>
+<ul>
+<li><a href="#sec-4.7.1">4.7.1 #+ATTR_HTML
+</a></ul>
+</li>
+<li><a href="#sec-4.8">4.8 Horizontal line
+</a></ul>
+</li>
+<li><a href="#sec-5">5 Inline nodes
+</a>
+<ul>
+<li><a href="#sec-5.1">5.1 Footnotes
+</a><li><a href="#sec-5.2">5.2 Emphasis and monospace
+</a><li><a href="#sec-5.3">5.3 Quoting HTML tags
+</a><li><a href="#sec-5.4">5.4 Linkとイメージ
+</a>
+<ul>
+<li><a href="#sec-5.4.1">5.4.1 Link format
+</a><li><a href="#sec-5.4.2">5.4.2 Internal links
+</a><li><a href="#sec-5.4.3">5.4.3 External links
+</a><li><a href="#sec-5.4.4">5.4.4 Images
+</a>
+<ul>
+<li><a href="#sec-5.4.4.1">5.4.4.1 そのままの大きさで表示
+</a><li><a href="#sec-5.4.4.2">5.4.4.2 サムネールとリンク
+</a></ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-6">6 Table of contents
+</a></ul>
+
+  </div>
+</div>
+
+
+
+<div id="outline-container-1" class="outline-2">
+  <h2 id="sec-1"><span class="section-number-2">1</span> ブロックレベルの構造 </h2>
+  <div class="outline-text-2" id="text-1">
+    <p class="verse">
+&nbsp;&nbsp;&nbsp;&nbsp;セクション 1<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;セクション 1.1<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;セクション 2<br/>
+    </p>
+    <p>
+      の様に、下位レベルのセクションは、上位レベルのセクションに含まれる
+    </p>
+
+    <p>
+      セクションのタイトルは、'*' -&gt; &lt;h2&gt; から始まり、'<b>**</b>' 以降は、UL 
+      として出力される。
+      &lt;h&gt; と &lt;ul&gt; の閾値は、#+OPTIONS: H:n で指定出来る。
+      （デフォルトは、n=3)
+    </p>
+
+
+  </div>
+</div>
+
+<div id="outline-container-2" class="outline-2">
+  <h2 id="sec-2"><span class="section-number-2">2</span> タイトル </h2>
+  <div class="outline-text-2" id="text-2">
+    <p>
+      最初のテキストラインが、待った無しでタイトルになる。
+      最初のヘッドラインまでの部分も、出力される。
+    </p>
+<pre class="example">
+title
+
+xxxx
+* 1st headline
+</pre>
+    <p>
+      の場合、
+    </p>
+<pre class="example">
+&lt;h1&gt;title&lt;/h1&gt;
+
+xxxx
+&lt;h2&gt;1st headline&lt;/h2&gt;
+</pre>
+    <p>
+      の様に変換。<sup><a class="footref" name="fnr.1" href="#fn.1">1</a></sup> 
+    </p>
+
+    <p>
+      ヘッドラインから始まる場合は、最初のヘッドラインの内容がタイトルとなる。
+    </p>
+
+    <div id="outline-container-2.1" class="outline-3">
+      <h3 id="sec-2.1"><span class="section-number-3">2.1</span> #+TITLE: xxxx </h3>
+      <div class="outline-text-3" id="text-2.1">
+<pre class="example">
+#+TITLE: xxxx
+</pre>
+        <p>
+          が指定されている場合は、xxxx がタイトルになる。
+        </p>
+
+
+
+      </div>
+    </div>
+
+    <div id="outline-container-2.2" class="outline-3">
+      <h3 id="sec-2.2"><span class="section-number-3">2.2</span> Options: skip:t </h3>
+      <div class="outline-text-3" id="text-2.2">
+<pre class="example">
+#+OPTIONS: skip:t
+</pre>
+        <p>
+          が指定されていると、最初のセクション以前のテキストは捨てられる。
+          タイトルには、1st headline が使われる。
+        </p>
+
+        <p>
+          この場合も、
+        </p>
+<pre class="example">
+#+TITLE: xxxx
+</pre>
+        <p>
+          で、タイトルを指定出来る。
+        </p>
+
+
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+<div id="outline-container-3" class="outline-2">
+  <h2 id="sec-3"><span class="section-number-2">3</span> Section node </h2>
+  <div class="outline-text-2" id="text-3">
+    <p>
+      Section node は、Headline から始まり、次のHeadline（又は文末）の直前までを、
+      子要素に含むノードである。
+    </p>
+
+<pre class="example">
+Section node
+    Headline
+    some other nodes
+</pre>
+
+    <p>
+      COMMENT から始まるヘッドラインを持つ Section は、全体をコメントとして扱う。
+    </p>
+
+
+
+  </div>
+</div>
+
+<div id="outline-container-4" class="outline-2">
+  <h2 id="sec-4"><span class="section-number-2">4</span> Brock nodes </h2>
+  <div class="outline-text-2" id="text-4">
+    <p>
+      行単位の範囲を持つ要素。
+    </p>
+
+
+    <div id="outline-container-4.1" class="outline-3">
+      <h3 id="sec-4.1"><span class="section-number-3">4.1</span> Headline node </h3>
+      <div class="outline-text-3" id="text-4.1">
+        <p>
+          /^\*+ / から始まる行。'*' の数がセクションのレベルを表す。
+        </p>
+
+        <p>
+          セクションの開始を示す。
+        </p>
+
+        <div id="outline-container-4.1.1" class="outline-4">
+          <h4 id="sec-4.1.1"><span class="section-number-4">4.1.1</span> Tags </h4>
+          <div class="outline-text-4" id="text-4.1.1">
+            <p>
+              ヘッドラインには、TAGを付けることが出来る。
+            </p>
+
+
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+    <div id="outline-container-4.2" class="outline-3">
+      <h3 id="sec-4.2"><span class="section-number-3">4.2</span> Paragraph node </h3>
+      <div class="outline-text-3" id="text-4.2">
+        <p>
+          ヘッドラインの次の行から始まり、セクションの最後か、１行以上の空行で終わる部分は、
+          段落として扱う。段落中で、改行させたい場合には、行末に&quot;\\&quot;を置く。
+        </p>
+
+<pre class="example">
+#+BEGIN_VERSE 〜 #+END_VERSE
+</pre>
+        <p>
+          で囲われた部分は、改行が保存される。
+          <a href="./verse.org">verse example</a> <a href="./verse.html">html</a>
+        </p>
+
+<pre class="example">
+&lt;p class=&quot;verse&quot;&gt;
+...&lt;br/&gt;
+&amp;nbsp;&amp;nbsp;...&lt;br/&gt;
+&lt;/p&gt;
+</pre>
+
+        <p>
+          の様に、展開される様だ。
+        </p>
+
+
+
+      </div>
+    </div>
+
+    <div id="outline-container-4.3" class="outline-3">
+      <h3 id="sec-4.3"><span class="section-number-3">4.3</span> Whiteline node </h3>
+      <div class="outline-text-3" id="text-4.3">
+        <p>
+          空行のノード。
+          パラグラフや、その他のブロックの終端を示す。
+        </p>
+
+        <p>
+          インデントのチェックが必要か?
+        </p>
+
+
+
+      </div>
+    </div>
+
+    <div id="outline-container-4.4" class="outline-3">
+      <h3 id="sec-4.4"><span class="section-number-3">4.4</span> Block nodes </h3>
+      <div class="outline-text-3" id="text-4.4">
+        <p>
+          #+begin 〜 #+end ブロック。
+        </p>
+
+        <div id="outline-container-4.4.1" class="outline-4">
+          <h4 id="sec-4.4.1"><span class="section-number-4">4.4.1</span> EXAMPLE </h4>
+          <div class="outline-text-4" id="text-4.4.1">
+<pre class="example">
+: #+BEGIN_EXMPLE
+:  ...
+: #+END_EXAMPLE
+</pre>
+
+            <p>
+              you can also start the example lines with a colon followed by a space. 
+              There may also be additional whitespace before the colon: 
+            </p>
+
+<pre class="example">
+  : example
+</pre>
+
+            <p>
+              EXAMPL ブロックは、&lt;pre&gt; タグに変換される
+            </p>
+
+
+          </div>
+        </div>
+
+        <div id="outline-container-4.4.2" class="outline-4">
+          <h4 id="sec-4.4.2"><span class="section-number-4">4.4.2</span> SRC </h4>
+          <div class="outline-text-4" id="text-4.4.2">
+<pre class="amy"><span class="line-numbers">   1 </span>      (+ <span class="Integer">1</span> <span class="Integer">2</span>)
+</pre>
+
+
+          </div>
+        </div>
+
+        <div id="outline-container-4.4.3" class="outline-4">
+          <h4 id="sec-4.4.3"><span class="section-number-4">4.4.3</span> VERSE </h4>
+          <div class="outline-text-4" id="text-4.4.3">
+            <p class="verse">
+&nbsp;&nbsp;&nbsp;&nbsp;このブロック内では、改行が<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;保存される。<br/>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;行頭のインデントは、html の場合、&amp;nbsp; に変換される<br/>
+            </p>
+
+            <p>
+              行頭のインデントは、~#+BEGIN_VERSE~　のインデント + 1 をベースとして、
+              (各行のインデント - ベース) * 2 = &amp;nbsp; の数となる。
+            </p>
+
+
+
+          </div>
+        </div>
+
+        <div id="outline-container-4.4.4" class="outline-4">
+          <h4 id="sec-4.4.4"><span class="section-number-4">4.4.4</span> HTML </h4>
+          <div class="outline-text-4" id="text-4.4.4">
+            <p>
+              <a href="Quote HTML">node.uri</a>
+            </p>
+
+            <p>
+ <literal html code>
+            </p>
+
+    <h2> ここには、自由に</h2>
+    <p>HTML tag が書ける。</p>
+
+
+
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+    <div id="outline-container-4.5" class="outline-3">
+      <h3 id="sec-4.5"><span class="section-number-3">4.5</span> Plain Lists </h3>
+      <div class="outline-text-3" id="text-4.5">
+        <p>
+          <a href="./lists.org">lists.org</a> <a href="./lists.html">html</a>
+        </p>
+
+
+        <div id="outline-container-4.5.1" class="outline-4">
+          <h4 id="sec-4.5.1"><span class="section-number-4">4.5.1</span> Unordered list </h4>
+          <div class="outline-text-4" id="text-4.5.1">
+            <p>
+              先頭が[-+*]で始まる行は、順序無リストアイテムの開始を示し、
+              これに続く、インデントが開始マークより大きい行、又は、空行は
+              このアイテムに含まれる。
+            </p>
+
+            <p>
+              リストは、ネスト出来る。
+            </p>
+
+            <p>
+              空行のインデントは、チェックされない。
+            </p>
+
+
+          </div>
+        </div>
+
+        <div id="outline-container-4.5.2" class="outline-4">
+          <h4 id="sec-4.5.2"><span class="section-number-4">4.5.2</span> Ordered list </h4>
+          <div class="outline-text-4" id="text-4.5.2">
+            <p>
+              先頭が、&quot;数字.&quot; 又は &quot;数字)&quot; で始まる行は、番号付きリストを表す。
+            </p>
+
+
+          </div>
+        </div>
+
+        <div id="outline-container-4.5.3" class="outline-4">
+          <h4 id="sec-4.5.3"><span class="section-number-4">4.5.3</span> Description list </h4>
+          <div class="outline-text-4" id="text-4.5.3">
+<pre class="example">
+- XXXX :: mmmmm
+</pre>
+            <p>
+              の形式の行は、説明付きリストを表す。
+            </p>
+
+
+
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+    <div id="outline-container-4.6" class="outline-3">
+      <h3 id="sec-4.6"><span class="section-number-3">4.6</span> Comment line </h3>
+      <div class="outline-text-3" id="text-4.6">
+        <p>
+          #+ これは、コメント行
+          # これもコメント行
+          だけど、
+          # これは、コメント行では無い。 でも、 #+ ここからは？　やっぱり地の文。
+        </p>
+
+
+      </div>
+    </div>
+
+    <div id="outline-container-4.7" class="outline-3">
+      <h3 id="sec-4.7"><span class="section-number-3">4.7</span> Option node </h3>
+      <div class="outline-text-3" id="text-4.7">
+<pre class="example">
+#+TITLE
+</pre>
+        <p>
+          等の、オプション設定を行う行
+        </p>
+
+        <div id="outline-container-4.7.1" class="outline-4">
+          <h4 id="sec-4.7.1"><span class="section-number-4">4.7.1</span> #+ATTR_HTML </h4>
+          <div class="outline-text-4" id="text-4.7.1">
+            <p>
+              If you want to specify attributes for links, 
+              you can do so using a special #+ATTR_HTML line 
+              to define attributes 
+              that will be added to the &lt;a&gt; or &lt;img&gt; tags. 
+            </p>
+
+            <p>
+              Here is an example that sets title and style attributes for a link: 
+            </p>
+<pre class="example">
+  #+ATTR_HTML: title=&quot;The Org-mode homepage&quot; style=&quot;color:red;&quot;
+  [[http://orgmode.org]]
+</pre>
+
+
+
+
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+    <div id="outline-container-4.8" class="outline-3">
+      <h3 id="sec-4.8"><span class="section-number-3">4.8</span> Horizontal line </h3>
+      <div class="outline-text-3" id="text-4.8">
+        <p>
+          ------
+          '-'が5個以上のみの行は、&lt;hr/&gt; に変換される
+        </p>
+
+
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+<div id="outline-container-5" class="outline-2">
+  <h2 id="sec-5"><span class="section-number-2">5</span> Inline nodes </h2>
+  <div class="outline-text-2" id="text-5">
+    <p>
+      行内で完結している諸要素
+    </p>
+
+    <div id="outline-container-5.1" class="outline-3">
+      <h3 id="sec-5.1"><span class="section-number-3">5.1</span> Footnotes </h3>
+      <div class="outline-text-3" id="text-5.1">
+
+
+      </div>
+    </div>
+
+    <div id="outline-container-5.2" class="outline-3">
+      <h3 id="sec-5.2"><span class="section-number-3">5.2</span> Emphasis and monospace </h3>
+      <div class="outline-text-3" id="text-5.2">
+        <ul>
+          <li><b>bold</b></li>
+          <li><i>italic</i></li>
+          <li><span style="text-decoration: underline;">underlined</span></li>
+          <li><code>code</code></li>
+          <li><code>verbatim</code></li>
+          <li><del>strike through</del></li>
+        </ul>
+        <p>
+          <b>bold and <i>italic</i></b> <span style="text-decoration: underline;">underlined and <b>bold</b></span> <code>verbatim without *bold*</code>
+          <code>code without *bold*</code>
+          <b>bold <a href="link">link</a></b> <code>code is <a href="link">link</a> allowed</code> <b>bold =code</b> code=
+          <b>bold in *bold</b> is* not bold <b>1234</b> 
+          <b>bold <a href="link">node.uri</a></b>, <a href="link"> <b>bold</b> </a>
+        </p>
+
+
+
+      </div>
+    </div>
+
+    <div id="outline-container-5.3" class="outline-3">
+      <h3 id="sec-5.3"><span class="section-number-3">5.3</span> Quoting HTML tags </h3>
+      <div class="outline-text-3" id="text-5.3">
+        <p>
+          <a href="Quote HTML">node.uri</a>
+          <br/> <b>bold</b> の様にすることが出来る
+        </p>
+
+
+      </div>
+    </div>
+
+    <div id="outline-container-5.4" class="outline-3">
+      <h3 id="sec-5.4"><span class="section-number-3">5.4</span> Linkとイメージ </h3>
+      <div class="outline-text-3" id="text-5.4">
+        <p>
+          リンクの、拡張子が画像ファイルの場合、&lt;img&gt;タグに展開される
+        </p>
+
+        <ul>
+          <li>[ [image file] ] の場合、&lt;img src=&quot;image file&quot;&gt; に展開される</li>
+          <li>[ [link][image file] ] の場合、&lt;a href=&quot;link&quot;&gt;&lt;img src=&quot;image file&quot;&gt;&lt;/a&gt; に展開される</li>
+          <li>
+            img を表示する際に、#+CAPTION: xxxx が指定されている場合、<br/>
+            <p class="verse">
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class=&quot;figure&quot;&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;&lt;img src=&quot;lily20100228t.jpg&quot; alt=&quot;lily20100228t.jpg&quot;&gt;&lt;/p&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;寝起きのリリー君&lt;/p&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;<br/>
+            </p>
+            に展開される
+          </li>
+          <li>
+            [ [xxx][yyy] ] の場合、&lt;a href=&quot;xxx&quot;&gt;yyy&lt;/a&gt; に展開される
+
+          </li>
+        </ul>
+
+        <div id="outline-container-5.4.1" class="outline-4">
+          <h4 id="sec-5.4.1"><span class="section-number-4">5.4.1</span> Link format </h4>
+          <div class="outline-text-4" id="text-5.4.1">
+<pre class="example">
+[[link][description]]  or  [[link]]
+</pre>
+
+            <p>
+              <a href="index.html">desc <b>bold</b> </a> &lt;- description part は修飾出来る。
+            </p>
+
+
+
+          </div>
+        </div>
+
+        <div id="outline-container-5.4.2" class="outline-4">
+          <h4 id="sec-5.4.2"><span class="section-number-4">5.4.2</span> Internal links </h4>
+          <div class="outline-text-4" id="text-5.4.2">
+
+
+          </div>
+        </div>
+
+        <div id="outline-container-5.4.3" class="outline-4">
+          <h4 id="sec-5.4.3"><span class="section-number-4">5.4.3</span> External links </h4>
+          <div class="outline-text-4" id="text-5.4.3">
+            <p>
+              外部へのリンク
+            </p>
+            <ul>
+              <li>http://www.astro.uva.nl/~dominik          on the web</li>
+              <li>file:/home/dominik/images/jupiter.jpg     file, absolute path</li>
+              <li>/home/dominik/images/jupiter.jpg          same as above</li>
+              <li>file:papers/last.pdf                      file, relative path</li>
+              <li>
+                ./papers/last.pdf                         same as above
+
+              </li>
+            </ul>
+
+
+          </div>
+        </div>
+
+        <div id="outline-container-5.4.4" class="outline-4">
+          <h4 id="sec-5.4.4"><span class="section-number-4">5.4.4</span> Images </h4>
+          <div class="outline-text-4" id="text-5.4.4">
+            <p>
+              <a href="images.org">node.uri</a> <a href="images.html">node.uri</a>
+            </p>
+
+            <div id="outline-container-5.4.4.1" class="outline-5">
+              <h5 id="sec-5.4.4.1"><span class="section-number-5">5.4.4.1</span> そのままの大きさで表示 </h5>
+              <div class="outline-text-5" id="text-5.4.4.1">
+<pre class="example">
+[[lily20100228t.jpg]]
+</pre>
+                <p>
+                  <img src="lily20100228t.jpg"/>
+                </p>
+
+
+              </div>
+            </div>
+
+            <div id="outline-container-5.4.4.2" class="outline-5">
+              <h5 id="sec-5.4.4.2"><span class="section-number-5">5.4.4.2</span> サムネールとリンク </h5>
+              <div class="outline-text-5" id="text-5.4.4.2">
+<pre class="example">
+[[lily20100228.jpg][lily20100228t.jpg]]    
+</pre>
+                <p>
+                  <a href="lily20100228.jpg"><img src="lily20100228t.jpg"/></a>
+                </p>
+
+
+
+
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+<div id="outline-container-6" class="outline-2">
+  <h2 id="sec-6"><span class="section-number-2">6</span> Table of contents </h2>
+  <div class="outline-text-2" id="text-6">
+    <p>
+      サポートは後回しにするかね。
+    </p>
+
+
+    <p>
+      :#+OPTIONS: skip:t
+    </p>
+
+
+
+  </div>
+</div>
+
+
+
+<div id="footnotes">
+  <h2 class="footnotes">Footnotes: </h2>
+  <div id="text-footnotes">
+    <p class="footnote"><sup><a class="footnum" name="fn.1" href="#fnr.1">1</a></sup> 実際はセクションヘッダには&lt;div&gt;やら何やらくっつく</p>
+
+  </div>
+</div>
+
+
+<div id="postamble">
+
+
+  <p class="date"> Date: Tue Mar 16 18:08:43 +0900 2010 </p>
+
+
+  <p class="creator">HTML generated by OrgParse 0.0.2 Powered by Ruby 1.8.7</p>
+
+</div>
+</div>
+</body>
+</html>
