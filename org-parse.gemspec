@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["knb"]
-  s.date = %q{2010-03-16}
+  s.date = %q{2010-03-23}
   s.description = %q{This gem contains libraries for parsing org-mode files and build html or textile format file}
   s.email = %q{knb@artif.org}
   s.executables = ["org-parse", "org-test"]
@@ -85,19 +85,7 @@ Gem::Specification.new do |s|
      "test/data/title.org",
      "test/data/verse.org",
      "test/helper.rb",
-     "test/test_org-parse.rb",
-     "tmp/footnote.html",
-     "tmp/html-export.html",
-     "tmp/images.html",
-     "tmp/images.textile",
-     "tmp/index.html",
-     "tmp/index.textile",
-     "tmp/lily20100228.jpg",
-     "tmp/lily20100228t.jpg",
-     "tmp/lists.html",
-     "tmp/struct.html",
-     "tmp/table.html",
-     "tmp/table.textile"
+     "test/test_org-parse.rb"
   ]
   s.homepage = %q{http://github.com/knb/org-parse}
   s.rdoc_options = ["--charset=UTF-8"]
