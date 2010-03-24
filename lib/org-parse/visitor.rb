@@ -2,6 +2,24 @@
 require 'rubygems'
 require 'erb'
 require 'uv'
+require 'graphviz'
+
+#
+# 文字列を受け取ってパースする関数を追加
+#
+class GraphViz
+  class Parser
+    def self.parse_str(str, *hOpts, &block)
+      parser = DotParser.new()
+      tree = parser.parse(str)
+      graph = tree.eval( GraphViz::Parser::Context.new(),  hOpts )
+      yield( graph ) if( block and graph.nil? == false )
+      return graph
+    end
+  end
+end
+
+
 
 module OrgParse
 
@@ -296,6 +314,13 @@ EOS
       %Q|#{indent}<blockquote>\n#{body.chomp}\n#{indent}</blockquote>\n|
     end
 
+    def graphviz(node)
+      text = exec_children(node)
+      g = GraphViz::Parser.parse_str(text, {})
+      g.output(node.type => node.filename)
+      %Q|<img src="#{node.filename}" />|
+    end
+
     def blocks(node)
         case node.block_name
         when 'VERSE'
@@ -306,6 +331,8 @@ EOS
           blockquote node
         when 'HTML'
           html_quote node
+        when 'DOT'
+          graphviz node
         when 'COMMENT'
           ''
         when 'SRC'

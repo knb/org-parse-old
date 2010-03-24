@@ -196,7 +196,7 @@ module OrgParse
       @token_que << [:DOCUMENT_START, @options]
       while @line_idx < @src.size
         line = @src[@line_idx]
-        if example_flag && line !~ /^\s*#\+end_(example|html|src)/i
+        if example_flag && line !~ /^\s*#\+end_(example|html|src|dot)/i
           @token_que << [:TEXTLINE, [line, get_indent(line)]]
           @line_idx += 1
           next
@@ -240,7 +240,7 @@ module OrgParse
           block_name = $1.upcase
           exit_nests line
           @token_que << [:BLOCK_START, [block_name, line, get_indent(line)]]
-          example_flag = true if ['EXAMPLE', 'HTML', 'SRC'].include? block_name.upcase
+          example_flag = true if ['EXAMPLE', 'HTML', 'SRC', 'DOT'].include? block_name.upcase
         when /^\s*#\+END_([A-Z0-9_]+)/i # BLOCK
           block_name = $1
           exit_nests line

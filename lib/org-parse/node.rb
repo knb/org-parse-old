@@ -234,9 +234,10 @@ module OrgParse
 
   # BLOCK の情報を保持
   class BlockNode < Node
-    attr_reader :indent, :block_name, :syntax, :syntax_theme
+    attr_reader :indent, :block_name, :syntax, :syntax_theme, :filename, :type
     def initialize(vals, children)
       @block_name = vals[0].upcase
+      @line = vals[1]
       @indent = vals[2]
       @syntax = ''
       @syntax_theme = ''
@@ -253,6 +254,15 @@ module OrgParse
           @syntax_theme = $2.downcase
         elsif vals[1] =~ /SRC\s*(.+)\s*$/i
           @syntax = $1.downcase
+        end
+      when 'DOT'
+        set_to_descendant :set_src
+        if vals[1] =~ /DOT\s+(.+)\s+-T(.*)$/
+          @filename = $1
+          @type = $2
+        else
+          @block_name = 'SRC'
+          @syntax = 'dot'
         end
       when 'HTML'
         set_to_descendant :set_html
