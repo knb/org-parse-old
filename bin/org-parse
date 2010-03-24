@@ -34,8 +34,9 @@ begin
     puts options_parser
   else
     data = IO.read(ARGV[0])
-    
-    parser = OrgParse::StructParser.new(data, File.basename(ARGV[0], '.*'))
+    opts = {}
+    opts[:default_title] = File.basename(ARGV[0], '.*')
+    parser = OrgParse::StructParser.new(data, opts)
     root = parser.parse
     if options[:format] == :html
       visitor = OrgParse::HtmlVisitor.new(root, options[:template])

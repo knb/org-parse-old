@@ -22,8 +22,8 @@ module OrgParse
     include InlineUtils
 
     # コンストラクタ
-    def initialize(src, title = '(non title)')
-      @scanner = StructScanner.new(src, title)
+    def initialize(src, opts)
+      @scanner = StructScanner.new(src, opts)
       @variables = []
       @yydebug = true
       set_struct_parser self

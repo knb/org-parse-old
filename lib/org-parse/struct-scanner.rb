@@ -24,8 +24,8 @@ module OrgParse
     # コンストラクタ
     # [_src_] ソース文字列（または、文字列の配列）
     #         ソース文字列は、1行単位の配列として @srcに保存する
-    # [_title_] skip:t の場合にタイトルとして使われる
-    def initialize(src, title)
+    # [_opts_] skip:t の場合にタイトルとして使われる
+    def initialize(src, opts)
       @src = (src.is_a? Array) ? src : src.to_a
       @line_idx = 0
       @outline_level = 0
@@ -38,13 +38,15 @@ module OrgParse
         :email => nil,
         :creator => GENERATOR, :timestamp => true,
         :title => nil, :text => [], :language => 'ja', :charset => 'utf-8',
-        :default_title => title, :style => '', :uv => true,
+        :default_title => '(no title)', :style => '', :uv => true,
+        :dot_path => ''
       }
+      opts.each {|k, v| @options[k] = v}
       read_options
-      opt = YAML.dump @options
-      File.open('dot.rc2', "w") {|f|
-        f.write opt
-      }
+      # opt = YAML.dump @options
+      # File.open('dot.rc2', "w") {|f|
+      #  f.write opt
+      # }
       # p @options
     end
 

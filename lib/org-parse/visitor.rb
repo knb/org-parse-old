@@ -147,20 +147,19 @@ module OrgParse
       toc += "</ul>\n"
       return '' if toc == "<ul>\n</ul>\n"
       ret =<<"EOS"
-<div id="table-of-contents">
-  <h2>Table of Contents</h2>
   <div id="text-table-of-contents">
 #{toc}
   </div>
-</div>
 EOS
     end
 
     def toc_out(node)
       curr_level = node.headline.level
       idx_no = node.section_no
+      idx_label = node.section_no + ' '
+      idx_label = '' unless @options[:num]
       str = toc_headline node.headline
-      ret = %Q|<li><a href="#sec-#{idx_no}">#{idx_no} #{str}</a>|
+      ret = %Q|<li><a href="#sec-#{idx_no}">#{idx_label}#{str}</a>|
       has_child = false
       node.children.each {|node|
         if node.kind == :SECTION
@@ -218,7 +217,11 @@ EOS
     def headline(node)
       level = node.level+1
       index_str = node.parent.section_no
-      %Q|<h#{level} id="sec-#{index_str}"><span class="section-number-#{level}">#{index_str}</span> #{exec_children(node).chomp} </h#{level}>|
+      if @options[:num]
+        %Q|<h#{level} id="sec-#{index_str}"><span class="section-number-#{level}">#{index_str}</span> #{exec_children(node).chomp} </h#{level}>|
+      else
+        %Q|<h#{level} id="sec-#{index_str}">#{exec_children(node).chomp} </h#{level}>|
+      end
     end
 
     # paragraph 
@@ -317,8 +320,12 @@ EOS
     def graphviz(node)
       text = exec_children(node)
       g = GraphViz::Parser.parse_str(text, {})
-      g.output(node.type => node.filename)
-      %Q|<img src="#{node.filename}" />|
+      fname = node.filename
+      fname = File.join(@options[:dot_path], node.filename) unless @options[:dot_path].empty?
+      g.output(node.type => fname)
+      ub = ''
+      ub = @options[:dot_url_base] if @options[:dot_url_base]
+      %Q|<img src="#{ub + node.filename}" />|
     end
 
     def blocks(node)
@@ -380,7 +387,7 @@ EOS
         if node.uri =~ @image_file_reg
           image_tag(node.uri, a_attr+img_attr)
         else
-          %Q|<a href="#{node.uri.sub(/^file:/,'')}"#{a_attr+img_attr}>node.uri</a>|
+          %Q|<a href="#{node.uri.sub(/^file:/,'')}"#{a_attr+img_attr}>#{node.uri}</a>|
         end
       else
         if desc =~ @image_file_reg

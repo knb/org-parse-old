@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{org-parse}
-  s.version = "0.1.1"
+  s.version = "0.1.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["knb"]
-  s.date = %q{2010-03-23}
+  s.date = %q{2010-03-24}
   s.description = %q{This gem contains libraries for parsing org-mode files and build html or textile format file}
   s.email = %q{knb@artif.org}
   s.executables = ["org-parse", "org-test"]
@@ -29,6 +29,7 @@ Gem::Specification.new do |s|
      "bin/org-parse",
      "bin/org-test",
      "doc/images/org-parse-struct_1ffae50f0c5eb867f9418df6800f40a5cc3d1751.png",
+     "doc/images/org-parse-struct_ca4f70a7189eddf1f60e8486f7d289b294cf8df3.png",
      "doc/org-parse.html",
      "doc/org-parse.org",
      "doc/struct.dot",
@@ -90,7 +91,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/knb/org-parse}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.5}
+  s.rubygems_version = %q{1.3.6}
   s.summary = %q{parse and convert Org-Mode file}
   s.test_files = [
     "test/test_org-parse.rb",
